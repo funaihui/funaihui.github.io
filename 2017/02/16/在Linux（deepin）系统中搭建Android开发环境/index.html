@@ -5,23 +5,30 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
 
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
 
 
 
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -40,7 +47,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -48,9 +55,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -68,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Android,AndroidStudio,linux,">
+  <meta name="keywords" content="Android,AndroidStudio,linux," />
 
 
 
@@ -83,10 +90,9 @@
 <meta name="keywords" content="Android,AndroidStudio,linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在Linux（deepin）系统中搭建Android开发环境">
-<meta property="og:url" content="http://yoursite.com/2017/02/16/在Linux（deepin）系统中搭建Android开发环境/index.html">
-<meta property="og:site_name" content="Wizardev的博客">
+<meta property="og:url" content="http://wizardev.cn/2017/02/16/在Linux（deepin）系统中搭建Android开发环境/index.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
 <meta property="og:description" content="前言：尝试了一下在Linux系统中搭建Android开发环境，搭建过程真是一把心酸泪呀，在这里就把搭建的步骤与遇到的问题记录下来分享给大家，希望大家以后不要踩我踩过的坑。">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://img.blog.csdn.net/20170226204432406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170226210855185?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170226212540316?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
@@ -107,7 +113,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -129,13 +135,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/02/16/在Linux（deepin）系统中搭建Android开发环境/">
+  <link rel="canonical" href="http://wizardev.cn/2017/02/16/在Linux（deepin）系统中搭建Android开发环境/"/>
 
 
 
 
 
-  <title>在Linux（deepin）系统中搭建Android开发环境 | Wizardev的博客</title>
+  <title>在Linux（deepin）系统中搭建Android开发环境 | wizardev's blog</title>
   
 
 
@@ -147,7 +153,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -157,20 +163,20 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
     <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
+      <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Wizardev的博客</span>
+        <span class="site-title">wizardev's blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <p class="site-subtitle">大水水</p>
       
   </div>
 
@@ -193,9 +199,39 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -203,7 +239,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -237,21 +273,21 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/02/16/在Linux（deepin）系统中搭建Android开发环境/">
+    <link itemprop="mainEntityOfPage" href="http://wizardev.cn/2017/02/16/在Linux（deepin）系统中搭建Android开发环境/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wizardev">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Wizardev的博客">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
     </span>
 
     
@@ -282,7 +318,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -293,7 +329,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android/" itemprop="url" rel="index">
                     <span itemprop="name">Android</span>
                   </a>
@@ -314,6 +350,37 @@
 
           
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
           
 
           
@@ -336,50 +403,50 @@
 </blockquote>
 <a id="more"></a>
 <h2 id="配置JDK开发环境"><a href="#配置JDK开发环境" class="headerlink" title="配置JDK开发环境"></a>配置JDK开发环境</h2><ol>
-<li>下载JDK压缩包<br><br>&emsp;&emsp;大家可以在ORACL官网下载系统需要的jdk压缩包<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">jdk压缩包</a>，这里以下载的后缀为.tar.gz的格式进行讲解。</li>
+<li>下载JDK压缩包<br><br>&emsp;&emsp;大家可以在ORACL官网下载系统需要的jdk压缩包<a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="external">jdk压缩包</a>，这里以下载的后缀为.tar.gz的格式进行讲解。</li>
 <li><p>新建jvm文件夹<br><br>&emsp;&emsp;在终端输入以下命令，即在/usr/lib/jvm路径下新建了一个jvm的文件夹。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /usr/lib/jvm</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo mkdir /usr/lib/jvm</div></pre></td></tr></table></figure>
 </li>
 <li><p>解压jdk压缩包<br><br>&emsp;&emsp;使用以下命令将下载的jdk压缩包解压到刚才新建的jvm文件夹中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//jdk-8u71-linux-i586.tar.gz换成自己的压缩包</span><br><span class="line">sudo tar -zxvf jdk-8u71-linux-i586.tar.gz -C /usr/lib/jvm/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">//jdk-8u71-linux-i586.tar.gz换成自己的压缩包</div><div class="line">sudo tar -zxvf jdk-8u71-linux-i586.tar.gz -C /usr/lib/jvm/</div></pre></td></tr></table></figure>
 </li>
 <li><p>配置jdk环境变量<br><br>&emsp;&emsp; 在终端中使用以下命令，打开profile文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo gedit /etc/profile</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gedit /etc/profile</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<p><font size="4" color="red">注：</font>这时profile文件所有者是root用户为只读的，可以使用以下命令更改文件的所有者，更改所有者之后，文件就变成可读写的了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown username /etc/profile</span><br></pre></td></tr></table></figure></p>
-<p>在profile文件末尾添加以下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_71   </span><br><span class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre  </span><br><span class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib  </span><br><span class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</span><br></pre></td></tr></table></figure></p>
-<p>然后保存就可以了，保存之后用以下命令初始化profile文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
-<ol start="5">
+<p><font size="4" color="red">注：</font>这时profile文件所有者是root用户为只读的，可以使用以下命令更改文件的所有者，更改所有者之后，文件就变成可读写的了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo chown username /etc/profile</div></pre></td></tr></table></figure></p>
+<p>在profile文件末尾添加以下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_71   </div><div class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre  </div><div class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib  </div><div class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</div></pre></td></tr></table></figure></p>
+<p>然后保存就可以了，保存之后用以下命令初始化profile文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source /etc/profile</div></pre></td></tr></table></figure></p>
+<ol>
 <li>查看jdk环境是否配置成功<br><br>&emsp;&emsp; 在终端输入 java -version 命令，如出现以下界面，则配置成功。<br><img src="http://img.blog.csdn.net/20170226204432406?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="环境变量图片"><h2 id="配置Android-Studio运行环境"><a href="#配置Android-Studio运行环境" class="headerlink" title="配置Android Studio运行环境"></a>配置Android Studio运行环境</h2><h3 id="安装SDK-Tools"><a href="#安装SDK-Tools" class="headerlink" title="安装SDK Tools"></a>安装SDK Tools</h3></li>
 </ol>
 <ul>
-<li>下载SDK Tools<br><br>&emsp;&emsp; 我们可以从这个网站下载SDK Tools，<a href="http://www.androiddevtools.cn/" target="_blank" rel="noopener">http://www.androiddevtools.cn/</a> ，如下，我们选择Linux版本的进行下载<br><img src="http://img.blog.csdn.net/20170226210855185?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
+<li>下载SDK Tools<br><br>&emsp;&emsp; 我们可以从这个网站下载SDK Tools，<a href="http://www.androiddevtools.cn/" target="_blank" rel="external">http://www.androiddevtools.cn/</a> ，如下，我们选择Linux版本的进行下载<br><img src="http://img.blog.csdn.net/20170226210855185?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
 <li><p>解压压缩包<br><br>&emsp;&emsp; 使用以下命令将下载的压缩包解压到指定文件夹，这里我将压缩包解压到了这个路径下<em>/home/user/Android/</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo tar -zxvf android-sdk_r24.4.1-linux.tgz -C /home/user/Android/</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo tar -zxvf android-sdk_r24.4.1-linux.tgz -C /home/user/Android/</div></pre></td></tr></table></figure>
 </li>
 <li><p>打开Android SDK下载需要的文件<br>&emsp;&emsp; 通过以下命令进入tools目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /home/user/Android/android-sdk-linux/tools</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd /home/user/Android/android-sdk-linux/tools</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>通过以下命令进入打开android sdk<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./android</span><br></pre></td></tr></table></figure></p>
+<p>通过以下命令进入打开android sdk<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./android</div></pre></td></tr></table></figure></p>
 <p>图形界面如下<br><img src="http://img.blog.csdn.net/20170226212540316?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="sdk"></p>
 <p> 然后你就可以下载android开发需要的文件了。</p>
-<h3 id="下载Android-Studio"><a href="#下载Android-Studio" class="headerlink" title="下载Android Studio"></a>下载Android Studio</h3><p>&emsp;&emsp; 同样，我们可以从这个网站下载Android Studio：<a href="http://www.androiddevtools.cn/" target="_blank" rel="noopener">http://www.androiddevtools.cn/</a>，一个对安卓开发者很有用的网站。</p>
+<h3 id="下载Android-Studio"><a href="#下载Android-Studio" class="headerlink" title="下载Android Studio"></a>下载Android Studio</h3><p>&emsp;&emsp; 同样，我们可以从这个网站下载Android Studio：<a href="http://www.androiddevtools.cn/" target="_blank" rel="external">http://www.androiddevtools.cn/</a>，一个对安卓开发者很有用的网站。</p>
 <h3 id="配置Android-Studio"><a href="#配置Android-Studio" class="headerlink" title="配置Android Studio"></a>配置Android Studio</h3><ol>
 <li><p>解压下载的Android Studio压缩包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo unzip 压缩包的名字</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo unzip 压缩包的名字</div></pre></td></tr></table></figure>
 </li>
 <li><p>运行Android Studio<br><br>&emsp;&emsp; 通过以下命令进入解压后文件的bin目录下，这里我将Android Studio解压到了这个路径下<em>/home/user/Android</em></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /home/user/Android/android-studio/bin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cd /home/user/Android/android-studio/bin</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>通过以下命令，打开Android Studio<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./studio</span><br></pre></td></tr></table></figure></p>
+<p>通过以下命令，打开Android Studio<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./studio</div></pre></td></tr></table></figure></p>
 <p>文章写到这里，安卓开发环境就已经搭建好了，但本文还没结束，下面就是讲解以下环境搭建好之后常见的问题。</p>
 <h2 id="常见问题解决"><a href="#常见问题解决" class="headerlink" title="常见问题解决"></a>常见问题解决</h2><h3 id="finished-with-non-zero-exit-value-2错误"><a href="#finished-with-non-zero-exit-value-2错误" class="headerlink" title="finished with non-zero exit value 2错误"></a>finished with non-zero exit value 2错误</h3><p>&emsp;&emsp; 错误如下图<br><img src="http://img.blog.csdn.net/20170226214845426?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="错误一"></p>
 <h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>&emsp;&emsp;通过<em>File–&gt;Project Structure</em>打开Project Structure设置界面，将JDK Location路径改为刚才安装JDK的路径即可，如图<br><img src="http://img.blog.csdn.net/20170226215541392?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="解决错误一"></p>
 <h3 id="使用platform-tools文件夹下的adb命令时提示二进制文件错误"><a href="#使用platform-tools文件夹下的adb命令时提示二进制文件错误" class="headerlink" title="使用platform -tools文件夹下的adb命令时提示二进制文件错误"></a>使用platform -tools文件夹下的adb命令时提示二进制文件错误</h3><p>&emsp;&emsp; 这个错误难为了我好久，我还以为是系统的问题，结果换了一个系统结果还是一样报错，当时差点崩溃了，最后我自己下了下个platform -tools压缩包解压之后替换用sdk tools 下载的platform -tools，再次执行adb命令，终于成功了。</p>
-<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>&emsp;&emsp; 自己下载platform -tools替换用sdk tools下载的platform -tools，下载platform -tools可以在这里下载：<a href="http://www.androiddevtools.cn/" target="_blank" rel="noopener">http://www.androiddevtools.cn/</a> </p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>&emsp;&emsp; 自己下载platform -tools替换用sdk tools下载的platform -tools，下载platform -tools可以在这里下载：<a href="http://www.androiddevtools.cn/" target="_blank" rel="external">http://www.androiddevtools.cn/</a> </p>
 <p><font size="4" color="red">注：</font>如果不解决这个问题，在用android  studio 连接真机调试是连接不上的。</p>
 <h3 id="问题：连接真机时不能识别真机"><a href="#问题：连接真机时不能识别真机" class="headerlink" title="问题：连接真机时不能识别真机"></a>问题：连接真机时不能识别真机</h3><p><img src="http://img.blog.csdn.net/20170227114713222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="不能识别真机"></p>
 <h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><ol>
@@ -387,23 +454,23 @@
 <li><p>查找android手机ID<br>插入连接有android手机的usb数据线，在终端输入lsusb，找出手机的ID<br><img src="http://img.blog.csdn.net/20170227115745392?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="找出手机的ID"></p>
 </li>
 <li><p>在步骤1 规则文件中添加手机ID<br><br>&emsp;&emsp;打开51-android.rules文件，添加以下信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBSYSTEM==&quot;usb&quot;,SYSFS&#123;idVendor&#125;==&quot;12d1&quot;, MODE=&quot;0666&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SUBSYSTEM==&quot;usb&quot;,SYSFS&#123;idVendor&#125;==&quot;12d1&quot;, MODE=&quot;0666&quot;</div></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>将12d1改为你自己的手机ID，然后保存。</p>
-<ol start="4">
+<ol>
 <li><p>重启udev服务<br><br>&emsp;&emsp;在终端输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/udev restart</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/udev restart</div></pre></td></tr></table></figure>
 </li>
 <li><p>重启adb<br><br>&emsp;&emsp; 用以下命令结束adb进程</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./adb kill-server</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./adb kill-server</div></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>重启进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./adb devices</span><br></pre></td></tr></table></figure></p>
+<p>重启进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ./adb devices</div></pre></td></tr></table></figure></p>
 <p>然后就能识别你的手机了。</p>
 <h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp; 以上就是在Linux（deepin）系统上搭建安卓开发环境的总结，虽然花费了一些时间，但也学到了好多，写这篇文章希望对大家有所帮助，节约一些不必要的时间.</p>
 <blockquote>
-<p><font size="5" color="green">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="noopener">www.wizardev.com</a><font></font></font></p>
+<p><font size="5" color="green">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a><font></font></font></p>
 </blockquote>
 
       
@@ -413,20 +480,75 @@
     
 
     
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="wizardev 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="wizardev 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
 
     
 
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://wizardev.cn/2017/02/16/在Linux（deepin）系统中搭建Android开发环境/" title="在Linux（deepin）系统中搭建Android开发环境">http://wizardev.cn/2017/02/16/在Linux（deepin）系统中搭建Android开发环境/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"># Android</a>
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
           
-            <a href="/tags/AndroidStudio/" rel="tag"># AndroidStudio</a>
+            <a href="/tags/AndroidStudio/" rel="tag"><i class="fa fa-tag"></i> AndroidStudio</a>
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
+            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
           
         </div>
       
@@ -515,9 +637,13 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Wizardev</p>
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
               <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
           </div>
 
@@ -561,11 +687,41 @@
           
 
           
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
 
           
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           
@@ -607,21 +763,24 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Wizardev</span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
   
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
@@ -674,6 +833,9 @@
 
 
 
+  
+  
+
 
 
 
@@ -708,6 +870,16 @@
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
 
   
 
@@ -720,6 +892,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
@@ -788,5 +967,5 @@
 
   
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
 </html>

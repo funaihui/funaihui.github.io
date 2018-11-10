@@ -5,23 +5,30 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
 
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
 
 
 
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -40,7 +47,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -48,9 +55,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -68,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Android,自定义,精度条,按键,">
+  <meta name="keywords" content="Android,自定义,精度条,按键," />
 
 
 
@@ -83,10 +90,9 @@
 <meta name="keywords" content="Android,自定义,精度条,按键">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android自定义一款带进度条的精美按键">
-<meta property="og:url" content="http://yoursite.com/2017/08/27/Android自定义一款带进度条的精美按键/index.html">
-<meta property="og:site_name" content="Wizardev的博客">
+<meta property="og:url" content="http://wizardev.cn/2017/08/27/Android自定义一款带进度条的精美按键/index.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
 <meta property="og:description" content="Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://badge.juejin.im/entry/59a26ba851882524424a0e7b/likes.svg?style=flat-square">
 <meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/anim1.gif">
 <meta property="og:updated_time" content="2018-11-10T03:19:09.881Z">
@@ -101,7 +107,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -123,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/27/Android自定义一款带进度条的精美按键/">
+  <link rel="canonical" href="http://wizardev.cn/2017/08/27/Android自定义一款带进度条的精美按键/"/>
 
 
 
 
 
-  <title>Android自定义一款带进度条的精美按键 | Wizardev的博客</title>
+  <title>Android自定义一款带进度条的精美按键 | wizardev's blog</title>
   
 
 
@@ -141,7 +147,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -151,20 +157,20 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
     <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
+      <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Wizardev的博客</span>
+        <span class="site-title">wizardev's blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <p class="site-subtitle">大水水</p>
       
   </div>
 
@@ -187,9 +193,39 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -197,7 +233,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -231,21 +267,21 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/27/Android自定义一款带进度条的精美按键/">
+    <link itemprop="mainEntityOfPage" href="http://wizardev.cn/2017/08/27/Android自定义一款带进度条的精美按键/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wizardev">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Wizardev的博客">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
     </span>
 
     
@@ -276,7 +312,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -287,7 +323,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android/" itemprop="url" rel="index">
                     <span itemprop="name">Android</span>
                   </a>
@@ -309,6 +345,37 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -325,13 +392,13 @@
       
 
       
-        <p><a href="https://juejin.im/entry/59a26ba851882524424a0e7b/detail" target="_blank" rel="noopener"><img src="https://badge.juejin.im/entry/59a26ba851882524424a0e7b/likes.svg?style=flat-square" alt=""></a></p>
+        <p><a href="https://juejin.im/entry/59a26ba851882524424a0e7b/detail" target="_blank" rel="external"><img src="https://badge.juejin.im/entry/59a26ba851882524424a0e7b/likes.svg?style=flat-square" alt=""></a></p>
 <blockquote>
 <p>Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。</p>
 </blockquote>
 <a id="more"></a>
 <h1 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h1><p>&emsp;&emsp;在开始本文之前，照例，先看下实现后的效果，如下图</p>
-<p><center><img src="http://ot6991tvl.bkt.clouddn.com/anim1.gif" alt=""></center><br>不想阅读本文，可以直接到<a href="https://github.com/funaihui/ImitateKeepButton" target="_blank" rel="noopener">这里获取源码</a></p>
+<p><center><img src="http://ot6991tvl.bkt.clouddn.com/anim1.gif" alt=""></center><br>不想阅读本文，可以直接到<a href="https://github.com/funaihui/ImitateKeepButton" target="_blank" rel="external">这里获取源码</a></p>
 <p>阅读本文你需要掌握</p>
 <blockquote>
 <p>自定义属性<br> ValueAnimator动画<br>Viwe的测量、绘制<br>Paint和Path的用法</p>
@@ -352,14 +419,14 @@
 </ol>
 <p>为了理解清楚，可以自己画一下流程图。</p>
 <h2 id="编码实现"><a href="#编码实现" class="headerlink" title="编码实现"></a>编码实现</h2><p>&emsp;&emsp;相信，经过分析拆解之后，你脑子里应该有一个实现的流程了，下面就动手开始实现吧！</p>
-<p>先将需要的画笔和路径进行初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">//初始化画笔及路径</span><br><span class="line">   private void initPaintOrPath() &#123;</span><br><span class="line">       circleBgPaint = new Paint();</span><br><span class="line">       circleBgPaint.setAntiAlias(true);</span><br><span class="line">       circleBgPaint.setStyle(Paint.Style.FILL_AND_STROKE);</span><br><span class="line"></span><br><span class="line">       ringBgPaint = new Paint();</span><br><span class="line"></span><br><span class="line">       ringBgPaint.setColor(ringBgColor.getColorForState(getDrawableState(),0));</span><br><span class="line">       ringBgPaint.setAntiAlias(true);</span><br><span class="line">       ringBgPaint.setStrokeWidth(ringSize);</span><br><span class="line">       ringBgPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line"></span><br><span class="line">       ringPaint = new Paint();</span><br><span class="line">       ringPaint.setColor(ringColor.getColorForState(getDrawableState(),0));</span><br><span class="line">       ringPaint.setAntiAlias(true);</span><br><span class="line">       ringPaint.setStrokeWidth(ringSize);</span><br><span class="line">       ringPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line"></span><br><span class="line">       path = new Path();</span><br><span class="line"></span><br><span class="line">       textPaint = new Paint();</span><br><span class="line">       textPaint.setAntiAlias(true);</span><br><span class="line">       textPaint.setTextAlign(Paint.Align.CENTER);</span><br><span class="line">       textPaint.setColor(textColor.getColorForState(getDrawableState(),0));</span><br><span class="line">       textPaint.setTextSize(textSize);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>自定义View需要经过三个重要的步骤，<strong><em>测量</em></strong>，<strong><em>布局</em></strong>，<strong><em>绘制</em></strong>，分别对应<strong><em>onMeasure()</em></strong>,<strong><em>onLayout()</em></strong>,<strong><em>onDraw()</em></strong>方法。这里的<strong><em>onLayout()</em></strong>主要是对自定义ViewGroup的，自定义View只要重写<strong><em>onMeasure()</em></strong>和<strong><em>onDraw()</em></strong>方法就行了，按照自定义View的套路来，先进行测量，直接看代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        //获得父View传递过来的宽度的大小和类型</span><br><span class="line">        int widthMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        int widthSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">		//获得父View传递过来的高度的大小和类型</span><br><span class="line">        int heightMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        int heightSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">        //初始化最终的宽高</span><br><span class="line">        int resultWidth = widthSize;</span><br><span class="line">        int resultHeight = heightSize;</span><br><span class="line">        //为了让文字可以在背景（圆形）中完全显示</span><br><span class="line">        if (mRadius * 2 &lt; textPaint.measureText(contentText)) &#123;</span><br><span class="line">            mRadius = (int) textPaint.measureText(contentText);</span><br><span class="line">        &#125;</span><br><span class="line">        if (widthMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">       	 //获取我们需要的宽度</span><br><span class="line">            int contentWidth =  (mRadius + space + ringSize)*2+ getPaddingLeft() + getPaddingRight();</span><br><span class="line">        //得到最终的宽度</span><br><span class="line">            resultWidth = (contentWidth &lt; widthSize) ? resultWidth : contentWidth;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (heightMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">         //获取我们需要的高度</span><br><span class="line">            int contentHeight = (mRadius + space + ringSize)*2 + getPaddingTop() + getPaddingBottom();</span><br><span class="line">            //得到最终的高度</span><br><span class="line">            resultHeight = (contentHeight &lt; heightSize) ? resultHeight : contentHeight;</span><br><span class="line">        &#125;</span><br><span class="line">		//设置测量后的宽高</span><br><span class="line">        setMeasuredDimension(resultWidth,resultHeight);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>代码中都有注释，相信你可以看的懂。下面就开始画我们需要的圆形，圆环背景，圆环和文字了，我们需要在onDraw()方法中进行作画，代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">   protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">       super.onDraw(canvas);</span><br><span class="line">       //画圆，改变ringRadius就可以改变圆形背景的大小，主要控制value值的改变</span><br><span class="line">       ringRadius = mRadius - DPUtils.dip2px(getContext(),value/2);</span><br><span class="line">       circleBgPaint.setColor(circleColor.getColorForState(getDrawableState(),0));</span><br><span class="line">       canvas.drawCircle(getWidth() / 2, getHeight() / 2, ringRadius, circleBgPaint);</span><br><span class="line">       //用户按键时开始画圆环</span><br><span class="line">       if (startDrawLine)&#123;</span><br><span class="line">           //计算外环的半径，记得要减去外环的宽度的一半</span><br><span class="line">           result = ringRadius + space +ringSize/2;</span><br><span class="line">           //画完整的进度条</span><br><span class="line">           canvas.drawCircle(getWidth() / 2, getHeight() / 2, result, ringBgPaint);</span><br><span class="line">          //画进度条路径</span><br><span class="line">           path.reset();//重置路径，否则下次精度条不会从开始位置，可以注释掉此代码，看下效果</span><br><span class="line">           //计算画路径的矩形</span><br><span class="line">           float left = getWidth()/2-result;</span><br><span class="line">           float top = getHeight()/2-result;</span><br><span class="line">           float right = getWidth()/2+result;</span><br><span class="line">           float bottom = getHeight()/2+result;</span><br><span class="line">           RectF rect = new RectF(left,top, right ,bottom);</span><br><span class="line">           path.addArc(rect, -90, angle);//通过改变angle就可以动态的改变进度条</span><br><span class="line"></span><br><span class="line">           //画圆环的路径</span><br><span class="line">           canvas.drawPath(path, ringPaint);</span><br><span class="line">       &#125;</span><br><span class="line">       canvas.drawText(contentText,getWidth()/2,getHeight()/2,textPaint);//文字</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<p>完成以上几步，点击view时并没有反应，因为还没有为View添加触摸事件，也没有添加动画，进过分析原理那步，可以知道，手指按下时改变圆形背景的大小，既改变半径的大小……，这里就不在重复说了，直接看代码，代码中会有讲解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    public boolean onTouchEvent(final MotionEvent event) &#123;</span><br><span class="line">    //控制加载完成时候是否还可以相应点击事件，可以通过setEnable()方法来控制</span><br><span class="line">        if (!enable &amp;&amp; event.getAction()!=MotionEvent.ACTION_UP) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        switch (event.getAction()) &#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN: &#123;</span><br><span class="line">					//当手指按下时，移除手指抬起时的监听</span><br><span class="line">                    if (animator != null) &#123;</span><br><span class="line">                        animator.removeAllUpdateListeners();</span><br><span class="line">                    &#125;</span><br><span class="line">                    //改变narrowDown的值</span><br><span class="line">                    animatorValue = ValueAnimator.ofInt(0, narrowDown);</span><br><span class="line">                    animatorValue.setDuration(50);</span><br><span class="line">                    animatorValue.setInterpolator(new LinearInterpolator());</span><br><span class="line">                    animatorValue.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                        @Override</span><br><span class="line">                        public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;						</span><br><span class="line">                            value = (int) valueAnimator.getAnimatedValue();//改变value的值也就是按下手指让圆形背景缩小</span><br><span class="line">                            if (value == narrowDown) &#123;</span><br><span class="line">                            //当缩小到一定值时开始画圆环和精度条</span><br><span class="line">                                startDrawLine = true;//控制什么时候开始画圆环和进度条</span><br><span class="line">                                animatorValue.removeAllUpdateListeners();//当开始画进度条时移除改变背景大小的动画，既停止改变</span><br><span class="line">                            &#125;</span><br><span class="line">                            postInvalidate();//刷新画布</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line"></span><br><span class="line">                    animatorValue.start();//开始缩小</span><br><span class="line">                    </span><br><span class="line">                    angleAnimator = ValueAnimator.ofFloat(0, 360f);</span><br><span class="line">                    angleAnimator.setDuration(2000);</span><br><span class="line">                    angleAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">                    angleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                        @Override</span><br><span class="line">                        public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;</span><br><span class="line">                            angle = (float) valueAnimator.getAnimatedValue();//angle用来画进度条，动态改变进度条加载的进度</span><br><span class="line">                            if (angle == 360) &#123;</span><br><span class="line">                            	//加载完成移除动画，既进度条停止加载</span><br><span class="line">                                angleAnimator.removeAllUpdateListeners();</span><br><span class="line">                                //进度条加载完成后的回调</span><br><span class="line">                                onViewClick.onFinish(ImitateKeepButton.this);</span><br><span class="line"></span><br><span class="line">                            &#125;</span><br><span class="line">                            postInvalidate();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                    angleAnimator.start();//开始加载</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            break;</span><br><span class="line">            case MotionEvent.ACTION_UP: &#123;</span><br><span class="line">                 angleAnimator.removeAllUpdateListeners();</span><br><span class="line">       			 animatorValue.removeAllUpdateListeners();</span><br><span class="line">        		 animator = ValueAnimator.ofInt(value,0);</span><br><span class="line">        		 animator.setDuration(300);</span><br><span class="line">       			 animator.setInterpolator(new LinearInterpolator());</span><br><span class="line">       			 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">           		 @Override</span><br><span class="line">           		 public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;</span><br><span class="line">              	  value = (int) valueAnimator.getAnimatedValue();</span><br><span class="line">              	  postInvalidate();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        animator.start();//开始恢复背景原来的大小</span><br><span class="line">            &#125;</span><br><span class="line">            startDrawLine = false;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>先将需要的画笔和路径进行初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">//初始化画笔及路径</div><div class="line">   private void initPaintOrPath() &#123;</div><div class="line">       circleBgPaint = new Paint();</div><div class="line">       circleBgPaint.setAntiAlias(true);</div><div class="line">       circleBgPaint.setStyle(Paint.Style.FILL_AND_STROKE);</div><div class="line"></div><div class="line">       ringBgPaint = new Paint();</div><div class="line"></div><div class="line">       ringBgPaint.setColor(ringBgColor.getColorForState(getDrawableState(),0));</div><div class="line">       ringBgPaint.setAntiAlias(true);</div><div class="line">       ringBgPaint.setStrokeWidth(ringSize);</div><div class="line">       ringBgPaint.setStyle(Paint.Style.STROKE);</div><div class="line"></div><div class="line">       ringPaint = new Paint();</div><div class="line">       ringPaint.setColor(ringColor.getColorForState(getDrawableState(),0));</div><div class="line">       ringPaint.setAntiAlias(true);</div><div class="line">       ringPaint.setStrokeWidth(ringSize);</div><div class="line">       ringPaint.setStyle(Paint.Style.STROKE);</div><div class="line"></div><div class="line">       path = new Path();</div><div class="line"></div><div class="line">       textPaint = new Paint();</div><div class="line">       textPaint.setAntiAlias(true);</div><div class="line">       textPaint.setTextAlign(Paint.Align.CENTER);</div><div class="line">       textPaint.setColor(textColor.getColorForState(getDrawableState(),0));</div><div class="line">       textPaint.setTextSize(textSize);</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>自定义View需要经过三个重要的步骤，<strong><em>测量</em></strong>，<strong><em>布局</em></strong>，<strong><em>绘制</em></strong>，分别对应<strong><em>onMeasure()</em></strong>,<strong><em>onLayout()</em></strong>,<strong><em>onDraw()</em></strong>方法。这里的<strong><em>onLayout()</em></strong>主要是对自定义ViewGroup的，自定义View只要重写<strong><em>onMeasure()</em></strong>和<strong><em>onDraw()</em></strong>方法就行了，按照自定义View的套路来，先进行测量，直接看代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</div><div class="line">        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</div><div class="line">        //获得父View传递过来的宽度的大小和类型</div><div class="line">        int widthMode = MeasureSpec.getMode(widthMeasureSpec);</div><div class="line">        int widthSize = MeasureSpec.getSize(widthMeasureSpec);</div><div class="line">		//获得父View传递过来的高度的大小和类型</div><div class="line">        int heightMode = MeasureSpec.getMode(heightMeasureSpec);</div><div class="line">        int heightSize = MeasureSpec.getSize(heightMeasureSpec);</div><div class="line">        //初始化最终的宽高</div><div class="line">        int resultWidth = widthSize;</div><div class="line">        int resultHeight = heightSize;</div><div class="line">        //为了让文字可以在背景（圆形）中完全显示</div><div class="line">        if (mRadius * 2 &lt; textPaint.measureText(contentText)) &#123;</div><div class="line">            mRadius = (int) textPaint.measureText(contentText);</div><div class="line">        &#125;</div><div class="line">        if (widthMode == MeasureSpec.AT_MOST) &#123;</div><div class="line">       	 //获取我们需要的宽度</div><div class="line">            int contentWidth =  (mRadius + space + ringSize)*2+ getPaddingLeft() + getPaddingRight();</div><div class="line">        //得到最终的宽度</div><div class="line">            resultWidth = (contentWidth &lt; widthSize) ? resultWidth : contentWidth;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (heightMode == MeasureSpec.AT_MOST) &#123;</div><div class="line">         //获取我们需要的高度</div><div class="line">            int contentHeight = (mRadius + space + ringSize)*2 + getPaddingTop() + getPaddingBottom();</div><div class="line">            //得到最终的高度</div><div class="line">            resultHeight = (contentHeight &lt; heightSize) ? resultHeight : contentHeight;</div><div class="line">        &#125;</div><div class="line">		//设置测量后的宽高</div><div class="line">        setMeasuredDimension(resultWidth,resultHeight);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>代码中都有注释，相信你可以看的懂。下面就开始画我们需要的圆形，圆环背景，圆环和文字了，我们需要在onDraw()方法中进行作画，代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">   protected void onDraw(Canvas canvas) &#123;</div><div class="line">       super.onDraw(canvas);</div><div class="line">       //画圆，改变ringRadius就可以改变圆形背景的大小，主要控制value值的改变</div><div class="line">       ringRadius = mRadius - DPUtils.dip2px(getContext(),value/2);</div><div class="line">       circleBgPaint.setColor(circleColor.getColorForState(getDrawableState(),0));</div><div class="line">       canvas.drawCircle(getWidth() / 2, getHeight() / 2, ringRadius, circleBgPaint);</div><div class="line">       //用户按键时开始画圆环</div><div class="line">       if (startDrawLine)&#123;</div><div class="line">           //计算外环的半径，记得要减去外环的宽度的一半</div><div class="line">           result = ringRadius + space +ringSize/2;</div><div class="line">           //画完整的进度条</div><div class="line">           canvas.drawCircle(getWidth() / 2, getHeight() / 2, result, ringBgPaint);</div><div class="line">          //画进度条路径</div><div class="line">           path.reset();//重置路径，否则下次精度条不会从开始位置，可以注释掉此代码，看下效果</div><div class="line">           //计算画路径的矩形</div><div class="line">           float left = getWidth()/2-result;</div><div class="line">           float top = getHeight()/2-result;</div><div class="line">           float right = getWidth()/2+result;</div><div class="line">           float bottom = getHeight()/2+result;</div><div class="line">           RectF rect = new RectF(left,top, right ,bottom);</div><div class="line">           path.addArc(rect, -90, angle);//通过改变angle就可以动态的改变进度条</div><div class="line"></div><div class="line">           //画圆环的路径</div><div class="line">           canvas.drawPath(path, ringPaint);</div><div class="line">       &#125;</div><div class="line">       canvas.drawText(contentText,getWidth()/2,getHeight()/2,textPaint);//文字</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>完成以上几步，点击view时并没有反应，因为还没有为View添加触摸事件，也没有添加动画，进过分析原理那步，可以知道，手指按下时改变圆形背景的大小，既改变半径的大小……，这里就不在重复说了，直接看代码，代码中会有讲解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    public boolean onTouchEvent(final MotionEvent event) &#123;</div><div class="line">    //控制加载完成时候是否还可以相应点击事件，可以通过setEnable()方法来控制</div><div class="line">        if (!enable &amp;&amp; event.getAction()!=MotionEvent.ACTION_UP) &#123;</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">        switch (event.getAction()) &#123;</div><div class="line">            case MotionEvent.ACTION_DOWN: &#123;</div><div class="line">					//当手指按下时，移除手指抬起时的监听</div><div class="line">                    if (animator != null) &#123;</div><div class="line">                        animator.removeAllUpdateListeners();</div><div class="line">                    &#125;</div><div class="line">                    //改变narrowDown的值</div><div class="line">                    animatorValue = ValueAnimator.ofInt(0, narrowDown);</div><div class="line">                    animatorValue.setDuration(50);</div><div class="line">                    animatorValue.setInterpolator(new LinearInterpolator());</div><div class="line">                    animatorValue.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</div><div class="line">                        @Override</div><div class="line">                        public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;						</div><div class="line">                            value = (int) valueAnimator.getAnimatedValue();//改变value的值也就是按下手指让圆形背景缩小</div><div class="line">                            if (value == narrowDown) &#123;</div><div class="line">                            //当缩小到一定值时开始画圆环和精度条</div><div class="line">                                startDrawLine = true;//控制什么时候开始画圆环和进度条</div><div class="line">                                animatorValue.removeAllUpdateListeners();//当开始画进度条时移除改变背景大小的动画，既停止改变</div><div class="line">                            &#125;</div><div class="line">                            postInvalidate();//刷新画布</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line"></div><div class="line">                    animatorValue.start();//开始缩小</div><div class="line">                    </div><div class="line">                    angleAnimator = ValueAnimator.ofFloat(0, 360f);</div><div class="line">                    angleAnimator.setDuration(2000);</div><div class="line">                    angleAnimator.setInterpolator(new LinearInterpolator());</div><div class="line">                    angleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</div><div class="line">                        @Override</div><div class="line">                        public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;</div><div class="line">                            angle = (float) valueAnimator.getAnimatedValue();//angle用来画进度条，动态改变进度条加载的进度</div><div class="line">                            if (angle == 360) &#123;</div><div class="line">                            	//加载完成移除动画，既进度条停止加载</div><div class="line">                                angleAnimator.removeAllUpdateListeners();</div><div class="line">                                //进度条加载完成后的回调</div><div class="line">                                onViewClick.onFinish(ImitateKeepButton.this);</div><div class="line"></div><div class="line">                            &#125;</div><div class="line">                            postInvalidate();</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">                    angleAnimator.start();//开始加载</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            break;</div><div class="line">            case MotionEvent.ACTION_UP: &#123;</div><div class="line">                 angleAnimator.removeAllUpdateListeners();</div><div class="line">       			 animatorValue.removeAllUpdateListeners();</div><div class="line">        		 animator = ValueAnimator.ofInt(value,0);</div><div class="line">        		 animator.setDuration(300);</div><div class="line">       			 animator.setInterpolator(new LinearInterpolator());</div><div class="line">       			 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</div><div class="line">           		 @Override</div><div class="line">           		 public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;</div><div class="line">              	  value = (int) valueAnimator.getAnimatedValue();</div><div class="line">              	  postInvalidate();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        animator.start();//开始恢复背景原来的大小</div><div class="line">            &#125;</div><div class="line">            startDrawLine = false;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">        return true;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 <p>好了，到这里已经达到了文章开始时的效果，可以结束本文了。</p>
-<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>&emsp;&emsp;文中代码，只是粘贴部分比较重要的，不完整，完整代码可以到<a href="https://github.com/funaihui/ImitateKeepButton" target="_blank" rel="noopener">这里获取源码</a>。</p>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>&emsp;&emsp;文中代码，只是粘贴部分比较重要的，不完整，完整代码可以到<a href="https://github.com/funaihui/ImitateKeepButton" target="_blank" rel="external">这里获取源码</a>。</p>
 <blockquote>
-<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="noopener">www.wizardev.com</a><font></font></font></p>
+<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a><font></font></font></p>
 </blockquote>
 
       
@@ -369,22 +436,77 @@
     
 
     
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="wizardev 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="wizardev 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
 
     
 
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://wizardev.cn/2017/08/27/Android自定义一款带进度条的精美按键/" title="Android自定义一款带进度条的精美按键">http://wizardev.cn/2017/08/27/Android自定义一款带进度条的精美按键/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"># Android</a>
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
           
-            <a href="/tags/自定义/" rel="tag"># 自定义</a>
+            <a href="/tags/自定义/" rel="tag"><i class="fa fa-tag"></i> 自定义</a>
           
-            <a href="/tags/精度条/" rel="tag"># 精度条</a>
+            <a href="/tags/精度条/" rel="tag"><i class="fa fa-tag"></i> 精度条</a>
           
-            <a href="/tags/按键/" rel="tag"># 按键</a>
+            <a href="/tags/按键/" rel="tag"><i class="fa fa-tag"></i> 按键</a>
           
         </div>
       
@@ -473,9 +595,13 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Wizardev</p>
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
               <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
           </div>
 
@@ -519,11 +645,41 @@
           
 
           
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
 
           
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           
@@ -565,21 +721,24 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Wizardev</span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
   
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
@@ -632,6 +791,9 @@
 
 
 
+  
+  
+
 
 
 
@@ -666,6 +828,16 @@
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
 
   
 
@@ -678,6 +850,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
@@ -746,5 +925,5 @@
 
   
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
 </html>

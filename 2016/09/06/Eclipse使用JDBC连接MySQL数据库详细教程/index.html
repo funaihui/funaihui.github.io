@@ -5,23 +5,30 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
 
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
 
 
 
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -40,7 +47,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -48,9 +55,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -68,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Android,支付,AndroidStudio,">
+  <meta name="keywords" content="Android,支付,AndroidStudio," />
 
 
 
@@ -83,10 +90,9 @@
 <meta name="keywords" content="Android,支付,AndroidStudio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Eclipse使用JDBC连接MySQL数据库详细教程">
-<meta property="og:url" content="http://yoursite.com/2016/09/06/Eclipse使用JDBC连接MySQL数据库详细教程/index.html">
-<meta property="og:site_name" content="Wizardev的博客">
+<meta property="og:url" content="http://wizardev.cn/2016/09/06/Eclipse使用JDBC连接MySQL数据库详细教程/index.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
 <meta property="og:description" content="前言：遇到问题不要退缩，因每解决一个问题你就离目标更近一步">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://img.blog.csdn.net/20160906180301061">
 <meta property="og:image" content="http://img.blog.csdn.net/20160906181557863">
 <meta property="og:image" content="http://img.blog.csdn.net/20160906184340109">
@@ -104,7 +110,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -126,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/09/06/Eclipse使用JDBC连接MySQL数据库详细教程/">
+  <link rel="canonical" href="http://wizardev.cn/2016/09/06/Eclipse使用JDBC连接MySQL数据库详细教程/"/>
 
 
 
 
 
-  <title>Eclipse使用JDBC连接MySQL数据库详细教程 | Wizardev的博客</title>
+  <title>Eclipse使用JDBC连接MySQL数据库详细教程 | wizardev's blog</title>
   
 
 
@@ -144,7 +150,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -154,20 +160,20 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
     <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
+      <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Wizardev的博客</span>
+        <span class="site-title">wizardev's blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <p class="site-subtitle">大水水</p>
       
   </div>
 
@@ -190,9 +196,39 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -200,7 +236,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -234,21 +270,21 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/09/06/Eclipse使用JDBC连接MySQL数据库详细教程/">
+    <link itemprop="mainEntityOfPage" href="http://wizardev.cn/2016/09/06/Eclipse使用JDBC连接MySQL数据库详细教程/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wizardev">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Wizardev的博客">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
     </span>
 
     
@@ -279,7 +315,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -290,7 +326,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android/" itemprop="url" rel="index">
                     <span itemprop="name">Android</span>
                   </a>
@@ -312,6 +348,37 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
 
           
 
@@ -330,9 +397,10 @@
       
         <blockquote>
 <font color="00CED1">前言：遇到问题不要退缩，因每解决一个问题你就离目标更近一步</font>
+
 </blockquote>
 <a id="more"></a>
-<h3 id="下载连接MySQL数据库的驱动"><a href="#下载连接MySQL数据库的驱动" class="headerlink" title="下载连接MySQL数据库的驱动"></a>下载连接MySQL数据库的驱动</h3><p>使用JDBC连接MySQL数据库的驱动为<a href="http://dev.mysql.com/downloads/connector/j/" target="_blank" rel="noopener">Connentor/J</a>,需要下载什么版本可以参考下图。</p>
+<h3 id="下载连接MySQL数据库的驱动"><a href="#下载连接MySQL数据库的驱动" class="headerlink" title="下载连接MySQL数据库的驱动"></a>下载连接MySQL数据库的驱动</h3><p>使用JDBC连接MySQL数据库的驱动为<a href="http://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">Connentor/J</a>,需要下载什么版本可以参考下图。</p>
 <p><img src="http://img.blog.csdn.net/20160906180301061" alt="Connector/J版本相关知识"></p>
 <p>下载完成之后需要解压到本地。</p>
 <h3 id="在Eclipse中引用jar包"><a href="#在Eclipse中引用jar包" class="headerlink" title="在Eclipse中引用jar包"></a>在Eclipse中引用jar包</h3><p>在新建的Java工程上点击右键，Build Path —&gt;Add External Archives.. 添加解压缩到本地的jar包。</p>
@@ -341,13 +409,13 @@
 <li>载入驱动</li>
 <li>连接数据库<h3 id="连接数据库的注意事项"><a href="#连接数据库的注意事项" class="headerlink" title="连接数据库的注意事项"></a>连接数据库的注意事项</h3>我们解压到本地的文件里面有官方关于使用JDBC连接数据库的文档，这里我们可以看一下官方的文档。下面是官方文档中的代码</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">// Notice, do not import com.mysql.cj.jdbc.*</span><br><span class="line">// or you will have problems!</span><br><span class="line">public class LoadDriver &#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">try &#123;</span><br><span class="line">// The newInstance() call is a work around for some</span><br><span class="line">// broken Java implementations</span><br><span class="line">Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;).newInstance();</span><br><span class="line">&#125; catch (Exception ex) &#123;</span><br><span class="line">// handle the error</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">import java.sql.Connection;</div><div class="line">import java.sql.DriverManager;</div><div class="line">import java.sql.SQLException;</div><div class="line">// Notice, do not import com.mysql.cj.jdbc.*</div><div class="line">// or you will have problems!</div><div class="line">public class LoadDriver &#123;</div><div class="line">public static void main(String[] args) &#123;</div><div class="line">try &#123;</div><div class="line">// The newInstance() call is a work around for some</div><div class="line">// broken Java implementations</div><div class="line">Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;).newInstance();</div><div class="line">&#125; catch (Exception ex) &#123;</div><div class="line">// handle the error</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>这里的<code>Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;).newInstance();</code><br>是用于注册驱动，也就是<em>JDBC连接数据库步骤</em> 中的第一步。我们在Eclipse中运行正常，没有什么问题。下面是第二步连接数据库，我们这里也用官方文档中提供给我们的代码。代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">Connection conn = null;</span><br><span class="line">...</span><br><span class="line">try &#123;</span><br><span class="line">conn =</span><br><span class="line">DriverManager.getConnection(&quot;jdbc:mysql://localhost/test?&quot; +</span><br><span class="line">&quot;user=minty&amp;password=greatsqldb&quot;);</span><br><span class="line">// Do something with the Connection</span><br><span class="line">...</span><br><span class="line">&#125; catch (SQLException ex) &#123;</span><br><span class="line">// handle any errors</span><br><span class="line">System.out.println(&quot;SQLException: &quot; + ex.getMessage());</span><br><span class="line">System.out.println(&quot;SQLState: &quot; + ex.getSQLState());</span><br><span class="line">System.out.println(&quot;VendorError: &quot; + ex.getErrorCode());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">import java.sql.Connection;</div><div class="line">import java.sql.DriverManager;</div><div class="line">import java.sql.SQLException;</div><div class="line">Connection conn = null;</div><div class="line">...</div><div class="line">try &#123;</div><div class="line">conn =</div><div class="line">DriverManager.getConnection(&quot;jdbc:mysql://localhost/test?&quot; +</div><div class="line">&quot;user=minty&amp;password=greatsqldb&quot;);</div><div class="line">// Do something with the Connection</div><div class="line">...</div><div class="line">&#125; catch (SQLException ex) &#123;</div><div class="line">// handle any errors</div><div class="line">System.out.println(&quot;SQLException: &quot; + ex.getMessage());</div><div class="line">System.out.println(&quot;SQLState: &quot; + ex.getSQLState());</div><div class="line">System.out.println(&quot;VendorError: &quot; + ex.getErrorCode());</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>现在我们来看一下这段代码，其中也就一句<br><code>DriverManager.getConnection(&quot;jdbc:mysql://localhost/test?&quot; +
 &quot;user=minty&amp;password=greatsqldb&quot;);</code><br>这段代码是用于连接到数据库的，上面的<strong>test</strong>是我们自己的数据库，<strong>user=minty</strong> 是我们安装数据库使用的用户名，<strong>password=greatsqldb</strong> 是我们自己的数据库密码，现在我们把第一步与第二步一起在Eclipse中运行一下，代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * URL是用于连接数据库的标识符</span><br><span class="line"> * USER_NAME 是安装MySQL时使用的用户名</span><br><span class="line"> * PASSWORD 是与用户名相对应的密码</span><br><span class="line"> */</span><br><span class="line">public class Jdbc &#123;</span><br><span class="line">	//mydb是我自己建的数据库</span><br><span class="line">	//user=root 我自己数据库的用户名</span><br><span class="line">	//password=wizardfu 我自己的数据库的密码</span><br><span class="line">	public static final String URL = &quot;jdbc:mysql://localhost/mydb?&quot; +</span><br><span class="line">			&quot;user=root&amp;password=wizardfu&quot;;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span><br><span class="line">			DriverManager.getConnection(URL);</span><br><span class="line">			System.out.println(&quot;成功加载MYSQL驱动&quot;);</span><br><span class="line">		&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; catch (SQLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里我们看一下运行结果<br><img src="http://img.blog.csdn.net/20160906184340109" alt="这里写图片描述"><br>发现有警告，查了一下资料说是时区的问题，只要把上面的URl修改一下就好了，看一下修改后的URL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static final String URL = &quot;jdbc:mysql://localhost/mydb?serverTimezone=UTC&quot;+&quot;user=root&amp;password=wizardfu&quot;;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * URL是用于连接数据库的标识符</div><div class="line"> * USER_NAME 是安装MySQL时使用的用户名</div><div class="line"> * PASSWORD 是与用户名相对应的密码</div><div class="line"> */</div><div class="line">public class Jdbc &#123;</div><div class="line">	//mydb是我自己建的数据库</div><div class="line">	//user=root 我自己数据库的用户名</div><div class="line">	//password=wizardfu 我自己的数据库的密码</div><div class="line">	public static final String URL = &quot;jdbc:mysql://localhost/mydb?&quot; +</div><div class="line">			&quot;user=root&amp;password=wizardfu&quot;;</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		try &#123;</div><div class="line">			Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</div><div class="line">			DriverManager.getConnection(URL);</div><div class="line">			System.out.println(&quot;成功加载MYSQL驱动&quot;);</div><div class="line">		&#125; catch (ClassNotFoundException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; catch (SQLException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里我们看一下运行结果<br><img src="http://img.blog.csdn.net/20160906184340109" alt="这里写图片描述"><br>发现有警告，查了一下资料说是时区的问题，只要把上面的URl修改一下就好了，看一下修改后的URL<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public static final String URL = &quot;jdbc:mysql://localhost/mydb?serverTimezone=UTC&quot;+&quot;user=root&amp;password=wizardfu&quot;;</div></pre></td></tr></table></figure></p>
 <p>我们再在Eclipse中运行一下，又发现出现了下面的警告<br><img src="http://img.blog.csdn.net/20160906185655721" alt="这里写图片描述"><br>这里我把没有显示出来的警告粘贴出来，如下</p>
 <blockquote>
 <p>Tue Sep 06 18:53:24 CST 2016 WARN: Establishing SSL connection without server’s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn’t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to ‘false’. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.</p>
@@ -357,9 +425,9 @@
 <p>You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification</p>
 </blockquote>
 <p>这里说需要设置 <font color="red">useSSL=false or set useSSL=true</font><br>我们再次改变URL的代码，改变后的代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">public static final String URL = &quot;jdbc:mysql://localhost/mydb?serverTimezone=UTC&amp;useSSL=false&amp;user=root&amp;password=wizardfu&quot;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public static final String URL = &quot;jdbc:mysql://localhost/mydb?serverTimezone=UTC&amp;useSSL=false&amp;user=root&amp;password=wizardfu&quot;;</div></pre></td></tr></table></figure>
 <p>再次运行一下，结果如下<br><img src="http://img.blog.csdn.net/20160906190540467" alt="这里写图片描述"><br>好了，到此已经通过JDBC成功连接到MySQL数据库。连接的时候确实遇到不少麻烦，写下这篇文章希望大家少踩坑。</p>
-<font color="#D2691E" size="5">请大家尊重原创者版权，转载请标明出处: <a href="http://www.wizardev.com" target="_blank" rel="noopener">www.wizardev.com</a> 谢谢</font>
+<font color="#D2691E" size="5">请大家尊重原创者版权，转载请标明出处: <a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a> 谢谢</font>
 
 
 
@@ -371,20 +439,75 @@
     
 
     
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="wizardev 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="wizardev 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
 
     
 
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://wizardev.cn/2016/09/06/Eclipse使用JDBC连接MySQL数据库详细教程/" title="Eclipse使用JDBC连接MySQL数据库详细教程">http://wizardev.cn/2016/09/06/Eclipse使用JDBC连接MySQL数据库详细教程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"># Android</a>
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
           
-            <a href="/tags/支付/" rel="tag"># 支付</a>
+            <a href="/tags/支付/" rel="tag"><i class="fa fa-tag"></i> 支付</a>
           
-            <a href="/tags/AndroidStudio/" rel="tag"># AndroidStudio</a>
+            <a href="/tags/AndroidStudio/" rel="tag"><i class="fa fa-tag"></i> AndroidStudio</a>
           
         </div>
       
@@ -469,9 +592,13 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Wizardev</p>
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
               <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
           </div>
 
@@ -515,11 +642,41 @@
           
 
           
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
 
           
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           
@@ -561,21 +718,24 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Wizardev</span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
   
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
@@ -628,6 +788,9 @@
 
 
 
+  
+  
+
 
 
 
@@ -662,6 +825,16 @@
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
 
   
 
@@ -674,6 +847,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
@@ -742,5 +922,5 @@
 
   
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
 </html>

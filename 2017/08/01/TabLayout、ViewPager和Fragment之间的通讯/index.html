@@ -5,23 +5,30 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
 
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
 
 
 
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -40,7 +47,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -48,9 +55,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -68,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Android,TabLayout,ViewPager,Fragment,">
+  <meta name="keywords" content="Android,TabLayout,ViewPager,Fragment," />
 
 
 
@@ -83,10 +90,9 @@
 <meta name="keywords" content="Android,TabLayout,ViewPager,Fragment">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TabLayout、ViewPager和Fragment之间的通讯">
-<meta property="og:url" content="http://yoursite.com/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/index.html">
-<meta property="og:site_name" content="Wizardev的博客">
+<meta property="og:url" content="http://wizardev.cn/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/index.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
 <meta property="og:description" content="在做项目时经常会遇到TabLayout、ViewPager和Fragment结合使用，但怎样把选中的Tab的类型传递给Fragment，让Fragment加载不同的数据呢？如果你遇到了这个问题，你可以在本文中得到答案。">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/device-2017-08-01-222017.png">
 <meta property="og:updated_time" content="2018-11-10T03:19:09.884Z">
 <meta name="twitter:card" content="summary">
@@ -100,7 +106,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -122,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/">
+  <link rel="canonical" href="http://wizardev.cn/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/"/>
 
 
 
 
 
-  <title>TabLayout、ViewPager和Fragment之间的通讯 | Wizardev的博客</title>
+  <title>TabLayout、ViewPager和Fragment之间的通讯 | wizardev's blog</title>
   
 
 
@@ -140,7 +146,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -150,20 +156,20 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
     <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
+      <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Wizardev的博客</span>
+        <span class="site-title">wizardev's blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <p class="site-subtitle">大水水</p>
       
   </div>
 
@@ -186,9 +192,39 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -196,7 +232,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -230,21 +266,21 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/">
+    <link itemprop="mainEntityOfPage" href="http://wizardev.cn/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wizardev">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Wizardev的博客">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
     </span>
 
     
@@ -275,7 +311,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -286,7 +322,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android/" itemprop="url" rel="index">
                     <span itemprop="name">Android</span>
                   </a>
@@ -307,6 +343,37 @@
 
           
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
           
 
           
@@ -335,28 +402,28 @@
 <li>监测Fragment在ViewPager中的滑动，选中TabLayout中的Tab</li>
 </ul>
 <h2 id="搭建模型"><a href="#搭建模型" class="headerlink" title="搭建模型"></a>搭建模型</h2><p>&emsp;&emsp;在解决上面几个问题之前，我们先把TabLayout、ViewPager和Fragment在项目中如何使用的架子搭出来。</p>
-<h3 id="布局文件"><a href="#布局文件" class="headerlink" title="布局文件"></a>布局文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</span><br><span class="line">    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</span><br><span class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;</span><br><span class="line">    android:orientation=&quot;vertical&quot;</span><br><span class="line">    tools:context=&quot;com.wizardev.tablayoutandviewpager.MainActivity&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.design.widget.TabLayout</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:id=&quot;@+id/tabs&quot;</span><br><span class="line">    app:tabSelectedTextColor=&quot;@color/colorAccent&quot;</span><br><span class="line">    android:layout_height=&quot;wrap_content&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;android.support.v4.view.ViewPager</span><br><span class="line">    android:id=&quot;@+id/viewPager&quot;</span><br><span class="line">    android:layout_width=&quot;match_parent&quot;</span><br><span class="line">    android:layout_height=&quot;match_parent&quot;/&gt;</span><br><span class="line">&lt;/LinearLayout&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="布局文件"><a href="#布局文件" class="headerlink" title="布局文件"></a>布局文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</div><div class="line">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;</div><div class="line">    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;</div><div class="line">    xmlns:tools=&quot;http://schemas.android.com/tools&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;</div><div class="line">    android:orientation=&quot;vertical&quot;</div><div class="line">    tools:context=&quot;com.wizardev.tablayoutandviewpager.MainActivity&quot;&gt;</div><div class="line"></div><div class="line">&lt;android.support.design.widget.TabLayout</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:id=&quot;@+id/tabs&quot;</div><div class="line">    app:tabSelectedTextColor=&quot;@color/colorAccent&quot;</div><div class="line">    android:layout_height=&quot;wrap_content&quot;/&gt;</div><div class="line"></div><div class="line">&lt;android.support.v4.view.ViewPager</div><div class="line">    android:id=&quot;@+id/viewPager&quot;</div><div class="line">    android:layout_width=&quot;match_parent&quot;</div><div class="line">    android:layout_height=&quot;match_parent&quot;/&gt;</div><div class="line">&lt;/LinearLayout&gt;</div></pre></td></tr></table></figure>
 <p>布局文件很简单，只是在LinearLayout中放了一个TabLayout和一个ViewPager，TabLayout是用来放tab的，我们的Fragment会放在布局中的ViewPager中。</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>&emsp;&emsp;以下是MainActivity中的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    private ViewPager mViewPager;</span><br><span class="line">    private TabLayout mTabLayout;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        initView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void initView() &#123;</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        mViewPager = (ViewPager) findViewById(R.id.viewPager);</span><br><span class="line">        mTabLayout = (TabLayout) findViewById(R.id.tabs);</span><br><span class="line">        if (mTabLayout != null) &#123;</span><br><span class="line">            mTabLayout.setupWithViewPager(mViewPager);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        FragmentManager fm = getSupportFragmentManager();</span><br><span class="line">        FragmentAdapter pagerAdapter = new FragmentAdapter(fm);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金刚狼&quot;);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金瓶梅&quot;);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;老炮儿&quot;);</span><br><span class="line">        mViewPager.setAdapter(pagerAdapter);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>我们发现Activity中的代码也很少，上面有几句代码比较重要，一句是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mTabLayout.setupWithViewPager(mViewPager);</span><br></pre></td></tr></table></figure></p>
-<p>这句代码是让TabLayout与ViewPager绑定，添加这句代码之后，我们滑动ViewPager时会选中不同的Tab，同样，我们点击Tab时也会切换不同的ViewPager。<br>还有一部分重要的代码是下面这一部分<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FragmentManager fm = getSupportFragmentManager();</span><br><span class="line">        FragmentAdapter pagerAdapter = new FragmentAdapter(fm);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金刚狼&quot;);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金瓶梅&quot;);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;老炮儿&quot;);</span><br><span class="line">        mViewPager.setAdapter(pagerAdapter);</span><br></pre></td></tr></table></figure></p>
-<p>这部分代码是往ViewPager中添加数据，也就是添加Fragment，这里我们用了一个FragmentAdapter，我们看下FragmentAdapterr中的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class FragmentAdapter extends FragmentPagerAdapter &#123;</span><br><span class="line">    private List&lt;Fragment&gt; mFragments = new ArrayList&lt;&gt;();</span><br><span class="line">    private List&lt;String&gt; mFragmentTitle = new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public FragmentAdapter(FragmentManager fm) &#123;</span><br><span class="line">        super(fm);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public Fragment getItem(int position) &#123;</span><br><span class="line">        return mFragments.get(position);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void addFragment(Fragment fragment, String title) &#123;</span><br><span class="line">        mFragments.add(fragment);//添加到List中</span><br><span class="line">        mFragmentTitle.add(title);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public int getCount() &#123;</span><br><span class="line">        return mFragments.size();</span><br><span class="line">    &#125;</span><br><span class="line">	//这个方法是用来设置tab的name的</span><br><span class="line">    @Override</span><br><span class="line">    public CharSequence getPageTitle(int position) &#123;</span><br><span class="line">    	//从添加后的list中取数据并返回</span><br><span class="line">        return mFragmentTitle.get(position);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>FragmentAdapter中的代码很简单，看下代码中的注释就能理解了.<br>&emsp;&emsp;下面看下我们的Fragment<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class MovieFragment extends Fragment&#123;</span><br><span class="line"></span><br><span class="line">    private TextView mMovie;</span><br><span class="line">    private static final String MOVIE = &quot;movie&quot;;</span><br><span class="line">    private String mMovieName;</span><br><span class="line">    private static final String TAG = &quot;MovieFragment&quot;;</span><br><span class="line"></span><br><span class="line">    @Nullable</span><br><span class="line">    @Override</span><br><span class="line">    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">        View view = inflater.inflate(R.layout.fragment_layout, container, false);</span><br><span class="line">        mMovie = view.findViewById(R.id.movie);</span><br><span class="line">        mMovie.setText(mMovieName);</span><br><span class="line">        return view;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>&emsp;&emsp;以下是MainActivity中的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">public class MainActivity extends AppCompatActivity &#123;</div><div class="line">    private ViewPager mViewPager;</div><div class="line">    private TabLayout mTabLayout;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        initView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    private void initView() &#123;</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        mViewPager = (ViewPager) findViewById(R.id.viewPager);</div><div class="line">        mTabLayout = (TabLayout) findViewById(R.id.tabs);</div><div class="line">        if (mTabLayout != null) &#123;</div><div class="line">            mTabLayout.setupWithViewPager(mViewPager);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        FragmentManager fm = getSupportFragmentManager();</div><div class="line">        FragmentAdapter pagerAdapter = new FragmentAdapter(fm);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金刚狼&quot;);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金瓶梅&quot;);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;老炮儿&quot;);</div><div class="line">        mViewPager.setAdapter(pagerAdapter);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们发现Activity中的代码也很少，上面有几句代码比较重要，一句是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mTabLayout.setupWithViewPager(mViewPager);</div></pre></td></tr></table></figure></p>
+<p>这句代码是让TabLayout与ViewPager绑定，添加这句代码之后，我们滑动ViewPager时会选中不同的Tab，同样，我们点击Tab时也会切换不同的ViewPager。<br>还有一部分重要的代码是下面这一部分<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">FragmentManager fm = getSupportFragmentManager();</div><div class="line">        FragmentAdapter pagerAdapter = new FragmentAdapter(fm);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金刚狼&quot;);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金瓶梅&quot;);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;老炮儿&quot;);</div><div class="line">        mViewPager.setAdapter(pagerAdapter);</div></pre></td></tr></table></figure></p>
+<p>这部分代码是往ViewPager中添加数据，也就是添加Fragment，这里我们用了一个FragmentAdapter，我们看下FragmentAdapterr中的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">public class FragmentAdapter extends FragmentPagerAdapter &#123;</div><div class="line">    private List&lt;Fragment&gt; mFragments = new ArrayList&lt;&gt;();</div><div class="line">    private List&lt;String&gt; mFragmentTitle = new ArrayList&lt;&gt;();</div><div class="line"></div><div class="line">    public FragmentAdapter(FragmentManager fm) &#123;</div><div class="line">        super(fm);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public Fragment getItem(int position) &#123;</div><div class="line">        return mFragments.get(position);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void addFragment(Fragment fragment, String title) &#123;</div><div class="line">        mFragments.add(fragment);//添加到List中</div><div class="line">        mFragmentTitle.add(title);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override</div><div class="line">    public int getCount() &#123;</div><div class="line">        return mFragments.size();</div><div class="line">    &#125;</div><div class="line">	//这个方法是用来设置tab的name的</div><div class="line">    @Override</div><div class="line">    public CharSequence getPageTitle(int position) &#123;</div><div class="line">    	//从添加后的list中取数据并返回</div><div class="line">        return mFragmentTitle.get(position);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>FragmentAdapter中的代码很简单，看下代码中的注释就能理解了.<br>&emsp;&emsp;下面看下我们的Fragment<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">public class MovieFragment extends Fragment&#123;</div><div class="line"></div><div class="line">    private TextView mMovie;</div><div class="line">    private static final String MOVIE = &quot;movie&quot;;</div><div class="line">    private String mMovieName;</div><div class="line">    private static final String TAG = &quot;MovieFragment&quot;;</div><div class="line"></div><div class="line">    @Nullable</div><div class="line">    @Override</div><div class="line">    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) &#123;</div><div class="line">        View view = inflater.inflate(R.layout.fragment_layout, container, false);</div><div class="line">        mMovie = view.findViewById(R.id.movie);</div><div class="line">        mMovie.setText(mMovieName);</div><div class="line">        return view;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>MovieFragment很简单就是加载一个布局，而布局更简单，布局里面只有一个TextView用来显示不同的内容。完成了上面这些，一个简单的架子就搭出来了，接下来就是实现根据选中的tab不同Fragment加载不同的数据了。</p>
 <h2 id="根据选中的Tab不同Fragment加载不同的数据"><a href="#根据选中的Tab不同Fragment加载不同的数据" class="headerlink" title="根据选中的Tab不同Fragment加载不同的数据"></a>根据选中的Tab不同Fragment加载不同的数据</h2><p>&emsp;&emsp;这里我们就来解决上面提到的问题</p>
 <ul>
 <li>怎样知道是哪一个Tab被选中</li>
 <li>怎样把选中的tab的类型传递给Fragment，让Fragment加载不同的数据</li>
 </ul>
-<p>在向FragmentAdapter中添加数据的时候，Tab根据添加的数据顺序依次进行显示，代码中我们是这样添加的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FragmentAdapter pagerAdapter = new FragmentAdapter(fm);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金刚狼&quot;);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金瓶梅&quot;);</span><br><span class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;老炮儿&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>在向FragmentAdapter中添加数据的时候，Tab根据添加的数据顺序依次进行显示，代码中我们是这样添加的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FragmentAdapter pagerAdapter = new FragmentAdapter(fm);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金刚狼&quot;);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;金瓶梅&quot;);</div><div class="line">        pagerAdapter.addFragment(new MovieFragment(),&quot;老炮儿&quot;);</div></pre></td></tr></table></figure></p>
 <p>则TabLayout中依次从左到右显示添加的title，如下图.</p>
-<p><center><img src="http://ot6991tvl.bkt.clouddn.com/device-2017-08-01-222017.png" alt="图片1"></center><br>根据这个特性，便可以间接的为Tab添加上不同的标记，可以在往FragmentAdapter中添加Fragment时设置类型，就是在new Fragment时为Fragment设置Arguments，语言表述总是苍白的，直接看更改后的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FragmentManager fm = getSupportFragmentManager();</span><br><span class="line">        FragmentAdapter pagerAdapter = new FragmentAdapter(fm);</span><br><span class="line">        pagerAdapter.addFragment(MovieFragment.newInstance(&quot;金刚狼&quot;),&quot;金刚狼&quot;);</span><br><span class="line">        pagerAdapter.addFragment(MovieFragment.newInstance(&quot;金瓶梅&quot;),&quot;金瓶梅&quot;);</span><br><span class="line">        pagerAdapter.addFragment(MovieFragment.newInstance(&quot;老炮儿&quot;),&quot;老炮儿&quot;);</span><br><span class="line">        mViewPager.setAdapter(pagerAdapter);</span><br></pre></td></tr></table></figure></p>
-<p>这里我们不是直接new MovieFragment了，而是在MovieFragment中添加了一个静态方法，可以看下这个静态方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static MovieFragment newInstance(String movie)&#123;</span><br><span class="line">        MovieFragment movieFragment = new MovieFragment();</span><br><span class="line">        Bundle bundle = new Bundle();</span><br><span class="line">        bundle.putString(MOVIE,movie);</span><br><span class="line">        movieFragment.setArguments(bundle);</span><br><span class="line">        return movieFragment;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个方法不仅新建了一个MovieFragment，而且在建立时为当前的MovieFragment绑定了一个值，既是间接的为Tab设置了标记.<br>当选中不同的Tab，ViewPager加载Fragment时，Fragment便可以接收到不同的值，从而加载不同的数据.<br>可以在Fragment生命周期的onCreate()方法中接收设置的数据，参考代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    public void onCreate(@Nullable Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        Bundle bundle = getArguments();</span><br><span class="line">        if (bundle != null)&#123;</span><br><span class="line">            mMovieName = bundle.getString(MOVIE);</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            mMovieName = &quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p><center><img src="http://ot6991tvl.bkt.clouddn.com/device-2017-08-01-222017.png" alt="图片1"></center><br>根据这个特性，便可以间接的为Tab添加上不同的标记，可以在往FragmentAdapter中添加Fragment时设置类型，就是在new Fragment时为Fragment设置Arguments，语言表述总是苍白的，直接看更改后的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">FragmentManager fm = getSupportFragmentManager();</div><div class="line">        FragmentAdapter pagerAdapter = new FragmentAdapter(fm);</div><div class="line">        pagerAdapter.addFragment(MovieFragment.newInstance(&quot;金刚狼&quot;),&quot;金刚狼&quot;);</div><div class="line">        pagerAdapter.addFragment(MovieFragment.newInstance(&quot;金瓶梅&quot;),&quot;金瓶梅&quot;);</div><div class="line">        pagerAdapter.addFragment(MovieFragment.newInstance(&quot;老炮儿&quot;),&quot;老炮儿&quot;);</div><div class="line">        mViewPager.setAdapter(pagerAdapter);</div></pre></td></tr></table></figure></p>
+<p>这里我们不是直接new MovieFragment了，而是在MovieFragment中添加了一个静态方法，可以看下这个静态方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static MovieFragment newInstance(String movie)&#123;</div><div class="line">        MovieFragment movieFragment = new MovieFragment();</div><div class="line">        Bundle bundle = new Bundle();</div><div class="line">        bundle.putString(MOVIE,movie);</div><div class="line">        movieFragment.setArguments(bundle);</div><div class="line">        return movieFragment;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>这个方法不仅新建了一个MovieFragment，而且在建立时为当前的MovieFragment绑定了一个值，既是间接的为Tab设置了标记.<br>当选中不同的Tab，ViewPager加载Fragment时，Fragment便可以接收到不同的值，从而加载不同的数据.<br>可以在Fragment生命周期的onCreate()方法中接收设置的数据，参考代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    public void onCreate(@Nullable Bundle savedInstanceState) &#123;</div><div class="line">        super.onCreate(savedInstanceState);</div><div class="line">        Bundle bundle = getArguments();</div><div class="line">        if (bundle != null)&#123;</div><div class="line">            mMovieName = bundle.getString(MOVIE);</div><div class="line">        &#125;else &#123;</div><div class="line">            mMovieName = &quot;&quot;;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 <p>好了，到这里我们已经解决了开篇提到的问题，本文也该结束了.</p>
 <h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;由于这里没有对Fragmentr进行处理，加载数据时都是默认ViewPager的预加载功能，如果需要点击到Tab时在进行数据的加载，则需要改写Fragment中的代码，使ViewPager预加载功能失效.</p>
 <blockquote>
-<p>&emsp;&emsp;<font color="green" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="noopener">www.wizardev.com</a><font></font></font></p>
+<p>&emsp;&emsp;<font color="green" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a><font></font></font></p>
 </blockquote>
 
       
@@ -366,22 +433,77 @@
     
 
     
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="wizardev 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="wizardev 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
 
     
 
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://wizardev.cn/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/" title="TabLayout、ViewPager和Fragment之间的通讯">http://wizardev.cn/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"># Android</a>
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
           
-            <a href="/tags/TabLayout/" rel="tag"># TabLayout</a>
+            <a href="/tags/TabLayout/" rel="tag"><i class="fa fa-tag"></i> TabLayout</a>
           
-            <a href="/tags/ViewPager/" rel="tag"># ViewPager</a>
+            <a href="/tags/ViewPager/" rel="tag"><i class="fa fa-tag"></i> ViewPager</a>
           
-            <a href="/tags/Fragment/" rel="tag"># Fragment</a>
+            <a href="/tags/Fragment/" rel="tag"><i class="fa fa-tag"></i> Fragment</a>
           
         </div>
       
@@ -470,9 +592,13 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Wizardev</p>
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
               <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
           </div>
 
@@ -516,11 +642,41 @@
           
 
           
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
 
           
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           
@@ -562,21 +718,24 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Wizardev</span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
   
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
@@ -629,6 +788,9 @@
 
 
 
+  
+  
+
 
 
 
@@ -663,6 +825,16 @@
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
 
   
 
@@ -675,6 +847,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
@@ -743,5 +922,5 @@
 
   
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
 </html>

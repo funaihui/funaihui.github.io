@@ -5,23 +5,30 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
 
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
 
 
 
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -40,7 +47,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -48,9 +55,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -68,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Android,支付,AndroidStudio,">
+  <meta name="keywords" content="Android,支付,AndroidStudio," />
 
 
 
@@ -83,10 +90,9 @@
 <meta name="keywords" content="Android,支付,AndroidStudio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用Android Studio在App中集成第三方支付">
-<meta property="og:url" content="http://yoursite.com/2017/06/25/利用Android Studio在App中集成第三方支付/index.html">
-<meta property="og:site_name" content="Wizardev的博客">
+<meta property="og:url" content="http://wizardev.cn/2017/06/25/利用Android Studio在App中集成第三方支付/index.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
 <meta property="og:description" content="觉得自己好久没有写博客了，看了一下时间，果然好久没写了。吓得我赶紧写篇博客压压惊。">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://img.blog.csdn.net/20170625070938118?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170625072210530?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20170625074814979?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
@@ -110,7 +116,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -132,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/25/利用Android Studio在App中集成第三方支付/">
+  <link rel="canonical" href="http://wizardev.cn/2017/06/25/利用Android Studio在App中集成第三方支付/"/>
 
 
 
 
 
-  <title>利用Android Studio在App中集成第三方支付 | Wizardev的博客</title>
+  <title>利用Android Studio在App中集成第三方支付 | wizardev's blog</title>
   
 
 
@@ -150,7 +156,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -160,20 +166,20 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
     <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
+      <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Wizardev的博客</span>
+        <span class="site-title">wizardev's blog</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle"></p>
+        <p class="site-subtitle">大水水</p>
       
   </div>
 
@@ -196,9 +202,39 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
           </a>
         </li>
       
@@ -206,7 +242,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -240,21 +276,21 @@
   
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/利用Android Studio在App中集成第三方支付/">
+    <link itemprop="mainEntityOfPage" href="http://wizardev.cn/2017/06/25/利用Android Studio在App中集成第三方支付/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Wizardev">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Wizardev的博客">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
     </span>
 
     
@@ -285,7 +321,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -296,7 +332,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Android/" itemprop="url" rel="index">
                     <span itemprop="name">Android</span>
                   </a>
@@ -317,6 +353,37 @@
 
           
 
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
           
 
           
@@ -348,8 +415,8 @@
 </ul>
 <p>以上几种支付平台，除了<em>第三方聚合支</em>付以外，其他几个在使用时，都是需要公司信息的，这对一些个人开发者以及初学者就造成了一些困难，还好，有第三方聚合支付，它可以提供测试的接口给开发者，这里我们就用第三方聚合支付的测试接口进行付款。<br>&emsp;&emsp;我知道的第三方聚合支付主要有：</p>
 <ol>
-<li>Ping++：<a href="https://pingxx.com" target="_blank" rel="noopener">https://pingxx.com</a></li>
-<li>Bmob   :     <a href="http://www.bmob.cn" target="_blank" rel="noopener">http://www.bmob.cn</a></li>
+<li>Ping++：<a href="https://pingxx.com" target="_blank" rel="external">https://pingxx.com</a></li>
+<li>Bmob   :     <a href="http://www.bmob.cn" target="_blank" rel="external">http://www.bmob.cn</a></li>
 </ol>
 <p>这里，我用的是Ping++，至于Bmob大家可以自己研究，不过料想原理应该差不多。</p>
 <h2 id="使用前的准备工作"><a href="#使用前的准备工作" class="headerlink" title="使用前的准备工作"></a>使用前的准备工作</h2><p>&emsp;&emsp;在使用之前，我们需要到Ping++的官网完成注册，注册之后，就有了一个用于测试的Test Secret Key ，可以在使用者的企业设置下面发现Test Secret Key，如下图<br><img src="http://img.blog.csdn.net/20170625070938118?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片1"><br>&emsp;&emsp;我们可以在官网的首页，开发者中心下载集成的SDK。</p>
@@ -364,11 +431,11 @@
 <p>compile ‘com.android.support:appcompat-v7:26.+’<br>    testCompile ‘junit:junit:4.12’</p>
 </blockquote>
 <p>添加bdwallet_pay_sdk也按以上方式进行即可。</p>
-<h3 id="在清单文件中添加权限及Activity"><a href="#在清单文件中添加权限及Activity" class="headerlink" title="在清单文件中添加权限及Activity"></a>在清单文件中添加权限及Activity</h3><p>&emsp;&emsp;添加权限及Activity可按<a href="https://www.pingxx.com/docs/client/sdk/android" target="_blank" rel="noopener">官方指导文件</a>进行操作。</p>
+<h3 id="在清单文件中添加权限及Activity"><a href="#在清单文件中添加权限及Activity" class="headerlink" title="在清单文件中添加权限及Activity"></a>在清单文件中添加权限及Activity</h3><p>&emsp;&emsp;添加权限及Activity可按<a href="https://www.pingxx.com/docs/client/sdk/android" target="_blank" rel="external">官方指导文件</a>进行操作。</p>
 <h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>&emsp;&emsp;以下代码是调用第三方支付</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">class PaymentTask extends AsyncTask&lt;PaymentRequest, Void, String&gt; &#123;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        protected void onPreExecute() &#123;</span><br><span class="line">            //按键点击之后的禁用，防止重复点击</span><br><span class="line">            mCreateOrder.setEnabled(false);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        protected String doInBackground(PaymentRequest... pr) &#123;</span><br><span class="line"></span><br><span class="line">            PaymentRequest paymentRequest = pr[0];</span><br><span class="line">            String data = null;</span><br><span class="line">            try &#123;</span><br><span class="line">                JSONObject object = new JSONObject();</span><br><span class="line">                object.put(&quot;channel&quot;, paymentRequest.channel);</span><br><span class="line">                object.put(&quot;amount&quot;, paymentRequest.amount);</span><br><span class="line">                String json = object.toString();</span><br><span class="line">                //向Your Ping++ Server SDK请求数据</span><br><span class="line">                data = postJson(CHARGE_URL, json);</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            return data;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * 获取charge</span><br><span class="line">         *</span><br><span class="line">         * @param urlStr charge_url</span><br><span class="line">         * @param json   获取charge的传参</span><br><span class="line">         * @return charge</span><br><span class="line">         * @throws IOException</span><br><span class="line">         */</span><br><span class="line">        private String postJson(String urlStr, String json) throws IOException &#123;</span><br><span class="line">            URL url = new URL(urlStr);</span><br><span class="line">            HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">            conn.setConnectTimeout(8000);</span><br><span class="line">            conn.setReadTimeout(8000);</span><br><span class="line">            conn.setRequestMethod(&quot;POST&quot;);</span><br><span class="line">            conn.setRequestProperty(&quot;Content-Type&quot;, &quot;application/json&quot;);</span><br><span class="line">            conn.setDoOutput(true);</span><br><span class="line">            conn.setDoInput(true);</span><br><span class="line">            conn.getOutputStream().write(json.getBytes());</span><br><span class="line"></span><br><span class="line">            if (conn.getResponseCode() == 200) &#123;</span><br><span class="line">                BufferedReader</span><br><span class="line">                        reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), &quot;utf-8&quot;));</span><br><span class="line">                StringBuilder response = new StringBuilder();</span><br><span class="line">                String line;</span><br><span class="line">                while ((line = reader.readLine()) != null) &#123;</span><br><span class="line">                    response.append(line);</span><br><span class="line">                &#125;</span><br><span class="line">                return response.toString();</span><br><span class="line">            &#125;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * 获得服务端的charge，调用ping++ sdk。</span><br><span class="line">         */</span><br><span class="line">        @Override</span><br><span class="line">        protected void onPostExecute(String data) &#123;</span><br><span class="line">            if (null == data) &#123;</span><br><span class="line">                showMsg(&quot;请求出错&quot;, &quot;请检查URL&quot;, &quot;URL无法获取charge&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            Log.d(&quot;charge&quot;, data);</span><br><span class="line"></span><br><span class="line">            //除QQ钱包外，其他渠道调起支付方式：</span><br><span class="line">            //参数一：Activity  当前调起支付的Activity</span><br><span class="line">            //参数二：data  获取到的charge或order的JSON字符串</span><br><span class="line">            Pingpp.createPayment(MainActivity.this, data);</span><br><span class="line"></span><br><span class="line">            //QQ钱包调用方式</span><br><span class="line">            //参数一：Activity  当前调起支付的Activity</span><br><span class="line">            //参数二：data  获取到的charge或order的JSON字符串</span><br><span class="line">            //参数三：“qwalletXXXXXXX”需与AndroidManifest.xml中的scheme值一致</span><br><span class="line">            //Pingpp.createPayment(ClientSDKActivity.this, data, &quot;qwalletXXXXXXX&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>参考代码请<a href="https://github.com/funaihui/pay" target="_blank" rel="noopener">点击这里</a></p>
-<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;<font color="green" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="noopener">www.wizardev.com</a><font></font></font></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line">class PaymentTask extends AsyncTask&lt;PaymentRequest, Void, String&gt; &#123;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        protected void onPreExecute() &#123;</div><div class="line">            //按键点击之后的禁用，防止重复点击</div><div class="line">            mCreateOrder.setEnabled(false);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        protected String doInBackground(PaymentRequest... pr) &#123;</div><div class="line"></div><div class="line">            PaymentRequest paymentRequest = pr[0];</div><div class="line">            String data = null;</div><div class="line">            try &#123;</div><div class="line">                JSONObject object = new JSONObject();</div><div class="line">                object.put(&quot;channel&quot;, paymentRequest.channel);</div><div class="line">                object.put(&quot;amount&quot;, paymentRequest.amount);</div><div class="line">                String json = object.toString();</div><div class="line">                //向Your Ping++ Server SDK请求数据</div><div class="line">                data = postJson(CHARGE_URL, json);</div><div class="line">            &#125; catch (Exception e) &#123;</div><div class="line">                e.printStackTrace();</div><div class="line">            &#125;</div><div class="line">            return data;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        /**</div><div class="line">         * 获取charge</div><div class="line">         *</div><div class="line">         * @param urlStr charge_url</div><div class="line">         * @param json   获取charge的传参</div><div class="line">         * @return charge</div><div class="line">         * @throws IOException</div><div class="line">         */</div><div class="line">        private String postJson(String urlStr, String json) throws IOException &#123;</div><div class="line">            URL url = new URL(urlStr);</div><div class="line">            HttpURLConnection conn = (HttpURLConnection) url.openConnection();</div><div class="line">            conn.setConnectTimeout(8000);</div><div class="line">            conn.setReadTimeout(8000);</div><div class="line">            conn.setRequestMethod(&quot;POST&quot;);</div><div class="line">            conn.setRequestProperty(&quot;Content-Type&quot;, &quot;application/json&quot;);</div><div class="line">            conn.setDoOutput(true);</div><div class="line">            conn.setDoInput(true);</div><div class="line">            conn.getOutputStream().write(json.getBytes());</div><div class="line"></div><div class="line">            if (conn.getResponseCode() == 200) &#123;</div><div class="line">                BufferedReader</div><div class="line">                        reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), &quot;utf-8&quot;));</div><div class="line">                StringBuilder response = new StringBuilder();</div><div class="line">                String line;</div><div class="line">                while ((line = reader.readLine()) != null) &#123;</div><div class="line">                    response.append(line);</div><div class="line">                &#125;</div><div class="line">                return response.toString();</div><div class="line">            &#125;</div><div class="line">            return null;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        /**</div><div class="line">         * 获得服务端的charge，调用ping++ sdk。</div><div class="line">         */</div><div class="line">        @Override</div><div class="line">        protected void onPostExecute(String data) &#123;</div><div class="line">            if (null == data) &#123;</div><div class="line">                showMsg(&quot;请求出错&quot;, &quot;请检查URL&quot;, &quot;URL无法获取charge&quot;);</div><div class="line">                return;</div><div class="line">            &#125;</div><div class="line">            Log.d(&quot;charge&quot;, data);</div><div class="line"></div><div class="line">            //除QQ钱包外，其他渠道调起支付方式：</div><div class="line">            //参数一：Activity  当前调起支付的Activity</div><div class="line">            //参数二：data  获取到的charge或order的JSON字符串</div><div class="line">            Pingpp.createPayment(MainActivity.this, data);</div><div class="line"></div><div class="line">            //QQ钱包调用方式</div><div class="line">            //参数一：Activity  当前调起支付的Activity</div><div class="line">            //参数二：data  获取到的charge或order的JSON字符串</div><div class="line">            //参数三：“qwalletXXXXXXX”需与AndroidManifest.xml中的scheme值一致</div><div class="line">            //Pingpp.createPayment(ClientSDKActivity.this, data, &quot;qwalletXXXXXXX&quot;);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>参考代码请<a href="https://github.com/funaihui/pay" target="_blank" rel="external">点击这里</a></p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;<font color="green" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a><font></font></font></p>
 
       
     </div>
@@ -377,20 +444,75 @@
     
 
     
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="wizardev 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="wizardev 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
 
     
 
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://wizardev.cn/2017/06/25/利用Android Studio在App中集成第三方支付/" title="利用Android Studio在App中集成第三方支付">http://wizardev.cn/2017/06/25/利用Android Studio在App中集成第三方支付/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"># Android</a>
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
           
-            <a href="/tags/支付/" rel="tag"># 支付</a>
+            <a href="/tags/支付/" rel="tag"><i class="fa fa-tag"></i> 支付</a>
           
-            <a href="/tags/AndroidStudio/" rel="tag"># AndroidStudio</a>
+            <a href="/tags/AndroidStudio/" rel="tag"><i class="fa fa-tag"></i> AndroidStudio</a>
           
         </div>
       
@@ -479,9 +601,13 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">Wizardev</p>
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
               <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
           </div>
 
@@ -525,11 +651,41 @@
           
 
           
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
 
           
           
 
           
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
           
 
           
@@ -571,21 +727,24 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Wizardev</span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
 
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
   
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
 
 
 
@@ -638,6 +797,9 @@
 
 
 
+  
+  
+
 
 
 
@@ -672,6 +834,16 @@
     <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
   
 
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
 
   
 
@@ -684,6 +856,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
@@ -752,5 +931,5 @@
 
   
 
-</body>
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
 </html>
