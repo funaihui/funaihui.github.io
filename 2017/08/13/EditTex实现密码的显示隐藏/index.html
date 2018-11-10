@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,EditText,passWord,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在开发app时，登录和注册页面，让输入的密码是否可见的需求还是挺常见的，本以为在代码中直接设置EditText的setInputType属性就行了，谁知还是有一些坑的，本篇文章带你来填坑，前方高能，请速速避退。">
+<meta name="keywords" content="Android,EditText,passWord">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EditTex实现密码的显示隐藏">
+<meta property="og:url" content="http://yoursite.com/2017/08/13/EditTex实现密码的显示隐藏/index.html">
+<meta property="og:site_name" content="Wizardev的博客">
+<meta property="og:description" content="在开发app时，登录和注册页面，让输入的密码是否可见的需求还是挺常见的，本以为在代码中直接设置EditText的setInputType属性就行了，谁知还是有一些坑的，本篇文章带你来填坑，前方高能，请速速避退。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/anim.gif">
+<meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_010.png">
+<meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_011.png">
+<meta property="og:updated_time" content="2018-11-10T03:19:09.883Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EditTex实现密码的显示隐藏">
+<meta name="twitter:description" content="在开发app时，登录和注册页面，让输入的密码是否可见的需求还是挺常见的，本以为在代码中直接设置EditText的setInputType属性就行了，谁知还是有一些坑的，本篇文章带你来填坑，前方高能，请速速避退。">
+<meta name="twitter:image" content="http://ot6991tvl.bkt.clouddn.com/anim.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/08/13/EditTex实现密码的显示隐藏/">
+
+
+
+
+
+  <title>EditTex实现密码的显示隐藏 | Wizardev的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wizardev的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/13/EditTex实现密码的显示隐藏/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wizardev的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">EditTex实现密码的显示隐藏</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-13T08:35:52+08:00">
+                2017-08-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>在开发app时，登录和注册页面，让输入的密码是否可见的需求还是挺常见的，本以为在代码中直接设置EditText的setInputType属性就行了，谁知还是有一些坑的，本篇文章带你来填坑，前方高能，请速速避退。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="完成后的效果"><a href="#完成后的效果" class="headerlink" title="完成后的效果"></a>完成后的效果</h2><p>&emsp;&emsp;在开始本文之前，先看下要实现的效果.<br><img src="http://ot6991tvl.bkt.clouddn.com/anim.gif" alt=""></p>
+<p><center></center></p>
+<h2 id="开始挖坑"><a href="#开始挖坑" class="headerlink" title="开始挖坑"></a>开始挖坑</h2><h3 id="查看EditText的setInputType可以设置的值"><a href="#查看EditText的setInputType可以设置的值" class="headerlink" title="查看EditText的setInputType可以设置的值"></a>查看EditText的setInputType可以设置的值</h3><p>&emsp;&emsp;先看下EditText的setInputType可以设置的Type属性有多少</p>
+<p><center><img src="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_010.png" alt="Type属性"></center>etInputType可以设置的Type属性值远不止这么多，全部的属性可以到<a href="https://developer.android.google.cn/reference/android/text/InputType.html" target="_blank" rel="noopener">这里查看</a>.查看Type可以设置的值后，发现有两个Type与密码的显示和隐藏有关，分别是</p>
+<blockquote>
+<p>TYPE_TEXT_VARIATION_VISIBLE_PASSWORD<br>TYPE_TEXT_VARIATION_PASSWORD</p>
+</blockquote>
+<p>根据单词的意思我们知道第一个为显示密码，第二个为密码不可见.</p>
+<h3 id="在代码中设置setInputType的值"><a href="#在代码中设置setInputType的值" class="headerlink" title="在代码中设置setInputType的值"></a>在代码中设置setInputType的值</h3><p>&emsp;&emsp;根据查询的Type值便可以在代码中通过设置setInputType的值来让EditText输入的值显示隐藏.下面看下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//根据图标判断是否显示密码</span><br><span class="line">   private void whetherShowPas(boolean paswdVisible) &#123;</span><br><span class="line">       if (paswdVisible) &#123;</span><br><span class="line">           //设置密码为显示的状态</span><br><span class="line"> mPassWd.setInputType(TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);</span><br><span class="line">           img_eye.setImageResource(R.mipmap.dis);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           //设置密码为隐藏的状态</span><br><span class="line">    mPassWd.setInputType(TYPE_TEXT_VARIATION_PASSWORD);</span><br><span class="line">           img_eye.setImageResource(R.mipmap.hid);</span><br><span class="line">       &#125;</span><br><span class="line">    mPassWd.setSelection(mPassWd.getText().length());//将光标定位到最后</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>好了，到这里你以为就完成了，高高兴兴的跑去模拟器运行看效果，但悲催的是，切换这两个状态竟然没用，不能实现开篇时的效果.</p>
+<h2 id="填坑之路"><a href="#填坑之路" class="headerlink" title="填坑之路"></a>填坑之路</h2><p>&emsp;&emsp;于是，我们又来查官方文档，进入刚刚查看Type值的页面，咦，这里有个Example，如下图</p>
+<p><center><img src="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_011.png" alt=""></center><br>竟然，要再加入一个<font color="orange">TYPE_CLASS_TEXT</font>，好，我们把这个值加入刚才的代码，改变后的代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//根据图标判断是否显示密码</span><br><span class="line">   private void whetherShowPas(boolean paswdVisible) &#123;</span><br><span class="line">       if (paswdVisible) &#123;</span><br><span class="line">           //设置密码为显示的状态</span><br><span class="line">           mPassWd.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);</span><br><span class="line">           img_eye.setImageResource(R.mipmap.dis);</span><br><span class="line">       &#125; else &#123;</span><br><span class="line">           //设置密码为隐藏的状态</span><br><span class="line">           mPassWd.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_PASSWORD);</span><br><span class="line">           img_eye.setImageResource(R.mipmap.hid);</span><br><span class="line">       &#125;</span><br><span class="line">   mPassWd.setSelection(mPassWd.getText().length());//将光标定位到最后</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<p>在到模拟器运行一遍，WTF，果然达到了开篇时的效果，在看下<font color="orange">TYPE_CLASS_TEXT</font>有什么作用</p>
+<blockquote>
+<p>TYPE_CLASS_TEXT<br><br>Class for normal text</p>
+</blockquote>
+<p><font color="orange">TYPE_CLASS_TEXT</font><br>就是将EditText转化为普通文本类，原来需要将EditText转换为普通文本类设置密码是否可见才能生效.</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;好了，到这里本文就结束了，可以在这里<a href="https://github.com/funaihui/HideOrDissplayPSWD" target="_blank" rel="noopener">获取本文的源码</a>.</p>
+<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="noopener">www.wizardev.com</a><font></font></font></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/EditText/" rel="tag"># EditText</a>
+          
+            <a href="/tags/passWord/" rel="tag"># passWord</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/01/TabLayout、ViewPager和Fragment之间的通讯/" rel="next" title="TabLayout、ViewPager和Fragment之间的通讯">
+                <i class="fa fa-chevron-left"></i> TabLayout、ViewPager和Fragment之间的通讯
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/13/Android上传图片到七牛云看这篇就够了/" rel="prev" title="Android上传图片到七牛云看这篇就够了">
+                Android上传图片到七牛云看这篇就够了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#完成后的效果"><span class="nav-number">1.</span> <span class="nav-text">完成后的效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始挖坑"><span class="nav-number">2.</span> <span class="nav-text">开始挖坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看EditText的setInputType可以设置的值"><span class="nav-number">2.1.</span> <span class="nav-text">查看EditText的setInputType可以设置的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在代码中设置setInputType的值"><span class="nav-number">2.2.</span> <span class="nav-text">在代码中设置setInputType的值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#填坑之路"><span class="nav-number">3.</span> <span class="nav-text">填坑之路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">4.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wizardev</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,支付,AndroidStudio,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="觉得自己好久没有写博客了，看了一下时间，果然好久没写了。吓得我赶紧写篇博客压压惊。">
+<meta name="keywords" content="Android,支付,AndroidStudio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Android Studio在App中集成第三方支付">
+<meta property="og:url" content="http://yoursite.com/2017/06/25/利用Android Studio在App中集成第三方支付/index.html">
+<meta property="og:site_name" content="Wizardev的博客">
+<meta property="og:description" content="觉得自己好久没有写博客了，看了一下时间，果然好久没写了。吓得我赶紧写篇博客压压惊。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625070938118?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625072210530?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625074814979?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625075004670?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625080959995?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625081145615?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625081647746?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625082206578?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625082750380?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625083305273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20170625083733754?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-11-10T03:19:09.885Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用Android Studio在App中集成第三方支付">
+<meta name="twitter:description" content="觉得自己好久没有写博客了，看了一下时间，果然好久没写了。吓得我赶紧写篇博客压压惊。">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170625070938118?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/25/利用Android Studio在App中集成第三方支付/">
+
+
+
+
+
+  <title>利用Android Studio在App中集成第三方支付 | Wizardev的博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Wizardev的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/利用Android Studio在App中集成第三方支付/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Wizardev的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用Android Studio在App中集成第三方支付</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T17:29:49+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p><font color="green">觉得自己好久没有写博客了，看了一下时间，果然好久没写了。吓得我赶紧写篇博客压压惊。</font><br></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="第三方支付的选择"><a href="#第三方支付的选择" class="headerlink" title="第三方支付的选择"></a>第三方支付的选择</h2><p>&emsp;&emsp;目前主流的第三方支付平台，有以下几种：</p>
+<ul>
+<li>支付宝</li>
+<li>微信支付</li>
+<li>百度钱包</li>
+<li>网银支付</li>
+<li>第三方聚合支付</li>
+</ul>
+<p>以上几种支付平台，除了<em>第三方聚合支</em>付以外，其他几个在使用时，都是需要公司信息的，这对一些个人开发者以及初学者就造成了一些困难，还好，有第三方聚合支付，它可以提供测试的接口给开发者，这里我们就用第三方聚合支付的测试接口进行付款。<br>&emsp;&emsp;我知道的第三方聚合支付主要有：</p>
+<ol>
+<li>Ping++：<a href="https://pingxx.com" target="_blank" rel="noopener">https://pingxx.com</a></li>
+<li>Bmob   :     <a href="http://www.bmob.cn" target="_blank" rel="noopener">http://www.bmob.cn</a></li>
+</ol>
+<p>这里，我用的是Ping++，至于Bmob大家可以自己研究，不过料想原理应该差不多。</p>
+<h2 id="使用前的准备工作"><a href="#使用前的准备工作" class="headerlink" title="使用前的准备工作"></a>使用前的准备工作</h2><p>&emsp;&emsp;在使用之前，我们需要到Ping++的官网完成注册，注册之后，就有了一个用于测试的Test Secret Key ，可以在使用者的企业设置下面发现Test Secret Key，如下图<br><img src="http://img.blog.csdn.net/20170625070938118?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片1"><br>&emsp;&emsp;我们可以在官网的首页，开发者中心下载集成的SDK。</p>
+<h2 id="开始集成"><a href="#开始集成" class="headerlink" title="开始集成"></a>开始集成</h2><h3 id="文件介绍"><a href="#文件介绍" class="headerlink" title="文件介绍"></a>文件介绍</h3><p>&emsp;&emsp;下载SDK后，可以在～/pingpp-android/路径下发现一个lib文件夹，打开后还有三个文件夹，分别为一下三个文件夹<br><img src="http://img.blog.csdn.net/20170625072210530?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片2"><br>这里我们只需要用到前两就行了，第一个文件夹是集成百度钱包需要用到的，第二个是集成其他的支付方式需要用到的。</p>
+<h3 id="集成方式"><a href="#集成方式" class="headerlink" title="集成方式"></a>集成方式</h3><p>&emsp;&emsp;在Android Studio集成第三方SDK有两种方式，第一种就是直接在自己的app所在的文件中进行集成，第二种则是新建一个性质为Library的Module，将第三方的SDK放在新建的Module中，然后在自己的app中引入。<br>&emsp;&emsp;为了不让自己的App过于臃肿以及以后修改方便，这里采用第二种集成方式。我们可以按一下步骤在Android Studio新建一个Module<br><img src="http://img.blog.csdn.net/20170625074814979?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片3"><br><img src="http://img.blog.csdn.net/20170625075004670?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片4"><br>这样我们就建立了一个性质为Library的Module。</p>
+<p>&emsp;&emsp;下面我们需要做的工作就是把pingpp文件家中的东西搬运过来。</p>
+<p><font color="red">注意：这里要把文件结构试图改为Project视图，不然看不见libs文件夹。</font>切换方式如下<br><img src="http://img.blog.csdn.net/20170625080959995?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片5"><br><br>我们把 pingpp/libs下的jar包放进libs目录下，放进去后应该是这种结构<br><img src="http://img.blog.csdn.net/20170625081145615?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片6"><br><br>这里我们需要在Android Studio中新建一个jniLibs文件夹，新建jniLibs文件夹步骤如下图<br><img src="http://img.blog.csdn.net/20170625081647746?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片7"><br><br>这种方式新建以后是一个名为cpp的文件夹，我们只要把它的名字改为jniLibs即可，然后把/pingpp/libs/文件夹中除了jar文件，其他的文件夹放进jniLibs文件夹即可就行了，放进后的文件结构应该如下图所示<br><br><img src="http://img.blog.csdn.net/20170625082206578?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片8"><br><br>这里我们只要将以下四个文件夹中的内容搬运进来就行了，必要时再替换一下清单文件。<br><img src="http://img.blog.csdn.net/20170625082750380?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片9"> <br></p>
+<h3 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h3><p>&emsp;&emsp;我们只要把刚才新建的module引入到自己的app中就行了，在自己的app上右键选中下图的选项<br></p>
+<p><center><img src="http://img.blog.csdn.net/20170625083305273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片10"></center><br>打开一下界面选中如下选项（红框内的），把新建的Module添加进去就行了。</p>
+<p><center><img src="http://img.blog.csdn.net/20170625083733754?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZm5oZmlyZV83MDMw/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片11"></center><br>最好，我们把新建的Module中Gradle中引用的以下两个依赖删除，因为在自己的app已经引入了。</p>
+<blockquote>
+<p>compile ‘com.android.support:appcompat-v7:26.+’<br>    testCompile ‘junit:junit:4.12’</p>
+</blockquote>
+<p>添加bdwallet_pay_sdk也按以上方式进行即可。</p>
+<h3 id="在清单文件中添加权限及Activity"><a href="#在清单文件中添加权限及Activity" class="headerlink" title="在清单文件中添加权限及Activity"></a>在清单文件中添加权限及Activity</h3><p>&emsp;&emsp;添加权限及Activity可按<a href="https://www.pingxx.com/docs/client/sdk/android" target="_blank" rel="noopener">官方指导文件</a>进行操作。</p>
+<h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>&emsp;&emsp;以下代码是调用第三方支付</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">class PaymentTask extends AsyncTask&lt;PaymentRequest, Void, String&gt; &#123;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        protected void onPreExecute() &#123;</span><br><span class="line">            //按键点击之后的禁用，防止重复点击</span><br><span class="line">            mCreateOrder.setEnabled(false);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        protected String doInBackground(PaymentRequest... pr) &#123;</span><br><span class="line"></span><br><span class="line">            PaymentRequest paymentRequest = pr[0];</span><br><span class="line">            String data = null;</span><br><span class="line">            try &#123;</span><br><span class="line">                JSONObject object = new JSONObject();</span><br><span class="line">                object.put(&quot;channel&quot;, paymentRequest.channel);</span><br><span class="line">                object.put(&quot;amount&quot;, paymentRequest.amount);</span><br><span class="line">                String json = object.toString();</span><br><span class="line">                //向Your Ping++ Server SDK请求数据</span><br><span class="line">                data = postJson(CHARGE_URL, json);</span><br><span class="line">            &#125; catch (Exception e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            return data;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * 获取charge</span><br><span class="line">         *</span><br><span class="line">         * @param urlStr charge_url</span><br><span class="line">         * @param json   获取charge的传参</span><br><span class="line">         * @return charge</span><br><span class="line">         * @throws IOException</span><br><span class="line">         */</span><br><span class="line">        private String postJson(String urlStr, String json) throws IOException &#123;</span><br><span class="line">            URL url = new URL(urlStr);</span><br><span class="line">            HttpURLConnection conn = (HttpURLConnection) url.openConnection();</span><br><span class="line">            conn.setConnectTimeout(8000);</span><br><span class="line">            conn.setReadTimeout(8000);</span><br><span class="line">            conn.setRequestMethod(&quot;POST&quot;);</span><br><span class="line">            conn.setRequestProperty(&quot;Content-Type&quot;, &quot;application/json&quot;);</span><br><span class="line">            conn.setDoOutput(true);</span><br><span class="line">            conn.setDoInput(true);</span><br><span class="line">            conn.getOutputStream().write(json.getBytes());</span><br><span class="line"></span><br><span class="line">            if (conn.getResponseCode() == 200) &#123;</span><br><span class="line">                BufferedReader</span><br><span class="line">                        reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), &quot;utf-8&quot;));</span><br><span class="line">                StringBuilder response = new StringBuilder();</span><br><span class="line">                String line;</span><br><span class="line">                while ((line = reader.readLine()) != null) &#123;</span><br><span class="line">                    response.append(line);</span><br><span class="line">                &#125;</span><br><span class="line">                return response.toString();</span><br><span class="line">            &#125;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /**</span><br><span class="line">         * 获得服务端的charge，调用ping++ sdk。</span><br><span class="line">         */</span><br><span class="line">        @Override</span><br><span class="line">        protected void onPostExecute(String data) &#123;</span><br><span class="line">            if (null == data) &#123;</span><br><span class="line">                showMsg(&quot;请求出错&quot;, &quot;请检查URL&quot;, &quot;URL无法获取charge&quot;);</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line">            Log.d(&quot;charge&quot;, data);</span><br><span class="line"></span><br><span class="line">            //除QQ钱包外，其他渠道调起支付方式：</span><br><span class="line">            //参数一：Activity  当前调起支付的Activity</span><br><span class="line">            //参数二：data  获取到的charge或order的JSON字符串</span><br><span class="line">            Pingpp.createPayment(MainActivity.this, data);</span><br><span class="line"></span><br><span class="line">            //QQ钱包调用方式</span><br><span class="line">            //参数一：Activity  当前调起支付的Activity</span><br><span class="line">            //参数二：data  获取到的charge或order的JSON字符串</span><br><span class="line">            //参数三：“qwalletXXXXXXX”需与AndroidManifest.xml中的scheme值一致</span><br><span class="line">            //Pingpp.createPayment(ClientSDKActivity.this, data, &quot;qwalletXXXXXXX&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>参考代码请<a href="https://github.com/funaihui/pay" target="_blank" rel="noopener">点击这里</a></p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;<font color="green" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="noopener">www.wizardev.com</a><font></font></font></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"># Android</a>
+          
+            <a href="/tags/支付/" rel="tag"># 支付</a>
+          
+            <a href="/tags/AndroidStudio/" rel="tag"># AndroidStudio</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/19/在Android Studio中进行JNI编程/" rel="next" title="在Android Studio中进行JNI编程">
+                <i class="fa fa-chevron-left"></i> 在Android Studio中进行JNI编程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/16/从源码定制你的专属Next主题/" rel="prev" title="从源码定制你的专属Next主题">
+                从源码定制你的专属Next主题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三方支付的选择"><span class="nav-number">1.</span> <span class="nav-text">第三方支付的选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用前的准备工作"><span class="nav-number">2.</span> <span class="nav-text">使用前的准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始集成"><span class="nav-number">3.</span> <span class="nav-text">开始集成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件介绍"><span class="nav-number">3.1.</span> <span class="nav-text">文件介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集成方式"><span class="nav-number">3.2.</span> <span class="nav-text">集成方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加依赖"><span class="nav-number">3.3.</span> <span class="nav-text">添加依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在清单文件中添加权限及Activity"><span class="nav-number">3.4.</span> <span class="nav-text">在清单文件中添加权限及Activity</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用"><span class="nav-number">4.</span> <span class="nav-text">开始使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">5.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Wizardev</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
