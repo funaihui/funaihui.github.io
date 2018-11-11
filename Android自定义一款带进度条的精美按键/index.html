@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,自定义,精度条,按键," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。">
+<meta name="keywords" content="Android,自定义,精度条,按键">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android自定义一款带进度条的精美按键">
+<meta property="og:url" content="http://wizardev.cn/Android自定义一款带进度条的精美按键/index.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
+<meta property="og:description" content="Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。">
+<meta property="og:image" content="https://badge.juejin.im/entry/59a26ba851882524424a0e7b/likes.svg?style=flat-square">
+<meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/anim1.gif">
+<meta property="og:updated_time" content="2017-08-29T12:18:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android自定义一款带进度条的精美按键">
+<meta name="twitter:description" content="Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。">
+<meta name="twitter:image" content="https://badge.juejin.im/entry/59a26ba851882524424a0e7b/likes.svg?style=flat-square">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wizardev.cn/Android自定义一款带进度条的精美按键/"/>
+
+
+
+
+
+  <title>Android自定义一款带进度条的精美按键 | wizardev's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wizardev's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大水水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wizardev.cn/Android自定义一款带进度条的精美按键/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android自定义一款带进度条的精美按键</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-27T10:35:04+08:00">
+                2017-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="https://juejin.im/entry/59a26ba851882524424a0e7b/detail" target="_blank" rel="external"><img src="https://badge.juejin.im/entry/59a26ba851882524424a0e7b/likes.svg?style=flat-square" alt=""></a></p>
+<blockquote>
+<p>Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h1><p>&emsp;&emsp;在开始本文之前，照例，先看下实现后的效果，如下图</p>
+<p><center><img src="http://ot6991tvl.bkt.clouddn.com/anim1.gif" alt=""></center><br>不想阅读本文，可以直接到<a href="https://github.com/funaihui/ImitateKeepButton" target="_blank" rel="external">这里获取源码</a></p>
+<p>阅读本文你需要掌握</p>
+<blockquote>
+<p>自定义属性<br> ValueAnimator动画<br>Viwe的测量、绘制<br>Paint和Path的用法</p>
+</blockquote>
+<h1 id="动手实现"><a href="#动手实现" class="headerlink" title="动手实现"></a>动手实现</h1><h2 id="拆解"><a href="#拆解" class="headerlink" title="拆解"></a>拆解</h2><p>&emsp;&emsp;在动手编码之前，要静下心来分析一下，这款View是怎样组成的，也就是要把这个View拆解一下。分析后，不难发现主要有一下部分组成</p>
+<ul>
+<li>圆形背景</li>
+<li>圆环的背景</li>
+<li>圆环</li>
+<li>文字</li>
+</ul>
+<p>知道这个View是怎样组成的，然后完成相应部分的编码，最后将这些部分按时间顺序进行拼装展示，就能达到文章开头那样的效果了。</p>
+<h2 id="分析原理"><a href="#分析原理" class="headerlink" title="分析原理"></a>分析原理</h2><p>&emsp;&emsp;经过拆解，知道了这个View都有那几部分组成了，下面就来分析一下是怎样将以上部分进行整合的</p>
+<ol>
+<li>在没点击之前，是一个中间带有文字的圆形。</li>
+<li>点击之后圆形缩小，当缩小到一定程度后，圆环背景出现，同时，圆环进度条开始加载。</li>
+<li>如果进度条加载完成，则改变文字（回调接口），抬起手后恢复原来的形状；如果没有加载完成，抬起手后，恢复原装，下次点击从新执行此步骤。</li>
+</ol>
+<p>为了理解清楚，可以自己画一下流程图。</p>
+<h2 id="编码实现"><a href="#编码实现" class="headerlink" title="编码实现"></a>编码实现</h2><p>&emsp;&emsp;相信，经过分析拆解之后，你脑子里应该有一个实现的流程了，下面就动手开始实现吧！</p>
+<p>先将需要的画笔和路径进行初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">//初始化画笔及路径</div><div class="line">   private void initPaintOrPath() &#123;</div><div class="line">       circleBgPaint = new Paint();</div><div class="line">       circleBgPaint.setAntiAlias(true);</div><div class="line">       circleBgPaint.setStyle(Paint.Style.FILL_AND_STROKE);</div><div class="line"></div><div class="line">       ringBgPaint = new Paint();</div><div class="line"></div><div class="line">       ringBgPaint.setColor(ringBgColor.getColorForState(getDrawableState(),0));</div><div class="line">       ringBgPaint.setAntiAlias(true);</div><div class="line">       ringBgPaint.setStrokeWidth(ringSize);</div><div class="line">       ringBgPaint.setStyle(Paint.Style.STROKE);</div><div class="line"></div><div class="line">       ringPaint = new Paint();</div><div class="line">       ringPaint.setColor(ringColor.getColorForState(getDrawableState(),0));</div><div class="line">       ringPaint.setAntiAlias(true);</div><div class="line">       ringPaint.setStrokeWidth(ringSize);</div><div class="line">       ringPaint.setStyle(Paint.Style.STROKE);</div><div class="line"></div><div class="line">       path = new Path();</div><div class="line"></div><div class="line">       textPaint = new Paint();</div><div class="line">       textPaint.setAntiAlias(true);</div><div class="line">       textPaint.setTextAlign(Paint.Align.CENTER);</div><div class="line">       textPaint.setColor(textColor.getColorForState(getDrawableState(),0));</div><div class="line">       textPaint.setTextSize(textSize);</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>自定义View需要经过三个重要的步骤，<strong><em>测量</em></strong>，<strong><em>布局</em></strong>，<strong><em>绘制</em></strong>，分别对应<strong><em>onMeasure()</em></strong>,<strong><em>onLayout()</em></strong>,<strong><em>onDraw()</em></strong>方法。这里的<strong><em>onLayout()</em></strong>主要是对自定义ViewGroup的，自定义View只要重写<strong><em>onMeasure()</em></strong>和<strong><em>onDraw()</em></strong>方法就行了，按照自定义View的套路来，先进行测量，直接看代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</div><div class="line">        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</div><div class="line">        //获得父View传递过来的宽度的大小和类型</div><div class="line">        int widthMode = MeasureSpec.getMode(widthMeasureSpec);</div><div class="line">        int widthSize = MeasureSpec.getSize(widthMeasureSpec);</div><div class="line">		//获得父View传递过来的高度的大小和类型</div><div class="line">        int heightMode = MeasureSpec.getMode(heightMeasureSpec);</div><div class="line">        int heightSize = MeasureSpec.getSize(heightMeasureSpec);</div><div class="line">        //初始化最终的宽高</div><div class="line">        int resultWidth = widthSize;</div><div class="line">        int resultHeight = heightSize;</div><div class="line">        //为了让文字可以在背景（圆形）中完全显示</div><div class="line">        if (mRadius * 2 &lt; textPaint.measureText(contentText)) &#123;</div><div class="line">            mRadius = (int) textPaint.measureText(contentText);</div><div class="line">        &#125;</div><div class="line">        if (widthMode == MeasureSpec.AT_MOST) &#123;</div><div class="line">       	 //获取我们需要的宽度</div><div class="line">            int contentWidth =  (mRadius + space + ringSize)*2+ getPaddingLeft() + getPaddingRight();</div><div class="line">        //得到最终的宽度</div><div class="line">            resultWidth = (contentWidth &lt; widthSize) ? resultWidth : contentWidth;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        if (heightMode == MeasureSpec.AT_MOST) &#123;</div><div class="line">         //获取我们需要的高度</div><div class="line">            int contentHeight = (mRadius + space + ringSize)*2 + getPaddingTop() + getPaddingBottom();</div><div class="line">            //得到最终的高度</div><div class="line">            resultHeight = (contentHeight &lt; heightSize) ? resultHeight : contentHeight;</div><div class="line">        &#125;</div><div class="line">		//设置测量后的宽高</div><div class="line">        setMeasuredDimension(resultWidth,resultHeight);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>代码中都有注释，相信你可以看的懂。下面就开始画我们需要的圆形，圆环背景，圆环和文字了，我们需要在onDraw()方法中进行作画，代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">   protected void onDraw(Canvas canvas) &#123;</div><div class="line">       super.onDraw(canvas);</div><div class="line">       //画圆，改变ringRadius就可以改变圆形背景的大小，主要控制value值的改变</div><div class="line">       ringRadius = mRadius - DPUtils.dip2px(getContext(),value/2);</div><div class="line">       circleBgPaint.setColor(circleColor.getColorForState(getDrawableState(),0));</div><div class="line">       canvas.drawCircle(getWidth() / 2, getHeight() / 2, ringRadius, circleBgPaint);</div><div class="line">       //用户按键时开始画圆环</div><div class="line">       if (startDrawLine)&#123;</div><div class="line">           //计算外环的半径，记得要减去外环的宽度的一半</div><div class="line">           result = ringRadius + space +ringSize/2;</div><div class="line">           //画完整的进度条</div><div class="line">           canvas.drawCircle(getWidth() / 2, getHeight() / 2, result, ringBgPaint);</div><div class="line">          //画进度条路径</div><div class="line">           path.reset();//重置路径，否则下次精度条不会从开始位置，可以注释掉此代码，看下效果</div><div class="line">           //计算画路径的矩形</div><div class="line">           float left = getWidth()/2-result;</div><div class="line">           float top = getHeight()/2-result;</div><div class="line">           float right = getWidth()/2+result;</div><div class="line">           float bottom = getHeight()/2+result;</div><div class="line">           RectF rect = new RectF(left,top, right ,bottom);</div><div class="line">           path.addArc(rect, -90, angle);//通过改变angle就可以动态的改变进度条</div><div class="line"></div><div class="line">           //画圆环的路径</div><div class="line">           canvas.drawPath(path, ringPaint);</div><div class="line">       &#125;</div><div class="line">       canvas.drawText(contentText,getWidth()/2,getHeight()/2,textPaint);//文字</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>完成以上几步，点击view时并没有反应，因为还没有为View添加触摸事件，也没有添加动画，进过分析原理那步，可以知道，手指按下时改变圆形背景的大小，既改变半径的大小……，这里就不在重复说了，直接看代码，代码中会有讲解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div></pre></td><td class="code"><pre><div class="line">@Override</div><div class="line">    public boolean onTouchEvent(final MotionEvent event) &#123;</div><div class="line">    //控制加载完成时候是否还可以相应点击事件，可以通过setEnable()方法来控制</div><div class="line">        if (!enable &amp;&amp; event.getAction()!=MotionEvent.ACTION_UP) &#123;</div><div class="line">            return false;</div><div class="line">        &#125;</div><div class="line">        switch (event.getAction()) &#123;</div><div class="line">            case MotionEvent.ACTION_DOWN: &#123;</div><div class="line">					//当手指按下时，移除手指抬起时的监听</div><div class="line">                    if (animator != null) &#123;</div><div class="line">                        animator.removeAllUpdateListeners();</div><div class="line">                    &#125;</div><div class="line">                    //改变narrowDown的值</div><div class="line">                    animatorValue = ValueAnimator.ofInt(0, narrowDown);</div><div class="line">                    animatorValue.setDuration(50);</div><div class="line">                    animatorValue.setInterpolator(new LinearInterpolator());</div><div class="line">                    animatorValue.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</div><div class="line">                        @Override</div><div class="line">                        public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;						</div><div class="line">                            value = (int) valueAnimator.getAnimatedValue();//改变value的值也就是按下手指让圆形背景缩小</div><div class="line">                            if (value == narrowDown) &#123;</div><div class="line">                            //当缩小到一定值时开始画圆环和精度条</div><div class="line">                                startDrawLine = true;//控制什么时候开始画圆环和进度条</div><div class="line">                                animatorValue.removeAllUpdateListeners();//当开始画进度条时移除改变背景大小的动画，既停止改变</div><div class="line">                            &#125;</div><div class="line">                            postInvalidate();//刷新画布</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line"></div><div class="line">                    animatorValue.start();//开始缩小</div><div class="line">                    </div><div class="line">                    angleAnimator = ValueAnimator.ofFloat(0, 360f);</div><div class="line">                    angleAnimator.setDuration(2000);</div><div class="line">                    angleAnimator.setInterpolator(new LinearInterpolator());</div><div class="line">                    angleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</div><div class="line">                        @Override</div><div class="line">                        public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;</div><div class="line">                            angle = (float) valueAnimator.getAnimatedValue();//angle用来画进度条，动态改变进度条加载的进度</div><div class="line">                            if (angle == 360) &#123;</div><div class="line">                            	//加载完成移除动画，既进度条停止加载</div><div class="line">                                angleAnimator.removeAllUpdateListeners();</div><div class="line">                                //进度条加载完成后的回调</div><div class="line">                                onViewClick.onFinish(ImitateKeepButton.this);</div><div class="line"></div><div class="line">                            &#125;</div><div class="line">                            postInvalidate();</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">                    angleAnimator.start();//开始加载</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            break;</div><div class="line">            case MotionEvent.ACTION_UP: &#123;</div><div class="line">                 angleAnimator.removeAllUpdateListeners();</div><div class="line">       			 animatorValue.removeAllUpdateListeners();</div><div class="line">        		 animator = ValueAnimator.ofInt(value,0);</div><div class="line">        		 animator.setDuration(300);</div><div class="line">       			 animator.setInterpolator(new LinearInterpolator());</div><div class="line">       			 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</div><div class="line">           		 @Override</div><div class="line">           		 public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;</div><div class="line">              	  value = (int) valueAnimator.getAnimatedValue();</div><div class="line">              	  postInvalidate();</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        animator.start();//开始恢复背景原来的大小</div><div class="line">            &#125;</div><div class="line">            startDrawLine = false;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">        return true;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>好了，到这里已经达到了文章开始时的效果，可以结束本文了。</p>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>&emsp;&emsp;文中代码，只是粘贴部分比较重要的，不完整，完整代码可以到<a href="https://github.com/funaihui/ImitateKeepButton" target="_blank" rel="external">这里获取源码</a>。</p>
+<blockquote>
+<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a><font></font></font></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://wizardev.cn/Android自定义一款带进度条的精美按键/" title="Android自定义一款带进度条的精美按键">http://wizardev.cn/Android自定义一款带进度条的精美按键/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+          
+            <a href="/tags/自定义/" rel="tag"><i class="fa fa-tag"></i> 自定义</a>
+          
+            <a href="/tags/精度条/" rel="tag"><i class="fa fa-tag"></i> 精度条</a>
+          
+            <a href="/tags/按键/" rel="tag"><i class="fa fa-tag"></i> 按键</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Android轻松实现分享功能/" rel="next" title="Android轻松实现分享功能">
+                <i class="fa fa-chevron-left"></i> Android轻松实现分享功能
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Android底部弹窗的正确打开方式/" rel="prev" title="Android底部弹窗的正确打开方式">
+                Android底部弹窗的正确打开方式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/fnhfire_7030" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#效果预览"><span class="nav-number">1.</span> <span class="nav-text">效果预览</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动手实现"><span class="nav-number">2.</span> <span class="nav-text">动手实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#拆解"><span class="nav-number">2.1.</span> <span class="nav-text">拆解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分析原理"><span class="nav-number">2.2.</span> <span class="nav-text">分析原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编码实现"><span class="nav-number">2.3.</span> <span class="nav-text">编码实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
