@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,RecyclerView,下拉刷新," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实现RecyclerView下拉刷新的功能，网上有很多文章，但大多文章都是将RecyclerView外面套了一层SwipRefreshLayout以此来达到下拉刷新的目的！个人觉得这种方式不太优雅，于是通过查找资料及阅读源码，找到了一个比较优雅的方式实现RecyclerView的下拉刷新，本文将带你以一种优雅的方式实现RecyclerView的下拉刷新。">
+<meta name="keywords" content="Android,RecyclerView,下拉刷新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己动手写RecyclerView的下拉刷新">
+<meta property="og:url" content="http://wizardev.cn/2017/12/02/自己动手写RecyclerView的下拉刷新/index.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
+<meta property="og:description" content="实现RecyclerView下拉刷新的功能，网上有很多文章，但大多文章都是将RecyclerView外面套了一层SwipRefreshLayout以此来达到下拉刷新的目的！个人觉得这种方式不太优雅，于是通过查找资料及阅读源码，找到了一个比较优雅的方式实现RecyclerView的下拉刷新，本文将带你以一种优雅的方式实现RecyclerView的下拉刷新。">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/12/2/160178961ae2f3f2?w=462&h=755&f=png&s=48733">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/12/3/16019fd1c663bf71?w=411&h=671&f=png&s=37708">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/12/3/1601a25b1a262f80?w=407&h=671&f=png&s=39484">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/12/3/1601ab669d638078?w=320&h=588&f=gif&s=1077447">
+<meta property="og:updated_time" content="2017-12-27T13:31:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自己动手写RecyclerView的下拉刷新">
+<meta name="twitter:description" content="实现RecyclerView下拉刷新的功能，网上有很多文章，但大多文章都是将RecyclerView外面套了一层SwipRefreshLayout以此来达到下拉刷新的目的！个人觉得这种方式不太优雅，于是通过查找资料及阅读源码，找到了一个比较优雅的方式实现RecyclerView的下拉刷新，本文将带你以一种优雅的方式实现RecyclerView的下拉刷新。">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/12/2/160178961ae2f3f2?w=462&h=755&f=png&s=48733">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wizardev.cn/2017/12/02/自己动手写RecyclerView的下拉刷新/"/>
+
+
+
+
+
+  <title>自己动手写RecyclerView的下拉刷新 | wizardev's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wizardev's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大水水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wizardev.cn/2017/12/02/自己动手写RecyclerView的下拉刷新/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">自己动手写RecyclerView的下拉刷新</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-02T20:09:53+08:00">
+                2017-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  12 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>实现RecyclerView下拉刷新的功能，网上有很多文章，但大多文章都是将RecyclerView外面套了一层SwipRefreshLayout以此来达到下拉刷新的目的！个人觉得这种方式不太优雅，于是通过查找资料及阅读源码，找到了一个比较优雅的方式实现RecyclerView的下拉刷新，本文将带你以一种优雅的方式实现RecyclerView的下拉刷新。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="从基础入手"><a href="#从基础入手" class="headerlink" title="从基础入手"></a>从基础入手</h2><p>&emsp;&emsp;万丈高楼平地起，做什么事都不是一蹴而就的，再伟大的工程也是一点点完成的。这里就先从简单的入手，先为RecyclerView添加头部。</p>
+<h3 id="为RecyclerView添加头部View"><a href="#为RecyclerView添加头部View" class="headerlink" title="为RecyclerView添加头部View"></a>为RecyclerView添加头部View</h3><p>&emsp;&emsp;我们都知道实现RecyclerView的数据和视图的绑定是通过继承RecyclerView.Adapter类，同样，为RecyclerView添加头部也是需要继承RecyclerView.Adapter类，然后，在子类里面做文章。在添加头部之前有必要先了解一下RecyclerView.Adapter的几个常用的方法，分别为以下几个方法</p>
+<blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;onCreateViewHolder(ViewGroup parent, <span class="keyword">int</span> viewType)</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; getItemViewType(<span class="keyword">int</span> position)</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; onBindViewHolder(MyViewHolder holder, <span class="keyword">int</span> position)</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; getItemCount()</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+</blockquote>
+<p>使用过ListView的都知道，为了优化ListView的性能，我们在写Adapter时需要自己写一个ViewHolder类来重用ListView中的item视图，而在为RecyclerView实现Adapter时，强制我们要有一个ViewHolder。</p>
+<p><strong>onCreateViewHolder</strong>方法就是用来创建新View;</p>
+<p><strong>getItemViewType</strong>方法是可以根据不同的<em>position</em>可以返回不同的类型;</p>
+<p><strong>onBindViewHolder</strong>是将数据与视图绑定;</p>
+<p><strong>getItemCount</strong>方法就是获得需要显示数据的总数。</p>
+<p>&emsp;&emsp;了解了Adapter中的几个方法，下面就利用这几个方法为RecyclerView添加头部View，下面上代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RefreshViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line">      <span class="comment">//这里的viewType即为getItemViewType返回的type</span></div><div class="line">        <span class="keyword">if</span> (viewType == TYPE_REFRESH_HEADER) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> RefreshViewHolder(mInflater.inflate(R.layout.refresh_header_item, parent, <span class="keyword">false</span>));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RefreshViewHolder(mInflater.inflate(R.layout.normal_item, parent, <span class="keyword">false</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(RefreshViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> mLists.size();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">      <span class="comment">//当position位置为0时，返回为头部的类型</span></div><div class="line">        <span class="keyword">if</span> (position == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> TYPE_REFRESH_HEADER;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> TYPE_NORMAL;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>可以看出，在<strong>onCreateViewHolder</strong>方法中，为不同的viewType设置了不同的类型，即为RecyclerView添加了头部，看下效果图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/12/2/160178961ae2f3f2?w=462&amp;h=755&amp;f=png&amp;s=48733" alt="RecyclerView添加头部视图"></p>
+<p>好了，现在已经为RecyclerView添加了头部，下一步就是将头部变成刷新的View。</p>
+<h2 id="添加下拉刷新的View"><a href="#添加下拉刷新的View" class="headerlink" title="添加下拉刷新的View"></a>添加下拉刷新的View</h2><p>&emsp;&emsp;现在将头部View修改一下，直接上代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"bottom"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">RelativeLayout</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/header_content"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"80dp"</span></div><div class="line">        <span class="attr">android:paddingTop</span>=<span class="string">"10dip"</span>&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">TextView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/tvRefreshStatus"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_centerInParent</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:text</span>=<span class="string">"@string/pullRefresh"</span></div><div class="line">            <span class="attr">android:textColor</span>=<span class="string">"#B5B5B5"</span> /&gt;</div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">ImageView</span></span></div><div class="line">            <span class="attr">android:id</span>=<span class="string">"@+id/ivHeaderArrow"</span></div><div class="line">            <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></div><div class="line">            <span class="attr">android:layout_centerVertical</span>=<span class="string">"true"</span></div><div class="line">            <span class="attr">android:layout_marginLeft</span>=<span class="string">"35dp"</span></div><div class="line">            <span class="attr">android:layout_marginRight</span>=<span class="string">"10dp"</span></div><div class="line">            <span class="attr">android:layout_toLeftOf</span>=<span class="string">"@id/tvRefreshStatus"</span></div><div class="line">            <span class="attr">android:src</span>=<span class="string">"@drawable/ic_pulltorefresh_arrow"</span> /&gt;</div><div class="line">    <span class="tag">&lt;/<span class="name">RelativeLayout</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>好了，看下效果图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/12/3/16019fd1c663bf71?w=411&amp;h=671&amp;f=png&amp;s=37708" alt="头部修改为下拉刷新"></p>
+<p>现在这个效果显然不是我们想要的，我们想要的效果是在正常状态下头部的下拉刷新不可见，当下拉到一定程度再显示。</p>
+<p>&emsp;&emsp;这里有两点需要注意：</p>
+<ol>
+<li>在正常的状态下，下拉刷新的头部是不可见的；</li>
+<li>当下拉到一定程度再将头部刷新显示出来。</li>
+</ol>
+<p>现在，来实现正常状态下的效果，正常状态下不可见，这时可以将头部刷新的View高度设置为0，下面看下代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">ArrowRefreshHeader</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(context,<span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrowRefreshHeader</span><span class="params">(Context context, @Nullable AttributeSet attrs)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(context, attrs,<span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ArrowRefreshHeader</span><span class="params">(Context context, @Nullable AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</div><div class="line">        init();<span class="comment">//初始化视图</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</div><div class="line">        LinearLayout.LayoutParams layoutParams = <span class="keyword">new</span> LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);</div><div class="line">        layoutParams.setMargins(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line">        <span class="keyword">this</span>.setLayoutParams(layoutParams);</div><div class="line">        <span class="keyword">this</span>.setPadding(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</div><div class="line"></div><div class="line">        <span class="comment">//将refreshHeader高度设置为0</span></div><div class="line">        mContentLayout = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.refresh_header_item, <span class="keyword">null</span>);</div><div class="line">        addView(mContentLayout, <span class="keyword">new</span> LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, <span class="number">0</span>));</div><div class="line"></div><div class="line">        <span class="comment">//初始化控件</span></div><div class="line">        mArrowImageView = findViewById(R.id.ivHeaderArrow);</div><div class="line">        mStatusTextView =  findViewById(R.id.tvRefreshStatus);</div><div class="line">        mProgressBar = findViewById(R.id.refreshProgress);</div><div class="line"></div><div class="line">        <span class="comment">//初始化动画</span></div><div class="line">        mRotateUpAnim = <span class="keyword">new</span> RotateAnimation(<span class="number">0.0f</span>, -<span class="number">180.0f</span>,</div><div class="line">                Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>, Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>);</div><div class="line">        mRotateUpAnim.setDuration(<span class="number">200</span>);</div><div class="line">        mRotateUpAnim.setFillAfter(<span class="keyword">true</span>);</div><div class="line">        mRotateDownAnim = <span class="keyword">new</span> RotateAnimation(-<span class="number">180.0f</span>, <span class="number">0.0f</span>,</div><div class="line">                Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>, Animation.RELATIVE_TO_SELF, <span class="number">0.5f</span>);</div><div class="line">        mRotateDownAnim.setDuration(<span class="number">200</span>);</div><div class="line">        mRotateDownAnim.setFillAfter(<span class="keyword">true</span>);</div><div class="line"></div><div class="line">        <span class="comment">//将mContentLayout的LayoutParams高度和宽度设为自动包裹并重新测量</span></div><div class="line">        measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);</div><div class="line">        mMeasuredHeight = getMeasuredHeight();<span class="comment">//获得测量后的高度</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里使用了自定义View，写了一个ArrowRefreshHeader继承至LinearLayout，在构造方法中将头部刷新的View进行了初始化，这里这句代码是关键</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mContentLayout = (LinearLayout) LayoutInflater.from(getContext()).inflate(R.layout.refresh_header_item, <span class="keyword">null</span>);</div><div class="line">        addView(mContentLayout, <span class="keyword">new</span> LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, <span class="number">0</span>));</div></pre></td></tr></table></figure>
+<p>可以看到，这里将头部刷新的View的高度设置成了0，这样，就实现了在正常状态下，头部刷新不显示的效果。将RefreshHeaderAdapter的onCreateViewHolder方法修改一下，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RefreshViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (viewType == TYPE_REFRESH_HEADER) &#123;</div><div class="line"><span class="comment">//            return new RefreshViewHolder(mInflater.inflate(R.layout.refresh_header_item, parent, false));</span></div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> RefreshViewHolder(<span class="keyword">new</span> ArrowRefreshHeader(mContext));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RefreshViewHolder(mInflater.inflate(R.layout.normal_item, parent, <span class="keyword">false</span>));</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>再看下效果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/12/3/1601a25b1a262f80?w=407&amp;h=671&amp;f=png&amp;s=39484" alt="不显示头部刷新"></p>
+<p>成功实现在正常状态下不显示头部刷新View的效果，下面继续实现第2步，当下拉到一定程度进行显示。既然这里有下拉，肯定涉及到了手势监听，自然是需要一个类继承自RecyclerView，然后重写onTouchEvent方法，下面看代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent e)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mLastY == -<span class="number">1</span>) &#123;</div><div class="line">            mLastY = e.getRawY();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">switch</span> (e.getAction()) &#123;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</div><div class="line">                mLastY = e.getRawY();</div><div class="line">                sumOffSet = <span class="number">0</span>;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</div><div class="line">                <span class="keyword">float</span> deltaY = (e.getRawY() - mLastY) / <span class="number">2</span>;<span class="comment">//为了防止滑动幅度过大，将实际手指滑动的距离除以2</span></div><div class="line">                mLastY = e.getRawY();</div><div class="line">                sumOffSet += deltaY;<span class="comment">//计算总的滑动的距离</span></div><div class="line">                <span class="keyword">if</span> (isOnTop() &amp;&amp; !mRefreshing) &#123;</div><div class="line">                    mRefreshHeader.onMove(deltaY, sumOffSet);<span class="comment">//接口回调，移动刷新的头部View</span></div><div class="line">                    <span class="keyword">if</span> (mRefreshHeader.getVisibleHeight() &gt; <span class="number">0</span>) &#123;</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">default</span>:</div><div class="line">                    mLastY = -<span class="number">1</span>; <span class="comment">// reset</span></div><div class="line">                    <span class="keyword">if</span> (isOnTop()&amp;&amp; !mRefreshing) &#123;</div><div class="line">                        <span class="keyword">if</span> (mRefreshHeader.onRelease()) &#123;</div><div class="line">                            <span class="comment">//手指松开</span></div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.onTouchEvent(e);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这部分代码就是获取手指滑动的距离，然后利用接口回调，将下拉的距离传递到自定义的View中，让头部刷新的View改变距离及改变状态。先看下定义的接口，接口中主要就是集中刷新的状态以及代表各个状态的变量，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IRefreshHeader</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> STATE_NORMAL = <span class="number">0</span>;<span class="comment">//正常状态</span></div><div class="line">    <span class="keyword">int</span> STATE_RELEASE_TO_REFRESH = <span class="number">1</span>;<span class="comment">//下拉的状态</span></div><div class="line">    <span class="keyword">int</span> STATE_REFRESHING = <span class="number">2</span>;<span class="comment">//正在刷新的状态</span></div><div class="line">    <span class="keyword">int</span> STATE_DONE = <span class="number">3</span>;<span class="comment">//刷新完成的状态</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onReset</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 处于可以刷新的状态，已经过了指定距离</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onPrepare</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 正在刷新</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onRefreshing</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 下拉移动</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onMove</span><span class="params">(<span class="keyword">float</span> offSet, <span class="keyword">float</span> sumOffSet)</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 下拉松开</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">onRelease</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 下拉刷新完成</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">refreshComplete</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取HeaderView</div><div class="line">     */</div><div class="line">    <span class="function">View <span class="title">getHeaderView</span><span class="params">()</span></span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 获取Header的显示高度</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">int</span> <span class="title">getVisibleHeight</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们的自定义View即ArrowRefreshHeader这个类实现了上面的接口，上面说道，通过接口回调的形式将移动的距离通过onMove方法回传给了ArrowRefreshHeader，现在看下ArrowRefreshHeader中onMove方法的具体实现，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (getVisibleHeight() &gt; <span class="number">0</span> || offSet &gt; <span class="number">0</span>) &#123;</div><div class="line">            setVisibleHeight((<span class="keyword">int</span>) offSet + getVisibleHeight());</div><div class="line">            <span class="keyword">if</span> (mState &lt;= STATE_RELEASE_TO_REFRESH) &#123; <span class="comment">// 未处于刷新状态，更新箭头</span></div><div class="line">                <span class="keyword">if</span> (getVisibleHeight() &gt; mMeasuredHeight) &#123;</div><div class="line">                    onPrepare();</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    onReset();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>这里将移动的距离通过setVisibleHeight方法进行显示，再看下这个方法的实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setVisibleHeight</span><span class="params">(<span class="keyword">int</span> height)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (height &lt; <span class="number">0</span>) height = <span class="number">0</span>;</div><div class="line">        LayoutParams lp = (LayoutParams) mContentLayout.getLayoutParams();</div><div class="line">        lp.height = height;</div><div class="line">        mContentLayout.setLayoutParams(lp);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这个方法的主要功能就是将距离设置给了LayoutParams中的height字段，然后再重新设置mContentLayout的布局属性。</p>
+<p>&emsp;&emsp;通过以上的方法，便可以实现当下拉到一定距离时显示头部刷新View的功能了，下面看下实现的效果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/12/3/1601ab669d638078?w=320&amp;h=588&amp;f=gif&amp;s=1077447" alt="下拉刷新实现的效果"></p>
+<p>到了这一步已经可以实现下拉以及刷新的功能了，但是只会一直刷新，根本停不下来！这里是因为我们没有调用刷新完成的回调方法，下面开始实现刷新完成是的功能。</p>
+<h2 id="刷新完成的实现及设置刷新时的监听"><a href="#刷新完成的实现及设置刷新时的监听" class="headerlink" title="刷新完成的实现及设置刷新时的监听"></a>刷新完成的实现及设置刷新时的监听</h2><h3 id="实现完成刷新的功能"><a href="#实现完成刷新的功能" class="headerlink" title="实现完成刷新的功能"></a>实现完成刷新的功能</h3><p>现在看下当刷新的状态变为刷新完成，做了什么</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refreshComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">       setState(STATE_DONE);<span class="comment">//设置刷新的状态为已完成</span></div><div class="line">       <span class="comment">//延迟200ms后复位，主要是为了显示“刷新完成”的字样，不延迟的话由于时间太短就看不见“刷新完成”的字样</span></div><div class="line">       <span class="keyword">new</span> Handler().postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">               reset();</div><div class="line">           &#125;</div><div class="line">       &#125;, <span class="number">200</span>);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>可以看到<strong>refreshComplete</strong>方法主要是将状态标志位设置为已完成，同时延迟200ms将下来刷新的状态复位，下面分别看下<strong>setState</strong>方法和<strong>reset</strong>方法都做了什么</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">int</span> state)</span> </span>&#123;</div><div class="line">        <span class="comment">//状态没有改变时什么也不做</span></div><div class="line">        <span class="keyword">if</span> (state == mState) <span class="keyword">return</span>;</div><div class="line">        <span class="keyword">switch</span> (state) &#123;</div><div class="line">            <span class="keyword">case</span> STATE_NORMAL:</div><div class="line">                <span class="keyword">if</span> (mState == STATE_RELEASE_TO_REFRESH) &#123;</div><div class="line">                    mArrowImageView.startAnimation(mRotateDownAnim);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (mState == STATE_REFRESHING) &#123;</div><div class="line">                    mArrowImageView.clearAnimation();</div><div class="line">                &#125;</div><div class="line">                mStatusTextView.setText(<span class="string">"下拉刷新"</span>);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> STATE_RELEASE_TO_REFRESH:</div><div class="line">                mArrowImageView.setVisibility(View.VISIBLE);</div><div class="line">                mProgressBar.setVisibility(View.INVISIBLE);</div><div class="line">                <span class="keyword">if</span> (mState != STATE_RELEASE_TO_REFRESH) &#123;</div><div class="line">                    mArrowImageView.clearAnimation();</div><div class="line">                    mArrowImageView.startAnimation(mRotateUpAnim);</div><div class="line">                    mStatusTextView.setText(<span class="string">"释放立即刷新"</span>);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> STATE_REFRESHING:</div><div class="line">                mArrowImageView.clearAnimation();</div><div class="line">                mArrowImageView.setVisibility(View.INVISIBLE);</div><div class="line">                mProgressBar.setVisibility(View.VISIBLE);</div><div class="line">                smoothScrollTo(mMeasuredHeight);</div><div class="line">                mStatusTextView.setText(<span class="string">"正在刷新..."</span>);</div><div class="line"></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> STATE_DONE:</div><div class="line">                mArrowImageView.setVisibility(View.INVISIBLE);</div><div class="line">                mProgressBar.setVisibility(View.INVISIBLE);</div><div class="line">                mStatusTextView.setText(<span class="string">"刷新完成"</span>);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">default</span>:</div><div class="line">        &#125;</div><div class="line">        mState = state;<span class="comment">//保存当前刷新的状态</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>在<strong>setState</strong>方法里，主要及时根据不同的刷新状态的标志，设置视图的显示隐藏以及文字的改变。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> </span>&#123;</div><div class="line">        smoothScrollTo(<span class="number">0</span>);</div><div class="line">        setState(STATE_NORMAL);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p><strong>reset</strong>方法就是将头部刷新View的高度还设置为0，就是将头部刷新View隐藏通知将刷新的状态设置为<em>STATE_NORMAL</em>。</p>
+<p>看完了方法，下面就在自己实现的RecyclerView中调用刷新完成的方法，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">refreshComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mRefreshing) &#123;</div><div class="line">            mRefreshing = <span class="keyword">false</span>;</div><div class="line">            mRefreshHeader.refreshComplete();</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="设置刷新时的监听"><a href="#设置刷新时的监听" class="headerlink" title="设置刷新时的监听"></a>设置刷新时的监听</h3><p>这里，将刷新时的监听放在当刷新视图显示正在刷新时，即当触发了刷新并且手指抬起时，可能说的难懂，相信看下代码就明白了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> mLastY = -<span class="number">1</span>; <span class="comment">// reset</span></div><div class="line"><span class="keyword">if</span> (isOnTop()&amp;&amp; !mRefreshing) &#123;</div><div class="line">    <span class="keyword">if</span> (mRefreshHeader.onRelease()) &#123;</div><div class="line">     <span class="comment">//手指松开</span></div><div class="line">        <span class="keyword">if</span> (mRefreshListener != <span class="keyword">null</span>) &#123;</div><div class="line">            mRefreshing = <span class="keyword">true</span>;</div><div class="line">            mRefreshListener.onRefresh();<span class="comment">//调用正在刷新的监听，在此方法中实现网络的请求操作。</span></div><div class="line">        &#125;</div><div class="line">     &#125;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h2 id="下拉刷新的使用"><a href="#下拉刷新的使用" class="headerlink" title="下拉刷新的使用"></a>下拉刷新的使用</h2><p>&emsp;&emsp;下拉刷新的功能已经全部完成了，下面看下怎么使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> List&lt;String&gt; mStringList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">    <span class="keyword">private</span> RefreshHeaderRecyclerView mRecyclerView;</div><div class="line">    <span class="keyword">private</span> RefreshHeaderAdapter mAdapter;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FINISH = <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="meta">@SuppressLint</span>(<span class="string">"HandlerLeak"</span>)</div><div class="line">    <span class="keyword">private</span>  Handler sHandler = <span class="keyword">new</span> Handler()&#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</div><div class="line">            <span class="keyword">super</span>.handleMessage(msg);</div><div class="line">            <span class="keyword">if</span> (msg.what == FINISH) &#123;</div><div class="line">                Toast.makeText(MainActivity.<span class="keyword">this</span>,<span class="string">"刷新完成！"</span>,Toast.LENGTH_SHORT).show();</div><div class="line">                mRecyclerView.refreshComplete();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</div><div class="line">        setContentView(R.layout.activity_main);</div><div class="line">        initData();</div><div class="line">        setupRecyclerView();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setupRecyclerView</span><span class="params">()</span> </span>&#123;</div><div class="line">        mRecyclerView = findViewById(R.id.recyclerView);</div><div class="line">        mAdapter = <span class="keyword">new</span> RefreshHeaderAdapter(mStringList, <span class="keyword">this</span>);</div><div class="line">        mRecyclerView.setLayoutManager(<span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>));</div><div class="line">        mRecyclerView.setAdapter(mAdapter);</div><div class="line">        mRecyclerView.setOnRefreshListener(<span class="keyword">new</span> OnRefreshListener() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onRefresh</span><span class="params">()</span> </span>&#123;</div><div class="line">                requestData();<span class="comment">//模拟数据的请求</span></div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">requestData</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                MainActivity.<span class="keyword">this</span>.toString();</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    Thread.sleep(<span class="number">1500</span>);</div><div class="line">                    Message message = Message.obtain();</div><div class="line">                    message.what = FINISH;</div><div class="line">                    sHandler.sendMessage(message);</div><div class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;).start();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initData</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">15</span>; i++) &#123;</div><div class="line">            mStringList.add(<span class="string">""</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>.onDestroy();</div><div class="line">        sHandler.removeCallbacks(<span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码不难，相信你一看就懂，这里就不讲解了,看下最终的效果，如图</p>
+<h2 id="实现下拉刷新的步骤总结"><a href="#实现下拉刷新的步骤总结" class="headerlink" title="实现下拉刷新的步骤总结"></a>实现下拉刷新的步骤总结</h2><ol>
+<li>自定义Adapter继承至RecyclerView的Adapter</li>
+<li>重写getItemType()方法</li>
+<li>在onCreateViewHolder()方法中实例化RefreshHeader对象。</li>
+<li>新建一个类继承至LinearLayout并实现IRehreshView接口</li>
+<li>在初始化时将布局属性设置为0,既隐藏头部刷新。</li>
+<li>重写RecyclerView主要是重写RecyclerView的onTouchEvent方法，根据滑动的距离来显示头部刷新的View</li>
+<li>设置监听</li>
+</ol>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;相信按照上面的步骤，你一定可以自己动手实现RecyclerView的下拉刷新功能。源码<a href="https://github.com/funaihui/RefreshHeaderRecyclerView" target="_blank" rel="external">点击这里获取</a></p>
+<blockquote>
+<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a><font></font></font></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://wizardev.cn/2017/12/02/自己动手写RecyclerView的下拉刷新/" title="自己动手写RecyclerView的下拉刷新">http://wizardev.cn/2017/12/02/自己动手写RecyclerView的下拉刷新/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+          
+            <a href="/tags/RecyclerView/" rel="tag"><i class="fa fa-tag"></i> RecyclerView</a>
+          
+            <a href="/tags/下拉刷新/" rel="tag"><i class="fa fa-tag"></i> 下拉刷新</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/06/MVP设计模式应该这样掌握/" rel="next" title="MVP设计模式应该这样掌握">
+                <i class="fa fa-chevron-left"></i> MVP设计模式应该这样掌握
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/26/自己动手写RecyclerView的上拉加载/" rel="prev" title="自己动手写RecyclerView的上拉加载">
+                自己动手写RecyclerView的上拉加载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从基础入手"><span class="nav-number">1.</span> <span class="nav-text">从基础入手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为RecyclerView添加头部View"><span class="nav-number">1.1.</span> <span class="nav-text">为RecyclerView添加头部View</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加下拉刷新的View"><span class="nav-number">2.</span> <span class="nav-text">添加下拉刷新的View</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#刷新完成的实现及设置刷新时的监听"><span class="nav-number">3.</span> <span class="nav-text">刷新完成的实现及设置刷新时的监听</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现完成刷新的功能"><span class="nav-number">3.1.</span> <span class="nav-text">实现完成刷新的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置刷新时的监听"><span class="nav-number">3.2.</span> <span class="nav-text">设置刷新时的监听</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下拉刷新的使用"><span class="nav-number">4.</span> <span class="nav-text">下拉刷新的使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现下拉刷新的步骤总结"><span class="nav-number">5.</span> <span class="nav-text">实现下拉刷新的步骤总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">6.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
