@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,自定义view," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言：公司在做的一个项目，要求在地图上以水波气泡的形式来显示站点，并且气泡要有水波的动态效果。好吧！既然有这样的需求，那就手撸一款水波气泡吧！">
+<meta name="keywords" content="Android,自定义view">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android手撸一款水波气泡">
+<meta property="og:url" content="http://wizardev.cn/2018/06/16/Android手撸一款水波气泡/index.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
+<meta property="og:description" content="前言：公司在做的一个项目，要求在地图上以水波气泡的形式来显示站点，并且气泡要有水波的动态效果。好吧！既然有这样的需求，那就手撸一款水波气泡吧！">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/6/16/16406f418e34b13e?w=400&h=656&f=gif&s=79318">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/6/16/1640756a199d4329?w=600&h=600&f=png&s=27427">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/6/16/164077f14d652e62?w=806&h=1164&f=png&s=51955">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/6/16/16407c543df386b4?w=1920&h=1334&f=jpeg&s=95534">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/6/16/16407cbd1ccab2cc?w=400&h=297&f=gif&s=41681">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/6/16/16407d4afe491a98?w=1920&h=1334&f=jpeg&s=129606">
+<meta property="og:updated_time" content="2018-11-11T08:23:33.411Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android手撸一款水波气泡">
+<meta name="twitter:description" content="前言：公司在做的一个项目，要求在地图上以水波气泡的形式来显示站点，并且气泡要有水波的动态效果。好吧！既然有这样的需求，那就手撸一款水波气泡吧！">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/6/16/16406f418e34b13e?w=400&h=656&f=gif&s=79318">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://wizardev.cn/2018/06/16/Android手撸一款水波气泡/"/>
+
+
+
+
+
+  <title>Android手撸一款水波气泡 | wizardev's blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wizardev's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大水水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wizardev.cn/2018/06/16/Android手撸一款水波气泡/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android手撸一款水波气泡</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-16T18:03:52+08:00">
+                2018-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.9k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>前言：公司在做的一个项目，要求在地图上以水波气泡的形式来显示站点，并且气泡要有水波的动态效果。好吧！既然有这样的需求，那就手撸一款水波气泡吧！</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="效果图预览"><a href="#效果图预览" class="headerlink" title="效果图预览"></a>效果图预览</h2><p>&emsp;&emsp;最后完成的效果图如下</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/16/16406f418e34b13e?w=400&amp;h=656&amp;f=gif&amp;s=79318" alt=""></p>
+<p>不想看文章的话，可以<a href="https://github.com/funaihui/DropletBubbles" target="_blank" rel="external">点击这里</a>，直接获取源码。</p>
+<h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><h3 id="步骤拆解"><a href="#步骤拆解" class="headerlink" title="步骤拆解"></a>步骤拆解</h3><p>&emsp;&emsp;在需要自定义view的时候，我首先要做的就是将最后要实现的效果来进行拆分，拆分成许多小的步骤，然后一步步的来实现，最终达到想要的效果。</p>
+<p>&emsp;&emsp;可以将文章开始的时候的效果图拆分成以下几部分：</p>
+<ol>
+<li>画出气泡后面的白色背景。</li>
+<li>画内部的紫色气泡。</li>
+<li>用贝塞尔曲线让内部的紫色气泡动起来。</li>
+</ol>
+<p>拆解之后，就可以按照拆解的步骤来一步步实现了。</p>
+<h3 id="画白色背景"><a href="#画白色背景" class="headerlink" title="画白色背景"></a>画白色背景</h3><p>&emsp;&emsp;这里画白色背景有以下两种方式：</p>
+<ol>
+<li>用<code>path</code>直接描述一个白色背景的形状。</li>
+<li>用<code>path</code>描述一个三角形，然后在画出一个圆形，即成最终的白色背景了。</li>
+</ol>
+<p>第一种方式如下图的左图，用<code>path</code>直接描述出了白色背景，这种方式可以用<code>path.addArc()</code>来画上部弧形，然后用<code>path.moveTo()</code>和<code>path.lineTo()</code>方法描述出下部分的尖角。</p>
+<p>第二种实现的方式如下图的右图，直接画出一个圆，再用<code>path.moveTo()</code>和<code>path.lineTo()</code>方法来描述出下部分的尖角。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/16/1640756a199d4329?w=600&amp;h=600&amp;f=png&amp;s=27427" alt=""></p>
+<p>本文采用的是第二种方式来实现的，具体代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//此处代码是下部尖角的path</span></div><div class="line">mBackgroundPath.moveTo(mResultWidth / <span class="number">2</span> - mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>);</div><div class="line">        mBackgroundPath.lineTo(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius + mOutRadius / <span class="number">4</span>);</div><div class="line">        mBackgroundPath.lineTo(mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>);</div><div class="line"></div><div class="line"> <span class="comment">//画外部背景</span></div><div class="line">        canvas.drawPath(mBackgroundPath, mBackgroundPaint);</div><div class="line">        canvas.drawCircle(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span>, mOutRadius, mBackgroundPaint);</div></pre></td></tr></table></figure>
+<h3 id="画内部的气泡"><a href="#画内部的气泡" class="headerlink" title="画内部的气泡"></a>画内部的气泡</h3><p>&emsp;&emsp;内部的气泡的形状其实就是缩小的外部背景，具体的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//内部气泡的尖角 </span></div><div class="line">mBubblesPath.moveTo(mResultWidth / <span class="number">2</span> - mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line">        mBubblesPath.lineTo(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius + mOutRadius / <span class="number">4</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line">        mBubblesPath.lineTo(mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line"><span class="comment">//画圆</span></div><div class="line"> mBubblesPath.addCircle(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span>, mInnerRadius, Path.Direction.CCW);</div></pre></td></tr></table></figure>
+<p>到这里已经将气泡的基本形状画出来了，见下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/16/164077f14d652e62?w=806&amp;h=1164&amp;f=png&amp;s=51955" alt=""></p>
+<p>我们会发现气泡内部的颜色是渐变色，那渐变色是怎么设置的呢？其实自定义view就是将想要的效果通过画笔画在画布上，实现颜色的渐变肯定就是通过设置画笔的属性来实现的了，设置渐变色的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//设置渐变色</span></div><div class="line">       Shader shader = <span class="keyword">new</span> LinearGradient(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> - mInnerRadius, mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mInnerRadius, Color.parseColor(<span class="string">"#9592FB"</span>),</div><div class="line">               Color.parseColor(<span class="string">"#3831D4"</span>), Shader.TileMode.CLAMP);</div><div class="line">       mBubblesPaint.setShader(shader);</div></pre></td></tr></table></figure>
+<blockquote>
+<p><code>LinearGradient(float x0, float y0, float x1, float y1,        @ColorInt int color0, @ColorInt int color1,        @NonNull TileMode tile)</code> </p>
+<p><code>x0</code> <code>y0</code> <code>x1</code> <code>y1</code>：渐变的两个端点的位置  <code>color0</code> <code>color1</code> 是端点的颜色  <code>tile</code>：端点范围之外的着色规则，类型是 <code>TileMode</code>。<code>TileMode</code> 一共有 3 个值可选： <code>CLAMP</code>, <code>MIRROR</code>和 <code>REPEAT</code>。一般用 <code>CLAMP</code>就可以了。</p>
+</blockquote>
+<h3 id="让内部气泡动起来"><a href="#让内部气泡动起来" class="headerlink" title="让内部气泡动起来"></a>让内部气泡动起来</h3><p>&emsp;&emsp;气泡内部的动画是水波的形式，这里画水波用的是二阶贝塞尔曲线，关于Android中贝塞尔曲线的知识可以<a href="https://blog.csdn.net/harvic880925/article/details/50995587" target="_blank" rel="external">参考这里</a>。实现气泡内部水波效果的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/**</span></div><div class="line">     * 核心代码，计算path</div><div class="line">     *</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> Path <span class="title">getPath</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> itemWidth = waveWidth / <span class="number">2</span>;<span class="comment">//半个波长</span></div><div class="line">        Path mPath = <span class="keyword">new</span> Path();</div><div class="line">        mPath.moveTo(-itemWidth * <span class="number">3</span>, baseLine);<span class="comment">//起始坐标</span></div><div class="line">        Log.d(TAG, <span class="string">"getPath: "</span> + baseLine);</div><div class="line"></div><div class="line">        <span class="comment">//核心的代码就是这里</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = -<span class="number">3</span>; i &lt; <span class="number">2</span>; i++) &#123;</div><div class="line">            <span class="keyword">int</span> startX = i * itemWidth;</div><div class="line">            mPath.quadTo(</div><div class="line">                    startX + itemWidth / <span class="number">2</span> + offset,<span class="comment">//控制点的X,（起始点X + itemWidth/2 + offset)</span></div><div class="line">                    getWaveHeight(i),<span class="comment">//控制点的Y</span></div><div class="line">                    startX + itemWidth + offset,<span class="comment">//结束点的X</span></div><div class="line">                    baseLine<span class="comment">//结束点的Y</span></div><div class="line">            );<span class="comment">//只需要处理完半个波长，剩下的有for循环自已就添加了。</span></div><div class="line">        &#125;</div><div class="line">        Log.d(TAG, <span class="string">"getPath: "</span>);</div><div class="line">        <span class="comment">//下面这三句话是行程封闭的效果，不明白可以将下面3句代码注释看下效果的变化</span></div><div class="line">        mPath.lineTo(width, height);</div><div class="line">        mPath.lineTo(<span class="number">0</span>, height);</div><div class="line">        mPath.close();</div><div class="line">        <span class="keyword">return</span> mPath;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="comment">//奇数峰值是正的，偶数峰值是负数</span></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">float</span> <span class="title">getWaveHeight</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (num % <span class="number">2</span> == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> baseLine + waveHeight;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> baseLine - waveHeight;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>上面的代码画出的水波如下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/16/16407c543df386b4?w=1920&amp;h=1334&amp;f=jpeg&amp;s=95534" alt=""></p>
+<p>到这里已经画出了水波，但现在水波还是静止的，要让水波不停的移动，就要添加属性动画，添加动画的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">    * 不断的更新偏移量，并且循环。</div><div class="line">    */</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateXControl</span><span class="params">()</span> </span>&#123;</div><div class="line">       <span class="comment">//设置一个波长的偏移</span></div><div class="line">       ValueAnimator mAnimator = ValueAnimator.ofFloat(<span class="number">0</span>, waveWidth);</div><div class="line">       mAnimator.setInterpolator(<span class="keyword">new</span> LinearInterpolator());</div><div class="line">       mAnimator.addUpdateListener(<span class="keyword">new</span> ValueAnimator.AnimatorUpdateListener() &#123;</div><div class="line"></div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</div><div class="line">               <span class="keyword">float</span> animatorValue = (<span class="keyword">float</span>) animation.getAnimatedValue();</div><div class="line">               offset = animatorValue;<span class="comment">//不断的设置偏移量，并重画</span></div><div class="line">               postInvalidate();</div><div class="line">           &#125;</div><div class="line">       &#125;);</div><div class="line">       mAnimator.setDuration(<span class="number">1800</span>);</div><div class="line">       mAnimator.setRepeatCount(ValueAnimator.INFINITE);</div><div class="line">       mAnimator.start();</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>修改一下<code>onDraw</code>中的代码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">       <span class="keyword">super</span>.onDraw(canvas);</div><div class="line">       mBubblesPath.reset();</div><div class="line"></div><div class="line">       <span class="comment">//设置渐变色</span></div><div class="line">       Shader shader = <span class="keyword">new</span> LinearGradient(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> - mInnerRadius, mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mInnerRadius, Color.parseColor(<span class="string">"#9592FB"</span>),</div><div class="line">               Color.parseColor(<span class="string">"#3831D4"</span>), Shader.TileMode.CLAMP);</div><div class="line">       mBubblesPaint.setShader(shader);</div><div class="line"></div><div class="line">       <span class="comment">//此处代码是下部尖角的path</span></div><div class="line">       mBackgroundPath.moveTo(mResultWidth / <span class="number">2</span> - mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>);</div><div class="line">       mBackgroundPath.lineTo(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius + mOutRadius / <span class="number">4</span>);</div><div class="line">       mBackgroundPath.lineTo(mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>);</div><div class="line"></div><div class="line"></div><div class="line">       <span class="comment">//内部气泡的尖角</span></div><div class="line">       mBubblesPath.moveTo(mResultWidth / <span class="number">2</span> - mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line">       mBubblesPath.lineTo(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius + mOutRadius / <span class="number">4</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line">       mBubblesPath.lineTo(mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line">       <span class="comment">//画外部背景</span></div><div class="line">       canvas.drawPath(mBackgroundPath, mBackgroundPaint);</div><div class="line">       canvas.drawCircle(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span>, mOutRadius, mBackgroundPaint);</div><div class="line">       Log.d(TAG, <span class="string">"cx: "</span> + mResultWidth / <span class="number">2</span>);</div><div class="line">       <span class="comment">//画水波</span></div><div class="line">       mBubblesPath.addCircle(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span>, mInnerRadius, Path.Direction.CCW);</div><div class="line"></div><div class="line">       canvas.drawPath(getPath(), mBubblesPaint);</div><div class="line"></div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>好了，现在水波已经可以移动了，看下效果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/16/16407cbd1ccab2cc?w=400&amp;h=297&amp;f=gif&amp;s=41681" alt=""></p>
+<p>what！怎么成这个样子了呀,明显不是我想要的效果呀，肯定是哪里出错了，经过我仔细的推敲，总结了出现上面问题的原因，原因如下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/16/16407d4afe491a98?w=1920&amp;h=1334&amp;f=jpeg&amp;s=129606" alt=""></p>
+<p>出现上面问题的原因就是因为下面三句代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mPath.lineTo(width, height);</div><div class="line">mPath.lineTo(<span class="number">0</span>, height);</div><div class="line">mPath.close();</div></pre></td></tr></table></figure>
+<p>知道是这三句代码的原因，那应该怎么修改呢？这三句代码好像不能动，不然就会出现波浪画的不完整的情况，额…..,那应该修改哪里呢？灵光一闪，不是可以裁剪画布嘛，只要将画布裁剪成想要的形状，然后在画波浪不久完美了。再修改<code>onDraw</code>方法，修改后的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">      <span class="keyword">super</span>.onDraw(canvas);</div><div class="line">      mBubblesPath.reset();</div><div class="line"></div><div class="line">      <span class="comment">//设置渐变色</span></div><div class="line">      Shader shader = <span class="keyword">new</span> LinearGradient(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> - mInnerRadius, mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mInnerRadius, Color.parseColor(<span class="string">"#9592FB"</span>),</div><div class="line">              Color.parseColor(<span class="string">"#3831D4"</span>), Shader.TileMode.CLAMP);</div><div class="line">      mBubblesPaint.setShader(shader);</div><div class="line"></div><div class="line">      <span class="comment">//此处代码是下部尖角的path</span></div><div class="line">      mBackgroundPath.moveTo(mResultWidth / <span class="number">2</span> - mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>);</div><div class="line">      mBackgroundPath.lineTo(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius + mOutRadius / <span class="number">4</span>);</div><div class="line">      mBackgroundPath.lineTo(mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>);</div><div class="line"></div><div class="line"></div><div class="line">      <span class="comment">//内部气泡的尖角</span></div><div class="line">      mBubblesPath.moveTo(mResultWidth / <span class="number">2</span> - mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line">      mBubblesPath.lineTo(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius + mOutRadius / <span class="number">4</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line">      mBubblesPath.lineTo(mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span>, mResultWidth / <span class="number">2</span> + mOutRadius / <span class="number">2</span> - dp2px(getContext(), <span class="number">5</span>));</div><div class="line">      <span class="comment">//画外部背景</span></div><div class="line">      canvas.drawPath(mBackgroundPath, mBackgroundPaint);</div><div class="line">      canvas.drawCircle(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span>, mOutRadius, mBackgroundPaint);</div><div class="line">      Log.d(TAG, <span class="string">"cx: "</span> + mResultWidth / <span class="number">2</span>);</div><div class="line">      <span class="comment">//切割画布，画水波</span></div><div class="line">      canvas.save();</div><div class="line">      mBubblesPath.addCircle(mResultWidth / <span class="number">2</span>, mResultWidth / <span class="number">2</span>, mInnerRadius, Path.Direction.CCW);</div><div class="line">      <span class="comment">//将画布裁剪成内部气泡的样子</span></div><div class="line">      canvas.clipPath(mBubblesPath);</div><div class="line"></div><div class="line">      canvas.drawPath(getPath(), mBubblesPaint);</div><div class="line">      canvas.restore();</div><div class="line"></div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>到这里已经实现了文章开始时的效果了，文章也该结束了。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;本文主要是讲解怎样实现水波气泡，并没有讲到View的测量，贴出的也只是绘制气泡的代码，完整的代码可以<a href="https://github.com/funaihui/DropletBubbles" target="_blank" rel="external">点击这里</a>获取。</p>
+<p>&emsp;&emsp;虽然已经撸出了这个效果，但最后项目中并没有用这种动态的气泡，因为气泡多的时候是在是卡……。最后，喜欢此demo，就随手给个star吧！</p>
+<blockquote>
+<p><strong>ps:</strong> 历史文章中有干货哦！</p>
+<p>本文已由公众号<font color="#d2691e" size="5">“AndroidShared”</font>首发</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://wizardev.cn/2018/06/16/Android手撸一款水波气泡/" title="Android手撸一款水波气泡">http://wizardev.cn/2018/06/16/Android手撸一款水波气泡/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+          
+            <a href="/tags/自定义view/" rel="tag"><i class="fa fa-tag"></i> 自定义view</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/02/Android蓝牙详解（低功耗蓝牙）/" rel="next" title="Android蓝牙使用详解（低功耗蓝牙）">
+                <i class="fa fa-chevron-left"></i> Android蓝牙使用详解（低功耗蓝牙）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/21/在Mac 上搭建Pygame环境（含安装错误的解决办法）/" rel="prev" title="在Mac 上搭建Pygame环境（含安装错误的解决办法）">
+                在Mac 上搭建Pygame环境（含安装错误的解决办法） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/fnhfire_7030" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#效果图预览"><span class="nav-number">1.</span> <span class="nav-text">效果图预览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现方式"><span class="nav-number">2.</span> <span class="nav-text">实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#步骤拆解"><span class="nav-number">2.1.</span> <span class="nav-text">步骤拆解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#画白色背景"><span class="nav-number">2.2.</span> <span class="nav-text">画白色背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#画内部的气泡"><span class="nav-number">2.3.</span> <span class="nav-text">画内部的气泡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#让内部气泡动起来"><span class="nav-number">2.4.</span> <span class="nav-text">让内部气泡动起来</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"live2d-widget-model-wanko"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"tagMode":false});</script></body>
+</html>
