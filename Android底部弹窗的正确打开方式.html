@@ -96,7 +96,7 @@
 <meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_016.png">
 <meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_017.png">
 <meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_018.png">
-<meta property="og:updated_time" content="2017-09-19T12:33:24.000Z">
+<meta property="og:updated_time" content="2018-11-14T03:20:57.124Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android底部弹窗的正确打开方式">
 <meta name="twitter:description" content="本文主要是介绍Android中实现底部弹窗的的正确姿势，如果你在实现底部弹窗时遇到了一些问题，那么请仔细阅读本文，相信文章会对你有所帮助。">
@@ -436,7 +436,7 @@
 <p>因为DialogFragment也是Fragment，所以，DialogFragment有和Fragment一样的生命周期，在onStart方法中初始化弹窗的数据，在onCreateView中加载布局，同样，和Fragment使用方法也是一样的，下面看下在Activity中的使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">void showDialog() &#123;</div><div class="line">        FragmentTransaction ft = getFragmentManager().beginTransaction();</div><div class="line">        // Create and show the dialog.</div><div class="line">        DialogFragmentFromBottom newFragment = new DialogFragmentFromBottom();</div><div class="line">        newFragment.show(ft, &quot;dialog&quot;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 <h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>&emsp;&emsp;好了，到这里三种实现底部弹窗的方式已经讲完了，大家可以下载源码研究一下，<a href="https://github.com/funaihui/FromBottomDialog" target="_blank" rel="external">源码在这里</a>,在做项目时选择最适合的就好，在这里还是推荐使用DialogFragment，这种方式可定制性很高，实现弹窗的方式也比较优雅。</p>
 <blockquote>
-<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a><font></font></font></p>
+<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.cn">www.wizardev.cn</a><font></font></font></p>
 </blockquote>
 
       

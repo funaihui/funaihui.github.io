@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="wizardev&#39;s blog">
 <meta property="og:description" content="&amp;emsp;&amp;emsp;总有一些坚持会成为别人眼里的蹉跎，那并不意味着你有错，只需从容过好你的生活。">
 <meta property="og:image" content="http://i.imgur.com/paKFeCP.jpg">
-<meta property="og:updated_time" content="2017-08-06T06:32:02.000Z">
+<meta property="og:updated_time" content="2018-11-14T03:22:16.733Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android系统权限使用详解">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;总有一些坚持会成为别人眼里的蹉跎，那并不意味着你有错，只需从容过好你的生活。">
@@ -411,41 +411,24 @@ package=&quot;com.android.app.myapp&quot; &gt;
 <ol>
 <li><p>在清单文件中声明。</p>
 <pre><code>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-   package=&quot;com.android.app.myapp&quot; &gt;
-&lt;uses-permission android:name=&quot;android.permission.RECEIVE_SMS&quot; /&gt;
-&lt;!-- 获取接收短信的权限 --&gt;
-...
-&lt;/manifest&gt;
-</code></pre></li>
-<li><p>在需要获取权限的Activity中检查是否已经获取到需要的权限。</p>
-<pre><code>//thisActivity指当前的Activity
-int permissionCheck = ContextCompat.checkSelfPermission(thisActivity,
-Manifest.permission.RECEIVE_SMS);
-</code></pre><p>以上代码的返回值有两个，如果当前Activity有权限，返回值为<strong><em>PackageManager.PERMISSION_GRANTED</em></strong>，如果没有权限，返回值为<strong><em>PackageManager.PERMISSION_DENIED</em></strong>。</p>
+      package=&quot;com.android.app.myapp&quot; &gt;
+</code></pre><p> ​    <uses-permission android:name="android.permission.RECEIVE_SMS"><br> ​    <!-- 获取接收短信的权限 --><br> ​    …<br> ​    </uses-permission></p>
 </li>
+<li>在需要获取权限的Activity中检查是否已经获取到需要的权限。<br> ​    <pre><code>//thisActivity指当前的Activity
+</code></pre> ​    int permissionCheck = ContextCompat.checkSelfPermission(thisActivity,<br> ​    Manifest.permission.RECEIVE_SMS);<br>以上代码的返回值有两个，如果当前Activity有权限，返回值为<strong><em>PackageManager.PERMISSION_GRANTED</em></strong>，如果没有权限，返回值为<strong><em>PackageManager.PERMISSION_DENIED</em></strong>。</li>
 <li><p>根据 2 的返回值进行权限的操作</p>
 <pre><code>if (permissionCheck= PackageManager.PERMISSION_DENIED) {
-/**
-*  说明没有获取权限，这时你可以通过shouldShowRequestPermissionRationale方法，
-*  判断是否需要向用户解释，为什么需要此权限。如果应用之前请求过此权限但用户拒绝了请求，
-*  此方法将返回 true。如果用户在过去拒绝了权限请求，并在权限请求系统对话框中选择了
-*   Don&apos;t askagain 选项，此方法将返回 false。如果设备规范禁止应用具有该权限，
-*  此方法也会返回 false。
-*/
-   if(ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,
-    Manifest.permission.RECEIVE_SMS)) {
-//进入此方法说明用户拒绝了请求
-// 注意：此方法将会阻塞线程，等待用户的响应，因此你要进行异步操作
-} else {
-
-// 说明用户在过去拒绝了权限请求或设备规范禁止应用具有该权限
+</code></pre><p> ​    /<em>*<br> ​    </em>  说明没有获取权限，这时你可以通过shouldShowRequestPermissionRationale方法，<br> ​    <em>  判断是否需要向用户解释，为什么需要此权限。如果应用之前请求过此权限但用户拒绝了请求，<br> ​    </em>  此方法将返回 true。如果用户在过去拒绝了权限请求，并在权限请求系统对话框中选择了<br> ​    <em>   Don’t askagain 选项，此方法将返回 false。如果设备规范禁止应用具有该权限，<br> ​    </em>  此方法也会返回 false。<br> ​    */</p>
+<pre><code>if(ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,
+</code></pre><p> ​        Manifest.permission.RECEIVE_SMS)) {<br> ​    //进入此方法说明用户拒绝了请求<br> ​    // 注意：此方法将会阻塞线程，等待用户的响应，因此你要进行异步操作<br> ​    } else {</p>
+<pre><code>// 说明用户在过去拒绝了权限请求或设备规范禁止应用具有该权限
 //如果应用尚无所需的权限，则应用必须调用一个 requestPermissions() 方法，以请求适当的权限。
 ActivityCompat.requestPermissions(thisActivity,
         new String[]{Manifest.permission.RECEIVE_SMS},
         1);
-    }
-}
-</code></pre></li>
+       }
+</code></pre><p> ​    }</p>
+</li>
 </ol>
 <blockquote>
 <p>requestPermissions()方法有三个参数，第一个为当前的Activity，第二个是一个String数组，内容是要申请的权限，第三个参数是整形数，作为当前权限请求的标志，在onRequestPermissionsResult()方法中会用到。</p>
@@ -476,7 +459,7 @@ switch (requestCode) {
 </blockquote>
 <h2 id="简便使用权限"><a href="#简便使用权限" class="headerlink" title="简便使用权限"></a>简便使用权限</h2><p>&emsp;&emsp;在Android6.0以上请求危险权限时，我们不一定要在onRequestPermissionsResult()方法中做操作，只要我们在当前应用获取到了权限，就可以在任地方进行使用。因此，我们可以在Activity的onCreate()方法中申请权限获取，获取成功后，你的应用可以不必只在onRequestPermissionsResult()方法中执行需要权限的操作。</p>
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>&emsp;&emsp;在系统权限上踩了不少坑，所以在这里进行一些总结。提醒大家遇到问题一定要去仔细阅读官方文档，因为好多你遇到的问题里面都有解释。</p>
-<font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.com" target="_blank" rel="external">www.wizardev.com</a> </font>
+<font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.cn">www.wizardev.cn</a> </font>
       
     </div>
     
