@@ -156,4 +156,4 @@ public class AddStudentActivity extends AppCompatActivity implements AddStudentC
 
 &emsp;&emsp;文章采用先动手写代码后理论的模式，是为了能让大家更好的理解MVP设计模式，可以直接在项目中进行使用，缩短掌握MVP设计模式所需的时间。文章中的代码在[这里](https://github.com/funaihui/MVPPottern)
 
-> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>

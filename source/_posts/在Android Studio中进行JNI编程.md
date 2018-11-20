@@ -57,19 +57,19 @@ categories:
 
 	cmake_minimum_required(VERSION 3.4.1)
 	add_library( 
-			 # 要生成动态库的名称，可以自己设定
-             native-lib 
+	​		 # 要生成动态库的名称，可以自己设定
+   ​          native-lib 
 
              # 设置这个库为公开的
              SHARED
-
+    
              # 关联源码的路径
              src/main/cpp/native-lib.cpp )
 &emsp;&emsp;使用 add_library() 向您的 CMake 构建脚本添加源文件或库时，Android Studio 还会在您同步项目后在 Project 视图下显示关联的标头文件。不过，为了确保 CMake 可以在编译时定位您的标头文件，您需要将 include_directories() 命令添加到 CMake 构建脚本中并指定标头的路径：
 
 
 	add_library(...)
-
+	
 	# Specifies a path to native header files.
 	include_directories(src/main/cpp/include/)
 &emsp;&emsp;CMake 使用以下规范来为库文件命名：
@@ -85,7 +85,7 @@ static {
 &emsp;&emsp;要将 Gradle 关联到您的原生库，您需要提供一个指向 CMake 或 ndk-build 脚本文件的路径。在您构建应用时，Gradle 会以依赖项的形式运行 CMake 或 ndk-build，并将共享的库封装到您的 APK 中。Gradle 还使用构建脚本来了解要将哪些文件添加到您的 Android Studio 项目中，以便您可以从 Project 窗口访问这些文件。如果您的原生源文件没有构建脚本，则需要先创建 CMake 构建脚本，然后再继续。<br>
 &emsp;&emsp;将 Gradle 关联到原生项目后，Android Studio 会更新 Project 窗格以在 cpp 组中显示您的源文件和原生库，在 External Build Files 组中显示您的外部构建脚本。<br>
  <font color=red>注：更改 Gradle 配置时，请确保通过点击工具栏中的 Sync Project  应用更改。此外，如果在将 CMake 或 ndk-build 脚本文件关联到 Gradle 后再对其进行更改，您应当从菜单栏中选择 Build > Refresh Linked C++ Projects，将 Android Studio 与您的更改同步。</font>
- 
+
 &emsp;&emsp;您可以使用 Android Studio UI 将 Gradle 关联到外部 CMake 或 ndk-build 项目：
 1. 从 IDE 左侧打开 Project 窗格并选择 Android 视图。
 2. 右键点击您想要关联到原生库的模块（例如 app 模块），并从菜单中选择 Link C++ Project with Gradle。您应看到一个如图 4 所示的对话框。
@@ -103,12 +103,12 @@ static {
 2. 创建 CMake 构建脚本。
 3. 将 Gradle 关联到您的原生库。
 4. 不要忘记在java文件中载入动态库文件。
- 
+
 > static {
     	System.loadLibrary(“native-lib”);
 	}
 
 ## 后记 ##
 &emsp;&emsp;由于本人技术有限，难免有一些错误和遗漏的地方，欢迎大家指正。<br>
-&emsp;&emsp;<font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com) </font>
+&emsp;&emsp;<font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn) </font>
 

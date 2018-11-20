@@ -242,4 +242,4 @@ sudo apt-get install wiznote
 
 &emsp;&emsp;这篇文章就先介绍这么多，以后可能还会继续补充，欢迎持续关注
 
-> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>

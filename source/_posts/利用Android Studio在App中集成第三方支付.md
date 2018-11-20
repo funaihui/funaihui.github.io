@@ -157,7 +157,7 @@ class PaymentTask extends AsyncTask<PaymentRequest, Void, String> {
 参考代码请[点击这里](https://github.com/funaihui/pay)
 
 ## 结束语
-&emsp;&emsp;<font color = "green" size = "5">转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+&emsp;&emsp;<font color = "green" size = "5">转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>
 
 
 

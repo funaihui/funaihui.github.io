@@ -360,4 +360,5 @@ void showDialog() {
 ```
 # 结束语
 &emsp;&emsp;好了，到这里三种实现底部弹窗的方式已经讲完了，大家可以下载源码研究一下，[源码在这里](https://github.com/funaihui/FromBottomDialog),在做项目时选择最适合的就好，在这里还是推荐使用DialogFragment，这种方式可定制性很高，实现弹窗的方式也比较优雅。
-> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+
+> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>

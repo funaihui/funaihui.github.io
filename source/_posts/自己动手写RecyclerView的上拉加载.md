@@ -248,4 +248,4 @@ public class LoadMoreFooter extends RelativeLayout implements ILoadMoreFooter{
 ![](https://user-gold-cdn.xitu.io/2017/12/26/160934aae1252107?w=320&h=587&f=gif&s=1349885)
 ## 结束语
 &emsp;&emsp;文中只是贴出了一些比较重要的代码，获取完整的代码，[点击这里](https://github.com/funaihui/LoadMoreForRecyclerView)。
-> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>

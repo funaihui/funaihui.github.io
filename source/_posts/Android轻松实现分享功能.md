@@ -94,5 +94,5 @@ android.intent.action.SEND
 ```
 这样，在系统调用可以用来分享的App时，我们的软件就会出现在列表中了。
 # 结束语
-> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>
 

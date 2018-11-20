@@ -194,7 +194,7 @@ public static MovieFragment newInstance(String movie){
 好了，到这里我们已经解决了开篇提到的问题，本文也该结束了.
 ## 结束语
 &emsp;&emsp;由于这里没有对Fragmentr进行处理，加载数据时都是默认ViewPager的预加载功能，如果需要点击到Tab时在进行数据的加载，则需要改写Fragment中的代码，使ViewPager预加载功能失效.
->&emsp;&emsp;<font color = "green" size = "5">转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+>&emsp;&emsp;<font color = "green" size = "5">转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>
 
 
 

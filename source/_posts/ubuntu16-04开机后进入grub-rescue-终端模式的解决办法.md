@@ -47,6 +47,6 @@ sudo grub-install /dev/sda
 
 5.这时正确设置了引导，重新启动即可。
 
-> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>
 
 

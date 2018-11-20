@@ -204,5 +204,6 @@ $b2t-position-bottom-on       = 30px
 ```
 ## 结束语
 &emsp;&emsp;文章到这里就结束了,对主题定制其实没有多难,只要有一些前端的基础,还是很简单的,主要是要找到你要改变的地方的类名,然后在找到对应的CSS中的内容就行了.
-<font color= #D2691E size = 5>请大家尊重原创者版权，转载请标明出处:[www.wizardev.com](http://www.wizardev.com) 谢谢</font>
+
+<font color= #D2691E size = 5>请大家尊重原创者版权，转载请标明出处:[www.wizardev.cn](http://www.wizardev.cn) 谢谢</font>
 ===

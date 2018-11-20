@@ -136,6 +136,6 @@ sudo ./adb devices
 然后就能识别你的手机了。
 ## 结束语
 &emsp;&emsp; 以上就是在Linux（deepin）系统上搭建安卓开发环境的总结，虽然花费了一些时间，但也学到了好多，写这篇文章希望对大家有所帮助，节约一些不必要的时间.
-><font  size = 5 color = "green">转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+><font  size = 5 color = "green">转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>
 
 

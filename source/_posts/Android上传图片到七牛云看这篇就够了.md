@@ -103,4 +103,4 @@ private void uploadImg2QiNiu() {
 ## 结束语
 &emsp;&emsp;下面的代码是完整的android工程，只需要将AccessKey / SecretKey换成你自己的就行了，就可以成功的将图片上传到你自己的七牛云中。
 [点击这里获取完整的项目](https://github.com/funaihui/ImagePick)
-> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>

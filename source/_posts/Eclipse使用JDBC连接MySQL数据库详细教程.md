@@ -128,7 +128,7 @@ public static final String URL = "jdbc:mysql://localhost/mydb?serverTimezone=UTC
 
 
 
-<font color= #D2691E size = 5>请大家尊重原创者版权，转载请标明出处: [www.wizardev.com](http://www.wizardev.com) 谢谢</font>
+<font color= #D2691E size = 5>请大家尊重原创者版权，转载请标明出处: [www.wizardev.cn](http://www.wizardev.cn) 谢谢</font>
 
 
 

@@ -522,5 +522,5 @@ public class MainActivity extends AppCompatActivity {
 
 &emsp;&emsp;相信按照上面的步骤，你一定可以自己动手实现RecyclerView的下拉刷新功能。源码[点击这里获取](https://github.com/funaihui/RefreshHeaderRecyclerView)
 
-> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.com](http://www.wizardev.com)<font>
+> <font color=#d2691e size = 5>转载请注明出处：[www.wizardev.cn](http://www.wizardev.cn)<font>
 
