@@ -96,7 +96,7 @@
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/11/23/1673f6baa67d6984?w=1636&h=680&f=png&s=146978">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/11/23/1673f51ae4764b9e?w=1083&h=315&f=png&s=59444">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/11/23/1673f5434ed5b202?w=1028&h=42&f=png&s=17019">
-<meta property="og:updated_time" content="2018-11-23T07:38:46.813Z">
+<meta property="og:updated_time" content="2018-11-23T13:26:07.358Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="反编译之脱去乐固加固的壳">
 <meta name="twitter:description" content="前言；本文主要是介绍脱壳的方法，并不涉及原理，如果想要了解加固及脱壳的原理，请移驾别处。">
@@ -377,7 +377,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  963 字
+                  957 字
                 </span>
               
 
@@ -421,13 +421,13 @@
 <h3 id="写本文的原因"><a href="#写本文的原因" class="headerlink" title="写本文的原因"></a>写本文的原因</h3><p>&emsp;&emsp;最近遇到一款app需要开通Vip才能进行视频下载，像我这种贫穷的程序员怎么能忍，既然没钱解决问题那就用技术解决吧！果断开始反编译，但反编译之后的文件却是下面这样的</p>
 <p><img src="https://user-gold-cdn.xitu.io/2018/11/23/1673f6baa67d6984?w=1636&amp;h=680&amp;f=png&amp;s=146978" alt=""></p>
 <p>额，这明显是经过加固后的文件，将真正的dex文件隐藏起来了，这就想让我放弃吗？肯定不可能，于是便有了本文。</p>
-<h3 id="一、脱壳必备的条件"><a href="#一、脱壳必备的条件" class="headerlink" title="一、脱壳必备的条件"></a>一、脱壳必备的条件</h3><p>&emsp;&emsp;在操作之前，请确保已经具备以下条件：</p>
+<h3 id="脱壳必备的条件"><a href="#脱壳必备的条件" class="headerlink" title="脱壳必备的条件"></a>脱壳必备的条件</h3><p>&emsp;&emsp;在操作之前，请确保已经具备以下条件：</p>
 <ul>
 <li>一部已经root及刷入Xposed的安卓手机</li>
 <li>AndroidStudio（最好具备）</li>
 <li>dumpDex.apk（文中会介绍怎么编译最新源码生成）</li>
 </ul>
-<h3 id="二、编译源码生成dumpDex-apk"><a href="#二、编译源码生成dumpDex-apk" class="headerlink" title="二、编译源码生成dumpDex.apk"></a>二、编译源码生成dumpDex.apk</h3><p>&emsp;&emsp;虽然网上已经有dumpDex.apk的成品，但有可能你找到的是比较老的版本了，导致脱壳不成功，即费时又费力，不如自己动手编译最新源码，生成最新的apk，这样可以大大的提高脱壳成功率。</p>
+<h3 id="编译源码生成dumpDex-apk"><a href="#编译源码生成dumpDex-apk" class="headerlink" title="编译源码生成dumpDex.apk"></a>编译源码生成dumpDex.apk</h3><p>&emsp;&emsp;虽然网上已经有dumpDex.apk的成品，但有可能你找到的是比较老的版本了，导致脱壳不成功，即费时又费力，不如自己动手编译最新源码，生成最新的apk，这样可以大大的提高脱壳成功率。</p>
 <h4 id="1、将dumpDex的源码下载到本地"><a href="#1、将dumpDex的源码下载到本地" class="headerlink" title="1、将dumpDex的源码下载到本地"></a>1、将dumpDex的源码下载到本地</h4><p>&emsp;&emsp;dumpDex的仓库地址为：<a href="https://github.com/WrBug/dumpDex" target="_blank" rel="external">https://github.com/WrBug/dumpDex</a></p>
 <h4 id="2、将dumpDex导入AndroiddStudio"><a href="#2、将dumpDex导入AndroiddStudio" class="headerlink" title="2、将dumpDex导入AndroiddStudio"></a>2、将dumpDex导入AndroiddStudio</h4><p>&emsp;&emsp;怎么将dumpDex导入AndroiddStudio就不说了，这里主要说下，导入项目编译源码的时候会遇到哪些错误及解决方法。</p>
 <ol>
@@ -438,8 +438,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">distributionUrl=http\://services.gradle.org/distributions/gradle-4.1-all.zip</div></pre></td></tr></table></figure>
 <p>即可解决问题。</p>
 </li>
-<li><p>&gt;<br>&gt;</p>
-<blockquote>
+<li><blockquote>
 <p>Error while executing process cmake/3.6.4111459/bin/cmake with arguments {–build /Users/funaihui/搞基/dumpDex/app/.externalNativeBuild/cmake/debug/x86_64 –target nativeDump}</p>
 </blockquote>
 <p>解决方法：将app中的<code>build.gradle</code>中注释掉的这句</p>
@@ -452,7 +451,7 @@
 <p>但这个时候，你会发现AndroidStudio的工具栏中<code>app</code>上面仍然有个红色的叉号，如下图</p>
 <p><img src="https://user-gold-cdn.xitu.io/2018/11/23/1673f5434ed5b202?w=1028&amp;h=42&amp;f=png&amp;s=17019" alt=""></p>
 <p>这个时候你不要认为还没有编译成功，其实已经成功了，出现这种情况是因为app没有主运行界面。这时点击菜单栏上面的Build–&gt;Build Apk即可生成apk文件。</p>
-<h3 id="三、将编译生成的dumpDex-apk安装到手机"><a href="#三、将编译生成的dumpDex-apk安装到手机" class="headerlink" title="三、将编译生成的dumpDex.apk安装到手机"></a>三、将编译生成的dumpDex.apk安装到手机</h3><p>&emsp;&emsp;安装dumpDex.apk后还要做以下几件事：</p>
+<h3 id="将编译生成的dumpDex-apk安装到手机"><a href="#将编译生成的dumpDex-apk安装到手机" class="headerlink" title="将编译生成的dumpDex.apk安装到手机"></a>将编译生成的dumpDex.apk安装到手机</h3><p>&emsp;&emsp;安装dumpDex.apk后还要做以下几件事：</p>
 <ol>
 <li><p>arm32机型将 <strong>lib/armeabi/libnativeDump.so</strong> 复制到 <em>/data/local/tmp/libnativeDump.so</em> ，权限 设置为777，arm64机型还需要将将 <strong>lib/arm64-v8a/libnativeDump.so</strong> 复制到 <em>/data/local/tmp/libnativeDump64.so</em>可以通过文件管理器操作，也可以使用如下adb shell命令。使用adb命令操作的代码如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#仅适用于32位手机</div><div class="line">adb shell</div><div class="line">su</div><div class="line">cp /data/data/com.wrbug.dumpdex/lib/libnativeDump.so /data/local/tmp</div><div class="line">chmod 777 /data/local/tmp/libnativeDump.so</div></pre></td></tr></table></figure>
@@ -460,7 +459,7 @@
 <li><p>在Xposed中☑️dumpDex.apk模块并激活即可。</p>
 </li>
 </ol>
-<h3 id="四、开始脱壳"><a href="#四、开始脱壳" class="headerlink" title="四、开始脱壳"></a>四、开始脱壳</h3><p>&emsp;&emsp;上面的准备工作做完后，就可以愉快的脱壳了。脱壳的方法是启动Xposed，然后运行经过加固的app，这是界面可能会卡住，这时不要立即关掉，可能立即关掉会造成脱壳不完正，只需要等待几分钟关掉即可。</p>
+<h3 id="开始脱壳"><a href="#开始脱壳" class="headerlink" title="开始脱壳"></a>开始脱壳</h3><p>&emsp;&emsp;上面的准备工作做完后，就可以愉快的脱壳了。脱壳的方法是启动Xposed，然后运行经过加固的app，这是界面可能会卡住，这时不要立即关掉，可能立即关掉会造成脱壳不完正，只需要等待几分钟关掉即可。</p>
 <p>&emsp;&emsp;这时会在<code>/data/data/包名/dump</code>目录下生成脱壳后的真正的dex文件，拿到真正的dex文件后你就可以做你想做的事了。</p>
 <h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>&emsp;&emsp;如果不能编译生成<code>dumpDex.apk</code>，可以<a href="http://www.wizardev.cn/dumpDex.apk">点击这里</a>进行下载。如果遇到什么其他问题可以在下方留言讨论。</p>
 
@@ -708,7 +707,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写本文的原因"><span class="nav-number">1.</span> <span class="nav-text">写本文的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一、脱壳必备的条件"><span class="nav-number">2.</span> <span class="nav-text">一、脱壳必备的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、编译源码生成dumpDex-apk"><span class="nav-number">3.</span> <span class="nav-text">二、编译源码生成dumpDex.apk</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、将dumpDex的源码下载到本地"><span class="nav-number">3.1.</span> <span class="nav-text">1、将dumpDex的源码下载到本地</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、将dumpDex导入AndroiddStudio"><span class="nav-number">3.2.</span> <span class="nav-text">2、将dumpDex导入AndroiddStudio</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、将编译生成的dumpDex-apk安装到手机"><span class="nav-number">4.</span> <span class="nav-text">三、将编译生成的dumpDex.apk安装到手机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、开始脱壳"><span class="nav-number">5.</span> <span class="nav-text">四、开始脱壳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束语"><span class="nav-number">6.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写本文的原因"><span class="nav-number">1.</span> <span class="nav-text">写本文的原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脱壳必备的条件"><span class="nav-number">2.</span> <span class="nav-text">脱壳必备的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译源码生成dumpDex-apk"><span class="nav-number">3.</span> <span class="nav-text">编译源码生成dumpDex.apk</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、将dumpDex的源码下载到本地"><span class="nav-number">3.1.</span> <span class="nav-text">1、将dumpDex的源码下载到本地</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、将dumpDex导入AndroiddStudio"><span class="nav-number">3.2.</span> <span class="nav-text">2、将dumpDex导入AndroiddStudio</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将编译生成的dumpDex-apk安装到手机"><span class="nav-number">4.</span> <span class="nav-text">将编译生成的dumpDex.apk安装到手机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开始脱壳"><span class="nav-number">5.</span> <span class="nav-text">开始脱壳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束语"><span class="nav-number">6.</span> <span class="nav-text">结束语</span></a></li></ol></div>
             
 
           </div>
