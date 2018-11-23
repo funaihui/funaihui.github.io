@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="七牛云,图片,Android," />
+  <meta name="keywords" content="Android,图片,七牛云," />
 
 
 
@@ -87,7 +87,7 @@
 
 
 <meta name="description" content="在开发中遇到需要将用户的头像上传到七牛云，折腾了好一阵子才搞定，于是，决定写篇博客记录一下，有这方面需求的开发者，可以作为参考。">
-<meta name="keywords" content="七牛云,图片,Android">
+<meta name="keywords" content="Android,图片,七牛云">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android上传图片到七牛云看这篇就够了">
 <meta property="og:url" content="http://www.wizardev.cn/Android上传图片到七牛云看这篇就够了.html">
@@ -337,6 +337,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Android上传图片到七牛云看这篇就够了.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/Android上传图片到七牛云看这篇就够了.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -471,11 +481,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/七牛云/" rel="tag"><i class="fa fa-tag"></i> 七牛云</a>
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
           
             <a href="/tags/图片/" rel="tag"><i class="fa fa-tag"></i> 图片</a>
           
-            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+            <a href="/tags/七牛云/" rel="tag"><i class="fa fa-tag"></i> 七牛云</a>
           
         </div>
       
@@ -528,6 +538,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
 
   
 
@@ -863,6 +880,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'funaihui',
+            repo: 'gitment-comments',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'd2768669a1c30cc30b77423ed0105c14c1f961cf',
+            
+                client_id: '9adc0861a1bf2bd6531c'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 

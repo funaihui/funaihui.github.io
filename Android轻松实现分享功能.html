@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="图片,Android,分享," />
+  <meta name="keywords" content="Android,分享,图片," />
 
 
 
@@ -87,7 +87,7 @@
 
 
 <meta name="description" content="在Android开发中，要实现分享功能，可能首先想到第三方的ShareSDK，其实，想要分享一些图片，文本之类的完全没必要在App中集成第三方SDK，利用原生的SDK就可以轻松实现分享功能。">
-<meta name="keywords" content="图片,Android,分享">
+<meta name="keywords" content="Android,分享,图片">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android轻松实现分享功能">
 <meta property="og:url" content="http://www.wizardev.cn/Android轻松实现分享功能.html">
@@ -337,6 +337,16 @@
 
           
             
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Android轻松实现分享功能.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/Android轻松实现分享功能.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -469,11 +479,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/图片/" rel="tag"><i class="fa fa-tag"></i> 图片</a>
-          
             <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
           
             <a href="/tags/分享/" rel="tag"><i class="fa fa-tag"></i> 分享</a>
+          
+            <a href="/tags/图片/" rel="tag"><i class="fa fa-tag"></i> 图片</a>
           
         </div>
       
@@ -526,6 +536,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
 
   
 
@@ -861,6 +878,43 @@
 
 
 
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'funaihui',
+            repo: 'gitment-comments',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'd2768669a1c30cc30b77423ed0105c14c1f961cf',
+            
+                client_id: '9adc0861a1bf2bd6531c'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
 
 
 
