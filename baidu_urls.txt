@@ -1,3 +1,4 @@
+http://www.wizardev.cn/反编译之脱去乐固加固的壳.html
 http://www.wizardev.cn/Android自定义View之定点写文字.html
 http://www.wizardev.cn/在Mac 上搭建Pygame环境（含安装错误的解决办法）.html
 http://www.wizardev.cn/Android手撸一款水波气泡.html
