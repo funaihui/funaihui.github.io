@@ -1,3 +1,4 @@
+http://www.wizardev.cn/反编译之将脱壳后的dex文件重新打包成apk.html
 http://www.wizardev.cn/反编译之脱去乐固加固的壳.html
 http://www.wizardev.cn/Android自定义View之定点写文字.html
 http://www.wizardev.cn/在Mac 上搭建Pygame环境（含安装错误的解决办法）.html
