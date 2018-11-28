@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,RecyclerView,上拉加载," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言:上一篇文章自己动手写RecyclerView的下拉刷新写过之后大家真是各种批评呀!耦合度高、考虑的情况单一什么的…..在这里说明一下,为了能够让更大家清楚的了解RecyclerView下拉刷新的这种原理,所以代码的耦合度就高了一些!本篇文章将会为大家讲解一下怎样实现RecyclerView的上拉加载,为了讲明白原理,文中代码的依然会紧耦合。">
+<meta name="keywords" content="Android,RecyclerView,上拉加载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己动手写RecyclerView的上拉加载">
+<meta property="og:url" content="http://www.wizardev.cn/自己动手写RecyclerView的上拉加载.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
+<meta property="og:description" content="前言:上一篇文章自己动手写RecyclerView的下拉刷新写过之后大家真是各种批评呀!耦合度高、考虑的情况单一什么的…..在这里说明一下,为了能够让更大家清楚的了解RecyclerView下拉刷新的这种原理,所以代码的耦合度就高了一些!本篇文章将会为大家讲解一下怎样实现RecyclerView的上拉加载,为了讲明白原理,文中代码的依然会紧耦合。">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/12/26/160934aae1252107?w=320&h=587&f=gif&s=1349885">
+<meta property="og:updated_time" content="2018-11-23T07:33:06.786Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自己动手写RecyclerView的上拉加载">
+<meta name="twitter:description" content="前言:上一篇文章自己动手写RecyclerView的下拉刷新写过之后大家真是各种批评呀!耦合度高、考虑的情况单一什么的…..在这里说明一下,为了能够让更大家清楚的了解RecyclerView下拉刷新的这种原理,所以代码的耦合度就高了一些!本篇文章将会为大家讲解一下怎样实现RecyclerView的上拉加载,为了讲明白原理,文中代码的依然会紧耦合。">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/12/26/160934aae1252107?w=320&h=587&f=gif&s=1349885">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wizardev.cn/自己动手写RecyclerView的上拉加载.html"/>
+
+
+
+
+
+  <title>自己动手写RecyclerView的上拉加载 | wizardev's blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0584b46515b23a26aa7a405658f525a5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wizardev's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大水水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/自己动手写RecyclerView的上拉加载.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">自己动手写RecyclerView的上拉加载</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T22:56:57+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/自己动手写RecyclerView的上拉加载.html" class="leancloud_visitors" data-flag-title="自己动手写RecyclerView的上拉加载">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>前言:上一篇文章<a href="https://juejin.im/post/5a22af7a6fb9a0450e75ee61" target="_blank" rel="external">自己动手写RecyclerView的下拉刷新</a>写过之后大家真是各种批评呀!耦合度高、考虑的情况单一什么的…..在这里说明一下,为了能够让更大家清楚的了解RecyclerView下拉刷新的这种原理,所以代码的耦合度就高了一些!本篇文章将会为大家讲解一下怎样实现RecyclerView的上拉加载,为了讲明白原理,文中代码的依然会紧耦合。</p>
+</blockquote>
+<a id="more"></a>
+<p>&emsp;&emsp;如果你阅读过<a href="https://juejin.im/post/5a22af7a6fb9a0450e75ee61" target="_blank" rel="external">自己动手写RecyclerView的下拉刷新</a>这篇文章，那么你也一定知道了怎样在RecyclerView中显示不同的布局了，本篇文章讲的主要内容有以下两点</p>
+<ol>
+<li>为RecyclerView添加FooterView作为加载更多时显示的视图。</li>
+<li>监听RecyclerView的滑动状态，根据不同的状态来改变FooterView的显示状态。</li>
+</ol>
+<h2 id="为RecyclerView添加加载更多时的视图"><a href="#为RecyclerView添加加载更多时的视图" class="headerlink" title="为RecyclerView添加加载更多时的视图"></a>为RecyclerView添加加载更多时的视图</h2><p>&emsp;&emsp;上篇讲过的知识这里就不再讲了，首先看下FooterView的布局文件，如下<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></div><div class="line">    <span class="attr">android:id</span>=<span class="string">"@+id/loading_view"</span></div><div class="line">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">    <span class="attr">android:layout_height</span>=<span class="string">"@dimen/dp_60"</span></div><div class="line">    <span class="attr">android:gravity</span>=<span class="string">"center"</span></div><div class="line">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ViewStub</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/loading_viewstub"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"@dimen/dp_60"</span></div><div class="line">        <span class="attr">android:layout</span>=<span class="string">"@layout/layout_recyclerview_footer_loading"</span> /&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">ViewStub</span></span></div><div class="line">        <span class="attr">android:id</span>=<span class="string">"@+id/end_viewstub"</span></div><div class="line">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></div><div class="line">        <span class="attr">android:layout_height</span>=<span class="string">"@dimen/dp_60"</span></div><div class="line">        <span class="attr">android:layout</span>=<span class="string">"@layout/layout_recyclerview_footer_end"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这里为了节省内存资源,用了ViewStub,ViewStub是一个轻量级的View，它是一个看不见的，不占布局位置，占用资源非常小的控件。使用ViewStub可以方便的在运行时控制展示那个布局。</p>
+<h3 id="在Adapter中加载FooterView"><a href="#在Adapter中加载FooterView" class="headerlink" title="在Adapter中加载FooterView"></a>在Adapter中加载FooterView</h3><p>&emsp;&emsp;在RecyclerView中加载不同的布局的方法，上篇已经讲解过了，这里就直接看关键的代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemViewType</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (isFooter(position)) &#123;</div><div class="line">            <span class="keyword">return</span> FOOTER_VIEW_TYPE;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getItemViewType(position);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isFooter</span><span class="params">(<span class="keyword">int</span> position)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> lastPosition = getItemCount() - getFooterViewCount();</div><div class="line">        <span class="keyword">return</span> getFooterViewCount() &gt; <span class="number">0</span> &amp;&amp; position &gt;= lastPosition;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>上面代码中<strong>isFooter</strong>方法就是判断在position这个位置的视图是否是FooterView。</p>
+<h2 id="控制FooterView的显示隐藏"><a href="#控制FooterView的显示隐藏" class="headerlink" title="控制FooterView的显示隐藏"></a>控制FooterView的显示隐藏</h2><p>&emsp;&emsp;文章上部分已经讲了怎样在RecyclerView中添加FooterView，下面就重点将下FooterView在什么时候隐藏和显示。我们肯定知道RecyclerView在正常的状态下FooterView也就是底部刷新的视图是不可见的，在我们下滑到RecyclerView的最后一个条目时才显示底部刷新的视图，同时，在RecyclerView没有将屏幕铺满时不会显示底部刷新的视图。把这句话整理一下就是下面三点</p>
+<ol>
+<li>RecyclerView在正常状态下，底部刷新的视图不可见。</li>
+<li>在滑动RecyclerView时，最后一个可见的item大于或等于RecyclerView总的条目数时，显示底部刷新的视图。</li>
+<li>当RecyclerView的条目数未占满屏幕时，不会显示底部刷新视图。</li>
+</ol>
+<p>好了，知道了什么时候显示和隐藏底部刷新的视图，下面面临的问题就是<strong>我们怎样获取RecyclerView的最后一个可见的item的position</strong>？我们知道RecyclerView总的条目数可以利用LayoutManager的getItemCount方法获取，那么LayoutManager中是否有获取最后一个可见的item的position的方法呢！答案是肯定的，我们可以通过LayoutManager中的方法获取最后一个可见的item的position，但是LayoutManager又有<strong>LinearLayoutManager</strong>、<strong>GridLayoutManager</strong>和<strong>StaggeredGridLayoutManager</strong>，怎样分别在这三个LayoutManager中获取最后一个可见的item的position呢，答案在以下代码中<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">LayoutManager layoutManager = getLayoutManager();<span class="comment">//获取LayoutManager</span></div><div class="line"></div><div class="line">       <span class="keyword">if</span> (layoutManagerType == <span class="keyword">null</span>) &#123;</div><div class="line">           <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> LinearLayoutManager) &#123;</div><div class="line">               layoutManagerType = LayoutManagerType.LinearLayout;</div><div class="line">           &#125; <span class="keyword">else</span> <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> GridLayoutManager) &#123;</div><div class="line">               layoutManagerType = LayoutManagerType.GridLayout;</div><div class="line">           &#125; <span class="keyword">else</span> <span class="keyword">if</span> (layoutManager <span class="keyword">instanceof</span> StaggeredGridLayoutManager) &#123;</div><div class="line">               layoutManagerType = LayoutManagerType.StaggeredGridLayout;</div><div class="line">           &#125; <span class="keyword">else</span> &#123;</div><div class="line">               <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"LayoutManager不符合规范!"</span>);</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line"></div><div class="line">       <span class="keyword">switch</span> (layoutManagerType) &#123;</div><div class="line">           <span class="keyword">case</span> LinearLayout:</div><div class="line">               mLastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">           <span class="keyword">case</span> GridLayout:</div><div class="line">               mLastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">           <span class="keyword">case</span> StaggeredGridLayout:</div><div class="line">               StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;</div><div class="line">               <span class="keyword">if</span> (lastPositions == <span class="keyword">null</span>) &#123;</div><div class="line">                   lastPositions = <span class="keyword">new</span> <span class="keyword">int</span>[staggeredGridLayoutManager.getSpanCount()];</div><div class="line">                   staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);</div><div class="line">               &#125;</div><div class="line">               mLastVisibleItemPosition = findMax(lastPositions);</div><div class="line">               <span class="keyword">break</span>;</div><div class="line">       &#125;</div></pre></td></tr></table></figure></p>
+<p>看过代码之后，可以发现这里比较特殊的是<strong>StaggeredGridLayoutManager</strong>，由于它的特殊性，可能导致<strong>LastVisibleItemPositions</strong>有多个，这里的处理办法是将LastVisibleItemPositions放进数组中，然后取出数组中最大的数作为LastVisibleItemPosition。因为LastVisibleItemPosition根据滑动的位置而变化的，所以需要把上面的代码放进RecyclerView的onScrolled方法中。</p>
+<p>&emsp;&emsp;文章到了这里，我们已经知道了怎样获取RecyclerView的LastVisibleItemPosition和总的条目数，那什么时候来比较这两个数值的大小呢？当然是RecyclerView停止滚动时来比较了，用过ListView的应该知道ListView有一个监听滑动状态的方法，同样RecyclerView也有这个方法，就是<strong>onScrollStateChanged</strong>(int state)，RecyclerView的滑动状态分别对应<strong>RecyclerView.SCROLL_STATE_DRAGGING</strong>、<strong>RecyclerView.SCROLL_STATE_SETTLING</strong>和<strong>RecyclerView.SCROLL_STATE_IDLE</strong>三个字段，这个三个字段分别代表手指在屏幕上拖动、拖动后的惯性滑动和拖动之后停止滑动。讲明白之后，下面看代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onScrollStateChanged</span><span class="params">(<span class="keyword">int</span> state)</span> </span>&#123;</div><div class="line">        <span class="comment">//手指滑动后离开屏幕的状态</span></div><div class="line">        <span class="keyword">if</span> (state == RecyclerView.SCROLL_STATE_IDLE) &#123;</div><div class="line">            <span class="keyword">if</span> (mLoadMoreEnabled) &#123;</div><div class="line">                LayoutManager layoutManager = getLayoutManager();</div><div class="line">                <span class="keyword">int</span> visibleItemCount = layoutManager.getChildCount();</div><div class="line">                <span class="keyword">int</span> totalItemCount = layoutManager.getItemCount();</div><div class="line">                <span class="comment">//mLastVisibleItemPosition &gt;= totalItemCount-1是因为添加了一个FooterView</span></div><div class="line">                <span class="comment">//totalItemCount&gt;visibleItemCount是限制当totalItemCount没铺满屏幕时不显示FooterView</span></div><div class="line">                <span class="keyword">if</span> (visibleItemCount &gt; <span class="number">0</span></div><div class="line">                        &amp;&amp; mLastVisibleItemPosition &gt;= totalItemCount-<span class="number">1</span></div><div class="line">                        &amp;&amp; totalItemCount&gt;visibleItemCount</div><div class="line">                        &amp;&amp; !isNoMore) &#123;</div><div class="line">                    mFootView.setVisibility(View.VISIBLE);<span class="comment">//这里显示FootView</span></div><div class="line">                    <span class="keyword">if</span> (mLoadingData) &#123;</div><div class="line">                        <span class="keyword">return</span>;</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        mLoadingData = <span class="keyword">true</span>;</div><div class="line">                        mILoadMoreFooter.onLoading();<span class="comment">//方法回调</span></div><div class="line">                        <span class="keyword">if</span> (mLoadMoreListener != <span class="keyword">null</span>) &#123;</div><div class="line">                            mLoadMoreListener.onLoadMore();</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>代码中一些可能比较绕的地方已经进行了注释，这里就不再讲解了，已经知道了怎样控制FooterView的显示隐藏，下一步就是改变FooterView的状态了。</p>
+<h3 id="改变FooterView的状态"><a href="#改变FooterView的状态" class="headerlink" title="改变FooterView的状态"></a>改变FooterView的状态</h3><p>&emsp;&emsp;因为是在RecyclerView中来改变FooterView的状态的，所以这里需要定义一个回调接口，如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ILoadMoreFooter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onReset</span><span class="params">()</span></span>;<span class="comment">//正常的状态下</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onLoading</span><span class="params">()</span></span>;<span class="comment">//正在加载中的状态</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span></span>;<span class="comment">//已经加载完成</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">LoadNoMore</span><span class="params">()</span></span>;<span class="comment">//没有更多数据</span></div><div class="line"></div><div class="line">    <span class="function">View <span class="title">getFooterView</span><span class="params">()</span></span>;<span class="comment">//获取FooterView</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>再看下FooterView的代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadMoreFooter</span> <span class="keyword">extends</span> <span class="title">RelativeLayout</span> <span class="keyword">implements</span> <span class="title">ILoadMoreFooter</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> State mState;</div><div class="line">    <span class="keyword">private</span> View mLoadingView; <span class="comment">//正在加载的图标</span></div><div class="line">    <span class="keyword">private</span> View mTheEndView; <span class="comment">//加载全部的图标</span></div><div class="line">  </div><div class="line">    <span class="comment">//此处省略部分代码</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LoadMoreFooter</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</div><div class="line">        init(context);</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Context context)</span> </span>&#123;</div><div class="line">        inflate(context, R.layout.layout_recyclerview_footer, <span class="keyword">this</span>);</div><div class="line">        onReset();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReset</span><span class="params">()</span> </span>&#123;</div><div class="line">        onComplete();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLoading</span><span class="params">()</span> </span>&#123;</div><div class="line">        setState(State.Loading);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">        setState(State.Normal);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">LoadNoMore</span><span class="params">()</span> </span>&#123;</div><div class="line">        setState(State.NoMore);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(State state)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (mState == state) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        mState = state;</div><div class="line">        <span class="keyword">switch</span> (state) &#123;</div><div class="line">            <span class="keyword">case</span> Normal:</div><div class="line">                <span class="keyword">if</span> (mLoadingView != <span class="keyword">null</span>) &#123;</div><div class="line">                    mLoadingView.setVisibility(GONE);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (mTheEndView != <span class="keyword">null</span>) &#123;</div><div class="line">                    mTheEndView.setVisibility(GONE);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> Loading:</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (mTheEndView != <span class="keyword">null</span>) &#123;</div><div class="line">                    mTheEndView.setVisibility(GONE);</div><div class="line">                &#125;</div><div class="line">                </div><div class="line">                <span class="keyword">if</span> (mLoadingView == <span class="keyword">null</span>) &#123;</div><div class="line">                    ViewStub viewStub = findViewById(R.id.loading_viewstub);</div><div class="line">                    mLoadingView= viewStub.inflate();</div><div class="line">                &#125;</div><div class="line">                mLoadingView.setVisibility(VISIBLE);</div><div class="line"></div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            <span class="keyword">case</span> NoMore:</div><div class="line">                <span class="keyword">if</span> (mLoadingView != <span class="keyword">null</span>) &#123;</div><div class="line">                    mLoadingView.setVisibility(GONE);</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (mTheEndView == <span class="keyword">null</span>) &#123;</div><div class="line">                    ViewStub viewStub = findViewById(R.id.end_viewstub);</div><div class="line">                    mTheEndView= viewStub.inflate();</div><div class="line">                &#125;</div><div class="line">                mTheEndView.setVisibility(VISIBLE);</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">getFooterView</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> State &#123;</div><div class="line">        Normal,</div><div class="line">        Loading,</div><div class="line">        NoMore,</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，这里面的主要代码就是<strong>setState</strong>方法中的代码，<strong>setState</strong>方法中的代码也比较简单就是控制布局的显示隐藏。文章到了这里，已经将实现RecyclerView加载更多的功能中的主要的部分讲解完了，下面看下效果图<br><img src="https://user-gold-cdn.xitu.io/2017/12/26/160934aae1252107?w=320&amp;h=587&amp;f=gif&amp;s=1349885" alt=""></p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;文中只是贴出了一些比较重要的代码，获取完整的代码，<a href="https://github.com/funaihui/LoadMoreForRecyclerView" target="_blank" rel="external">点击这里</a>。</p>
+<blockquote>
+<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.cn">www.wizardev.cn</a><font></font></font></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.wizardev.cn/自己动手写RecyclerView的上拉加载.html" title="自己动手写RecyclerView的上拉加载">http://www.wizardev.cn/自己动手写RecyclerView的上拉加载.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+          
+            <a href="/tags/RecyclerView/" rel="tag"><i class="fa fa-tag"></i> RecyclerView</a>
+          
+            <a href="/tags/上拉加载/" rel="tag"><i class="fa fa-tag"></i> 上拉加载</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/自己动手写RecyclerView的下拉刷新.html" rel="next" title="自己动手写RecyclerView的下拉刷新">
+                <i class="fa fa-chevron-left"></i> 自己动手写RecyclerView的下拉刷新
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/资料大放送，Python、前端、Java、Android、算法-总有你想要的！.html" rel="prev" title="资料大放送，Python、前端、Java、Android、算法...总有你想要的！">
+                资料大放送，Python、前端、Java、Android、算法...总有你想要的！ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/fnhfire_7030" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为RecyclerView添加加载更多时的视图"><span class="nav-number">1.</span> <span class="nav-text">为RecyclerView添加加载更多时的视图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#在Adapter中加载FooterView"><span class="nav-number">1.1.</span> <span class="nav-text">在Adapter中加载FooterView</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制FooterView的显示隐藏"><span class="nav-number">2.</span> <span class="nav-text">控制FooterView的显示隐藏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#改变FooterView的状态"><span class="nav-number">2.1.</span> <span class="nav-text">改变FooterView的状态</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '9adc0861a1bf2bd6531c',
+          clientSecret: 'd2768669a1c30cc30b77423ed0105c14c1f961cf',
+          repo: 'funaihui.github.io',
+          owner: 'funaihui',
+          admin: ['funaihui'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/3.10.0/av-min.js"></script>
+  <script>AV.initialize("M8Q7e1X2U3UeMd8yFEeHWS2P-gzGzoHsz", "S7Cu9Js4grKw4hU0DHgunStq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

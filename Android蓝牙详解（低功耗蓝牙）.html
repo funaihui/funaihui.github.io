@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,蓝牙," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="与普通蓝牙相比，低功耗蓝牙显著降低了能量消耗，允许Android应用程序与具有更严格电源要求的BLE设备进行通信，如接近传感器、心率传感器等低功耗设备。">
+<meta name="keywords" content="Android,蓝牙">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android蓝牙使用详解（低功耗蓝牙）">
+<meta property="og:url" content="http://www.wizardev.cn/Android蓝牙详解（低功耗蓝牙）.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
+<meta property="og:description" content="与普通蓝牙相比，低功耗蓝牙显著降低了能量消耗，允许Android应用程序与具有更严格电源要求的BLE设备进行通信，如接近传感器、心率传感器等低功耗设备。">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/3/31/1627a292382a3c62?w=540&h=262&f=png&s=27624">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/5/27/163a034b682dcdd9?w=1079&h=589&f=png&s=32956">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/5/30/163b0e9d09b9cb2d?w=663&h=308&f=png&s=87783">
+<meta property="og:updated_time" content="2018-11-11T08:24:29.496Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android蓝牙使用详解（低功耗蓝牙）">
+<meta name="twitter:description" content="与普通蓝牙相比，低功耗蓝牙显著降低了能量消耗，允许Android应用程序与具有更严格电源要求的BLE设备进行通信，如接近传感器、心率传感器等低功耗设备。">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/3/31/1627a292382a3c62?w=540&h=262&f=png&s=27624">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wizardev.cn/Android蓝牙详解（低功耗蓝牙）.html"/>
+
+
+
+
+
+  <title>Android蓝牙使用详解（低功耗蓝牙） | wizardev's blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0584b46515b23a26aa7a405658f525a5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wizardev's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大水水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/Android蓝牙详解（低功耗蓝牙）.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android蓝牙使用详解（低功耗蓝牙）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-02T09:12:29+08:00">
+                2018-06-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/Android蓝牙详解（低功耗蓝牙）.html" class="leancloud_visitors" data-flag-title="Android蓝牙使用详解（低功耗蓝牙）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.8k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>与普通蓝牙相比，低功耗蓝牙显著降低了能量消耗，允许Android应用程序与具有更严格电源要求的BLE设备进行通信，如接近传感器、心率传感器等低功耗设备。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="声明蓝牙权限"><a href="#声明蓝牙权限" class="headerlink" title="声明蓝牙权限"></a>声明蓝牙权限</h3><p>&emsp;&emsp;和使用普通蓝牙一样，在使用低功耗蓝牙时也需要在<code>AndroidManifest</code>声明蓝牙权限，声明蓝牙权限的代码如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.BLUETOOTH"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">"android.permission.BLUETOOTH_ADMIN"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>如果想让你的App只适用于BLE设备，可以在<code>AndroidManifest</code>中继续添加以下代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-feature</span> <span class="attr">android:name</span>=<span class="string">"android.hardware.bluetooth_le"</span> <span class="attr">android:required</span>=<span class="string">"true"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>如果想让你的App适用于不支持BLE的设备，只需要将<code>required=&quot;true&quot;</code>改为<code>required=&quot;false&quot;</code>然后在代码中通过以下方法来判断设备是否支持BLE，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkIsSupportBLE</span><span class="params">()</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span> (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) &#123;</div><div class="line">           Toast.makeText(<span class="keyword">this</span>, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();</div><div class="line">           finish();</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<font color="red" size="5">注：</font>
+
+<blockquote>
+<p>LE信标往往与位置有关,如果想要通过<code>`BluetoothLeScanner</code> 方法来获取正确的扫描结果，需要在<code>AndroidManifest</code>中声明位置权限，声明位置权限可以使用<code>ACCESS_COARSE_LOCATION</code>或则 <code>ACCESS_FINE_LOCATION</code> ，如过不声明位置权限，将不会返回蓝牙的扫描结果。</p>
+</blockquote>
+<h3 id="开启BLE"><a href="#开启BLE" class="headerlink" title="开启BLE"></a>开启BLE</h3><p>&emsp;&emsp;开启BLE只需要以下两步</p>
+<ol>
+<li><p>拿到<a href="https://developer.android.google.cn/reference/android/bluetooth/BluetoothAdapter.html" target="_blank" rel="external">BluetoothAdapter</a>。</p>
+<p>在Android系统中只有一个<code>BluetoothAdapter</code>，可以通过以下方法来获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">obtainBluetoothAdapter</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">final</span> BluetoothManager bluetoothManager =</div><div class="line">                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);</div><div class="line">        mBluetoothAdapter = bluetoothManager.getAdapter();</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>开启蓝牙。</p>
+<p>通过<a href="https://developer.android.google.cn/reference/android/bluetooth/BluetoothAdapter.html#isEnabled(" target="_blank" rel="external">isEnabled()</a>)可以判断是否已经开启BLE，如果没有开启则可以通过以下方法来开启</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkIsEnable</span><span class="params">()</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span> (mBluetoothAdapter == <span class="keyword">null</span> || !mBluetoothAdapter.isEnabled()) &#123;</div><div class="line">           Intent enableBtIntent = <span class="keyword">new</span> Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);</div><div class="line">           startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);</div><div class="line">       &#125;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p><font color="red" size="5">注：</font><code>REQUEST_ENABLE_BT</code>必须大于0。然后我们便可以在<code>onActivityResult(int, int, android.content.Intent)</code>方法中获取BLE开启的结果。</p>
+</li>
+</ol>
+<p>通过Intent方法开启蓝牙，系统会弹出是否确认开启蓝牙的对话框，对话框如下</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/3/31/1627a292382a3c62?w=540&amp;h=262&amp;f=png&amp;s=27624" alt=""></p>
+<p>这时，可以发现上面的提示语为“某个应用想要开启蓝牙”，如果我们想要把“某个”换成具体的应用名称，则需要换一种打开蓝牙的方式，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (mBluetoothAdapter == <span class="keyword">null</span> || !mBluetoothAdapter.isEnabled()) &#123;</div><div class="line">            mBluetoothAdapter.enable();</div><div class="line"></div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>这时弹出是否打开蓝牙的弹出框如下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/5/27/163a034b682dcdd9?w=1079&amp;h=589&amp;f=png&amp;s=32956" alt=""></p>
+<p>红框标识处，就是当前应用的名称。</p>
+<font color="red" size="5">注：</font>这种打开蓝牙的方式，在某些机型上不会有弹出框，会直接打开蓝牙。<br><br>如果通过这种方式打开蓝牙，并且想知道蓝牙是否成功打开，则需要一个广播接收者来监听蓝牙状态的变化。代码如下<br><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//注册广播接受者</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initReceiver</span><span class="params">()</span> </span>&#123;</div><div class="line">        IntentFilter filter = <span class="keyword">new</span> IntentFilter();</div><div class="line">        filter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);</div><div class="line">        registerReceiver(mReceiver, filter);</div><div class="line">    &#125;</div><div class="line"><span class="comment">//新建监听蓝牙状态变化的广播</span></div><div class="line"> <span class="keyword">private</span> <span class="keyword">final</span> BroadcastReceiver mReceiver = <span class="keyword">new</span> BroadcastReceiver() &#123;</div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</div><div class="line">            <span class="keyword">final</span> String action = intent.getAction();</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) &#123;</div><div class="line">                <span class="keyword">final</span> <span class="keyword">int</span> state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,</div><div class="line">                        BluetoothAdapter.ERROR);</div><div class="line">                <span class="keyword">switch</span> (state) &#123;</div><div class="line">                    <span class="keyword">case</span> BluetoothAdapter.STATE_OFF:</div><div class="line">                        mBluetoothState.setText(<span class="string">"Bluetooth off"</span>);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> BluetoothAdapter.STATE_TURNING_OFF:</div><div class="line">                        mBluetoothState.setText(<span class="string">"Turning Bluetooth off..."</span>);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> BluetoothAdapter.STATE_ON:</div><div class="line">                        mBluetoothState.setText(<span class="string">"Bluetooth on"</span>);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    <span class="keyword">case</span> BluetoothAdapter.STATE_TURNING_ON:</div><div class="line">                        mBluetoothState.setText(<span class="string">"Turning Bluetooth on..."</span>);</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div></pre></td></tr></table></figure><br><br>&gt; 此广播包含额外字段 <code>EXTRA_STATE</code> 和 <code>EXTRA_PREVIOUS_STATE</code>，二者分别包含新的和旧的蓝牙状态。 这些额外字段可能的值包括 <code>STATE_TURNING_ON</code>、<code>STATE_ON</code>、<code>STATE_TURNING_OFF</code> 和 <code>STATE_OFF</code>。侦听此广播适用于检测在您的应用运行期间对蓝牙状态所做的更改。<br><br>### 扫描BLE设备<br><br>&emsp;&emsp;扫描蓝牙设备可以通过 <code>startLeScan(BluetoothAdapter.LeScanCallback)</code>和<code>startLeScan(UUID[], BluetoothAdapter.LeScanCallback)</code>方法，这两种扫描BLE设备的区别如下。<br><br>- <code>startLeScan(BluetoothAdapter.LeScanCallback)</code>方法扫描的是周围所有的BLE设备。<br>- <code>startLeScan(UUID[], BluetoothAdapter.LeScanCallback)</code>只扫描和UUID相匹配的设备。<br><br>可以发现无论通过哪种方式扫描蓝牙都必须要实现<code>LeScanCallback</code>回调方法，此方法是用来获取蓝牙扫描结果。<br><br>&emsp;&emsp;通过以上两种方式实现扫描BLE设备的代码如下：<br><br>1. 通过<code>startLeScan(BluetoothAdapter.LeScanCallback)</code>方法扫描蓝牙的代码如下<br><br>   <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">//扫描BLE设备</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">scanLeDevice</span><span class="params">(<span class="keyword">final</span> <span class="keyword">boolean</span> enable)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (enable) &#123;</div><div class="line">            <span class="comment">// Stops scanning after a pre-defined scan period.</span></div><div class="line">            mHandler.postDelayed(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                    mScanning = <span class="keyword">false</span>;</div><div class="line">                    mBluetoothAdapter.stopLeScan(mLeScanCallback);</div><div class="line">                &#125;</div><div class="line">            &#125;, SCAN_PERIOD);</div><div class="line"></div><div class="line">            mScanning = <span class="keyword">true</span>;</div><div class="line">            mBluetoothAdapter.startLeScan(mLeScanCallback);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            mScanning = <span class="keyword">false</span>;</div><div class="line">            mBluetoothAdapter.stopLeScan(mLeScanCallback);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="comment">//扫描结果回调</span></div><div class="line">    <span class="keyword">private</span> BluetoothAdapter.LeScanCallback mLeScanCallback = <span class="keyword">new</span> BluetoothAdapter.LeScanCallback() &#123;</div><div class="line">                <span class="meta">@Override</span></div><div class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onLeScan</span><span class="params">(<span class="keyword">final</span> BluetoothDevice device, <span class="keyword">int</span> rssi,</span></span></div><div class="line">                                     <span class="keyword">byte</span>[] scanRecord) &#123;</div><div class="line">                    runOnUiThread(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">                        <span class="meta">@Override</span></div><div class="line">                        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">                            mLeDeviceListAdapter.addDevice(device);</div><div class="line">                            mLeDeviceListAdapter.notifyDataSetChanged();</div><div class="line">                        &#125;</div><div class="line">                    &#125;);</div><div class="line">                &#125;</div><div class="line">            &#125;;</div></pre></td></tr></table></figure><br><br>2. 通过<code>startLeScan(UUID[], BluetoothAdapter.LeScanCallback)</code>方法扫描蓝牙的代码如下<br><br>   <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">scanLeDeviceByUUID</span><span class="params">()</span> </span>&#123;</div><div class="line">        mBluetoothAdapter.startLeScan(<span class="keyword">new</span> UUID[]&#123;RX_SERVICE_UUID&#125;, mLeScanCallback);</div><div class="line">    &#125;</div></pre></td></tr></table></figure><br><br>   <font color="red" size="5">再次声明：</font>
+
+<blockquote>
+<p>LE信标往往与位置有关,如果想要通过<code>`BluetoothLeScanner</code> 方法来获取正确的扫描结果，需要在<code>AndroidManifest</code>中声明位置权限，声明位置权限可以使用<code>ACCESS_COARSE_LOCATION</code>或则 <code>ACCESS_FINE_LOCATION</code> ，如过不声明位置权限，将不会返回蓝牙的扫描结果。</p>
+</blockquote>
+<h3 id="连接BLE设备"><a href="#连接BLE设备" class="headerlink" title="连接BLE设备"></a>连接BLE设备</h3><p>   &emsp;&emsp;&emsp;要进行BLE设备之间的通讯，首先应该进行设备之间的连接，可以通过<code>device.connectGatt (Context context,boolean autoConnect,                 BluetoothGattCallback callback)</code>方法来连接设备。</p>
+<ul>
+<li><code>autoConnect</code>是设置当BLE设备可用时是否自动进行连接。</li>
+<li><code>device</code>就是通过扫描BLE设备获得的。</li>
+<li><p><code>callback</code>则是连接指定设备后的回掉，可以在回掉中知道是否建立连接、连接断开、以及获取设备之间传输的数据。</p>
+<p>以下是<code>BluetoothGattCallback</code>类中具体的方法<img src="https://user-gold-cdn.xitu.io/2018/5/30/163b0e9d09b9cb2d?w=663&amp;h=308&amp;f=png&amp;s=87783" alt=""></p>
+</li>
+</ul>
+<p>下面我会介绍几个比较常用的方法：</p>
+<ul>
+<li><code>onConnectionStateChange</code>此方法的作用是可以获得设备连接的状态，如“成功连接”、“断开连接”。</li>
+<li><code>onServicesDiscovered</code>当远程设备的服务，特性和描述符列表已更新时（即发现新服务），调用此方法。</li>
+<li><code>onCharacteristicChanged</code>远程特征变化会调用此方法，即BLE设备的状态发生了变化会调用此方法。</li>
+</ul>
+<blockquote>
+<p><code>onCharacteristicChanged</code>方法就是相当于BLE设备对你操作的回应，如打开BLE设备成功等，然后在此方法回掉之后，便可以继续下一步操作了。</p>
+</blockquote>
+<h3 id="操作BLE设备"><a href="#操作BLE设备" class="headerlink" title="操作BLE设备"></a>操作BLE设备</h3><p>&emsp;&emsp;在设备连接之后，就可以向BLE设备发送命令来操作BLE设备了，向BLE写数据的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">writeByteToBleDevice</span><span class="params">(<span class="keyword">byte</span>[] data)</span> </span>&#123;</div><div class="line">        BluetoothGattService mBluetoothGattService = mBluetoothGatt.getService(RX_SERVICE_UUID);</div><div class="line">        <span class="keyword">if</span> (mBluetoothGattService == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        BluetoothGattCharacteristic characteristic = mBluetoothGattService.getCharacteristic(RX_SERVICE_UUID);</div><div class="line">        <span class="keyword">if</span> (characteristic == <span class="keyword">null</span>) &#123;</div><div class="line"></div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">boolean</span> b = characteristic.setValue(data);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> b &amp;&amp; mBluetoothGatt.writeCharacteristic(characteristic);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>在向BLE设备发送数据之后，就可以在<code>onCharacteristicChanged</code>方法中获得BLE设备的状态了。</p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>&emsp;&emsp;这篇文章拖了这么久，总算写完了，本来打算在上一篇蓝牙文章写完后就写这篇，结果中间公司忙着上线新的项目，加班加点将近一个月，就没时间写这篇文章了，在项目上线之后就立马开始写这篇文章，希望这篇文章能帮到想要学习蓝牙的朋友。</p>
+<p>&emsp;&emsp;文中只展示了主要代码，要获取全部源码请<a href="https://github.com/funaihui/Ble" target="_blank" rel="external">点击这里</a>。</p>
+<blockquote>
+<p><strong>ps:</strong> 历史文章中有干货哦！</p>
+<p>本文已由公众号<font color="#d2691e" size="5">“AndroidShared”</font>首发</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.wizardev.cn/Android蓝牙详解（低功耗蓝牙）.html" title="Android蓝牙使用详解（低功耗蓝牙）">http://www.wizardev.cn/Android蓝牙详解（低功耗蓝牙）.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+          
+            <a href="/tags/蓝牙/" rel="tag"><i class="fa fa-tag"></i> 蓝牙</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Android蓝牙使用详解（普通蓝牙）.html" rel="next" title="Android蓝牙使用详解（普通蓝牙）">
+                <i class="fa fa-chevron-left"></i> Android蓝牙使用详解（普通蓝牙）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Android手撸一款水波气泡.html" rel="prev" title="Android手撸一款水波气泡">
+                Android手撸一款水波气泡 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/fnhfire_7030" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#声明蓝牙权限"><span class="nav-number">1.</span> <span class="nav-text">声明蓝牙权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启BLE"><span class="nav-number">2.</span> <span class="nav-text">开启BLE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接BLE设备"><span class="nav-number">3.</span> <span class="nav-text">连接BLE设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作BLE设备"><span class="nav-number">4.</span> <span class="nav-text">操作BLE设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束语"><span class="nav-number">5.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '9adc0861a1bf2bd6531c',
+          clientSecret: 'd2768669a1c30cc30b77423ed0105c14c1f961cf',
+          repo: 'funaihui.github.io',
+          owner: 'funaihui',
+          admin: ['funaihui'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/3.10.0/av-min.js"></script>
+  <script>AV.initialize("M8Q7e1X2U3UeMd8yFEeHWS2P-gzGzoHsz", "S7Cu9Js4grKw4hU0DHgunStq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

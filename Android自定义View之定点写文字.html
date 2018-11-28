@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Android,自定义View,View," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言：有经验的Android开发者，应该都会遇到在自定义View的时候，在View的某个地方写文字，那么当你在自定义的View中写文字的时候，能够做到定点写文字吗？能够指哪写哪吗？写出来的文字的位置和自己想要的位置一样吗？即使你最后写的文字的位置和自己想象的位置是一样的，那么你知道其中的原理吗？如果其中有一个你不能回答出来，那就认真的阅读本文吧！本文会给出你想要的答案…">
+<meta name="keywords" content="Android,自定义View,View">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android自定义View之定点写文字">
+<meta property="og:url" content="http://www.wizardev.cn/Android自定义View之定点写文字.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
+<meta property="og:description" content="前言：有经验的Android开发者，应该都会遇到在自定义View的时候，在View的某个地方写文字，那么当你在自定义的View中写文字的时候，能够做到定点写文字吗？能够指哪写哪吗？写出来的文字的位置和自己想要的位置一样吗？即使你最后写的文字的位置和自己想象的位置是一样的，那么你知道其中的原理吗？如果其中有一个你不能回答出来，那就认真的阅读本文吧！本文会给出你想要的答案…">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/28/164e01409c028aad?w=610&h=462&f=png&s=15715">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/28/164e01ebecd769ea?w=634&h=368&f=png&s=14506">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/30/164ea06f94d4f6ca?w=560&h=440&f=jpeg&s=27109">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/30/164ea3e7c56e82e5?w=297&h=94&f=png&s=12783">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/30/164ea06f94d4f6ca?w=560&h=440&f=jpeg&s=27109">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/30/164ea586aa8c82c2?w=346&h=276&f=png&s=17743">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/30/164eaf9cbdc854b5?w=340&h=285&f=png&s=11595">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/7/30/164eb007f75f2c4a?w=412&h=404&f=png&s=20092">
+<meta property="og:updated_time" content="2018-11-11T08:28:44.564Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android自定义View之定点写文字">
+<meta name="twitter:description" content="前言：有经验的Android开发者，应该都会遇到在自定义View的时候，在View的某个地方写文字，那么当你在自定义的View中写文字的时候，能够做到定点写文字吗？能够指哪写哪吗？写出来的文字的位置和自己想要的位置一样吗？即使你最后写的文字的位置和自己想象的位置是一样的，那么你知道其中的原理吗？如果其中有一个你不能回答出来，那就认真的阅读本文吧！本文会给出你想要的答案…">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/7/28/164e01409c028aad?w=610&h=462&f=png&s=15715">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wizardev.cn/Android自定义View之定点写文字.html"/>
+
+
+
+
+
+  <title>Android自定义View之定点写文字 | wizardev's blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0584b46515b23a26aa7a405658f525a5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wizardev's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大水水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/Android自定义View之定点写文字.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Android自定义View之定点写文字</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T09:59:49+08:00">
+                2018-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/Android自定义View之定点写文字.html" class="leancloud_visitors" data-flag-title="Android自定义View之定点写文字">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.7k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>前言：有经验的Android开发者，应该都会遇到在自定义View的时候，在View的某个地方写文字，那么当你在自定义的View中写文字的时候，能够做到定点写文字吗？能够指哪写哪吗？写出来的文字的位置和自己想要的位置一样吗？即使你最后写的文字的位置和自己想象的位置是一样的，那么你知道其中的原理吗？如果其中有一个你不能回答出来，那就认真的阅读本文吧！本文会给出你想要的答案…</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="一个小例子"><a href="#一个小例子" class="headerlink" title="一个小例子"></a>一个小例子</h2><p>&emsp;&emsp;看下下面的图，假如下面的图是我们要做出的效果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/28/164e01409c028aad?w=610&amp;h=462&amp;f=png&amp;s=15715" alt=""></p>
+<p>很简单，有没有？就是在一个圆的中心写文字。红色的圆形很好画出来，那么我们怎么将文字写在圆的中心点上呢？第一时间想到的是拿到圆中心点的坐标，然后直接调用<code>drawText()</code>方法来写文字。实现的代码大致如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</div><div class="line">      <span class="keyword">super</span>.onDraw(canvas);</div><div class="line">      <span class="keyword">int</span> measuredHeight = getMeasuredHeight();</div><div class="line">      <span class="keyword">int</span> measuredWidth = getMeasuredWidth();</div><div class="line"></div><div class="line">      <span class="comment">//cx,cy为圆的中心点的坐标</span></div><div class="line">      <span class="keyword">int</span> cx = measuredWidth / <span class="number">2</span>;</div><div class="line">      <span class="keyword">int</span> cy = measuredHeight / <span class="number">2</span>;</div><div class="line">      canvas.drawCircle(cx, cy, mRadius, mPaint);</div><div class="line">      mPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.sp18));</div><div class="line">      mPaint.setColor(Color.WHITE);</div><div class="line">      mPaint.setTextAlign(Paint.Align.CENTER);</div><div class="line">      mPaint.setStrokeWidth(getResources().getDimensionPixelSize(R.dimen.dp1));</div><div class="line">      canvas.drawText(<span class="string">"wizardev"</span>, cx, cy, mPaint);</div><div class="line">      </div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>现在，看下上面代码实现的效果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/28/164e01ebecd769ea?w=634&amp;h=368&amp;f=png&amp;s=14506" alt=""></p>
+<p>上图中的黄线是在圆的中心点画的线，可以发现上面代码实现的效果，明显不是我们想要的效果，为什么会这样呢？下文会给出答案。</p>
+<h2 id="drawText-中的基线"><a href="#drawText-中的基线" class="headerlink" title="drawText()中的基线"></a>drawText()中的基线</h2><p>&emsp;&emsp;在Android中自定义View的时候，怎么让系统知道应该在哪里画出我们想要的图形呢？比如画上面的圆，这时我们就要告诉系统，我们要画的圆形的圆心在什么位置，告诉系统我们想要的圆的半径是多少，然后系统就能在合适的位置画出你想要的圆了。同样，在画文字的时候我们要指定文字在什么位置，而指定的坐标的位置就是文字的基线。</p>
+<p>&emsp;&emsp;要理解<code>drawText()</code>中的基线是什么，需要先了解一下<code>darwText()</code>方法，<code>darwText()</code>方法有四个参数，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">drawText(<span class="meta">@NonNull</span> String text, <span class="keyword">float</span> x, <span class="keyword">float</span> y, <span class="meta">@NonNull</span> Paint paint)</div></pre></td></tr></table></figure>
+<p>第一个参数为你想要写的内容，第二个参数为文字开始的X轴坐标，第三个参数为文字开始的Y轴坐标，第四个参数为画笔。以第二个第三个参数画的一条水平线，就是<code>drawText()</code>的基线。如上文中的第二张图，黄色的线即为<code>drawText()</code>基线，</p>
+<p><font color="red">注：</font>第二和第三个参数不一定为文字开始的坐标，也可能为文字中心的坐标或则文字结尾的坐标，具体是哪种坐标与<code>Paint</code>中的<code>setTextAlign()</code>方法有关。</p>
+<p>&emsp;&emsp;可以得出结论，只要确定了基线的位置就确定了要画的文字的位置了。那么给定一个坐标，怎么确定基线的位置呢？其实画文字的时候，除了基线以外，还有其他几条线，其他几条线的位置如下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164ea06f94d4f6ca?w=560&amp;h=440&amp;f=jpeg&amp;s=27109" alt=""></p>
+<p>这几条线的意义分别是：</p>
+<ul>
+<li>ascent: 系统建议的，字符所占的最高高度所在线</li>
+<li>descent:系统建议的，字符所占的最低高度所在线</li>
+<li>top: 可绘制的最高高度所在线</li>
+<li>bottom: 可绘制的最低高度所在线</li>
+</ul>
+<p>这几条线的位置可以通过<code>FontMetrics</code>对象获得。</p>
+<h2 id="FontMetrics"><a href="#FontMetrics" class="headerlink" title="FontMetrics"></a>FontMetrics</h2><h3 id="1-FontMetrics概述"><a href="#1-FontMetrics概述" class="headerlink" title="(1)FontMetrics概述"></a>(1)FontMetrics概述</h3><p>&emsp;&emsp;描述给定文本的各种度量值的类，它有五个成员变量，分别为<code>top</code>、<code>ascent</code>、<code>descent</code>、<code>bottom</code>、<code>leading</code>。这几个成员变量的值都是相对基线位置的距离，如：</p>
+<p>FontMetrics.top = top的Y坐标 - 基线</p>
+<h3 id="2-获取FontMetrics对象"><a href="#2-获取FontMetrics对象" class="headerlink" title="(2)获取FontMetrics对象"></a>(2)获取FontMetrics对象</h3><p>想要获取FontMetrics，可以通过<code>getFontMetrics()</code>方法获取,具体代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Paint mPaint = <span class="keyword">new</span> Paint()</div><div class="line">mPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.sp18));</div><div class="line">mPaint.setColor(Color.WHITE);</div><div class="line">mPaint.setTextAlign(Paint.Align.CENTER);</div><div class="line">mPaint.setStrokeWidth(<span class="number">1</span>);</div><div class="line">Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();</div></pre></td></tr></table></figure>
+<h3 id="3-FontMetrics注意事项"><a href="#3-FontMetrics注意事项" class="headerlink" title="(3)FontMetrics注意事项"></a>(3)FontMetrics注意事项</h3><p>&emsp;&emsp;使用FontMetrics获取到的<code>top</code>、<code>ascent</code>、<code>descent</code>、<code>bottom</code>、<code>leading</code>成员变量的值，是相对于基线的距离，并不是坐标，可以看下下图，方便理解</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164ea3e7c56e82e5?w=297&amp;h=94&amp;f=png&amp;s=12783" alt=""></p>
+<p>可以发现<code>top</code>、<code>ascent</code>的值为负数，<code>descent</code>、<code>bottom</code>的值为正数，为什么会这样呢？因为<code>top</code>线和ascent线在基线的上方，<code>FontMetrics</code>对象中的几个成员变量的值都是表示相对基线的位置。</p>
+<h2 id="指定位置写文字"><a href="#指定位置写文字" class="headerlink" title="指定位置写文字"></a>指定位置写文字</h2><p>&emsp;&emsp;了解了<code>FontMetrics</code>再结合下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164ea06f94d4f6ca?w=560&amp;h=440&amp;f=jpeg&amp;s=27109" alt=""></p>
+<p>可以得到下面的公式：</p>
+<ul>
+<li>top的Y坐标 = 基线 + fontMetrics.top</li>
+<li>ascent的Y坐标 = 基线 + fontMetrics.ascent</li>
+<li>decent的Y坐标 = 基线 + fontMetrics.descent</li>
+<li>bottom的Y坐标 = 基线 + fontMetrics.bottom</li>
+</ul>
+<h3 id="1-给定左上方点写字"><a href="#1-给定左上方点写字" class="headerlink" title="(1)给定左上方点写字"></a>(1)给定左上方点写字</h3><p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164ea586aa8c82c2?w=346&amp;h=276&amp;f=png&amp;s=17743" alt=""></p>
+<p>根据得出的公式可以计算出基线的Y坐标</p>
+<blockquote>
+<p>top的Y坐标 = 基线 + fontMetrics.top</p>
+<p>基线 = top的Y坐标 -  fontMetrics.top</p>
+</blockquote>
+<p>实现的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Paint mPaint = <span class="keyword">new</span> Paint();</div><div class="line">mPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.sp18));</div><div class="line">mPaint.setStrokeWidth(<span class="number">1</span>);</div><div class="line">mPaint.setColor(Color.RED);</div><div class="line">Paint.FontMetrics fontMetrics = mPaint.getFontMetrics();</div><div class="line"><span class="keyword">float</span> baseLine = cy-fontMetrics.top;<span class="comment">//cy指定点的Y坐标</span></div><div class="line">canvas.drawText(<span class="string">"wizardev"</span>, <span class="number">0</span>, baseLine, mPaint);</div></pre></td></tr></table></figure>
+<h3 id="2-给定中间线写文字"><a href="#2-给定中间线写文字" class="headerlink" title="(2)给定中间线写文字"></a>(2)给定中间线写文字</h3><p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164eaf9cbdc854b5?w=340&amp;h=285&amp;f=png&amp;s=11595" alt=""></p>
+<p>给定中间线写文字，可以说是自定义view写文字时用的最多的了，如，将文字写在圆的正中间，如上图，圆的中心线将文字平分，这种就是本文说的给定中间线写文字。文章前面说了，只要确定了基线的位置，文字的位置也就确定了，那么像这种，怎样来确定基线的位置呢？这时我们可以借助其他的几条线来计算出基线的位置。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164eb007f75f2c4a?w=412&amp;h=404&amp;f=png&amp;s=20092" alt=""></p>
+<p>如上图，将<code>top</code>和<code>center</code>之间的间距设为<code>A</code>,将<code>center</code>和<code>baseline</code>之间的距离设为<code>B</code>,将<code>center</code>和<code>bottom</code>之间的距离设为<code>C</code>。这是就可以得出下面的公式</p>
+<blockquote>
+<p>A = C = (bottom - top)/2</p>
+<p>B = baseline - center</p>
+<p>B = C - (bottom - baseline )</p>
+</blockquote>
+<p>然后根据上文得到的公式:</p>
+<blockquote>
+<p>bottom = fontMetrics.bottom + baseline</p>
+<p>top  = fontMetrics.top + baseline</p>
+</blockquote>
+<p>可以将最上面的公式修改为：</p>
+<blockquote>
+<p>baseline - center = (fontMetrics.bottom + baseline - fontMetrics.top - baseline) / 2 - (fontMetrics.bottom + baseline - baseline)</p>
+</blockquote>
+<p>最后的到的公式为：</p>
+<blockquote>
+<p>baseline = center - (fontMetrics.bottom - fontMetrics.top) / 2 + fontMetrics.bottom</p>
+</blockquote>
+<p>上面的到的公式就是给出中心线的位置，最后计算出的基线所在位置的公式。</p>
+<h3 id="3-给定底部线线文字"><a href="#3-给定底部线线文字" class="headerlink" title="(3)给定底部线线文字"></a>(3)给定底部线线文字</h3><p>&emsp;&emsp;这种情况应该是最简单的了，直接把给定点的Y坐标作为基线的Y坐标就行了。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;文章到这里，已经回答了文章开始的几个问题，相信阅读本文之后，你也对自定义View中画文字有了更清晰的理解。如果仍有什么疑问，可以在文章下方留言。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.wizardev.cn/Android自定义View之定点写文字.html" title="Android自定义View之定点写文字">http://www.wizardev.cn/Android自定义View之定点写文字.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
+          
+            <a href="/tags/自定义View/" rel="tag"><i class="fa fa-tag"></i> 自定义View</a>
+          
+            <a href="/tags/View/" rel="tag"><i class="fa fa-tag"></i> View</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/在Mac 上搭建Pygame环境（含安装错误的解决办法）.html" rel="next" title="在Mac 上搭建Pygame环境（含安装错误的解决办法）">
+                <i class="fa fa-chevron-left"></i> 在Mac 上搭建Pygame环境（含安装错误的解决办法）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/反编译之脱去乐固加固的壳.html" rel="prev" title="反编译之脱去乐固加固的壳">
+                反编译之脱去乐固加固的壳 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/fnhfire_7030" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个小例子"><span class="nav-number">1.</span> <span class="nav-text">一个小例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#drawText-中的基线"><span class="nav-number">2.</span> <span class="nav-text">drawText()中的基线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FontMetrics"><span class="nav-number">3.</span> <span class="nav-text">FontMetrics</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-FontMetrics概述"><span class="nav-number">3.1.</span> <span class="nav-text">(1)FontMetrics概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-获取FontMetrics对象"><span class="nav-number">3.2.</span> <span class="nav-text">(2)获取FontMetrics对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-FontMetrics注意事项"><span class="nav-number">3.3.</span> <span class="nav-text">(3)FontMetrics注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指定位置写文字"><span class="nav-number">4.</span> <span class="nav-text">指定位置写文字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-给定左上方点写字"><span class="nav-number">4.1.</span> <span class="nav-text">(1)给定左上方点写字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-给定中间线写文字"><span class="nav-number">4.2.</span> <span class="nav-text">(2)给定中间线写文字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-给定底部线线文字"><span class="nav-number">4.3.</span> <span class="nav-text">(3)给定底部线线文字</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">5.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '9adc0861a1bf2bd6531c',
+          clientSecret: 'd2768669a1c30cc30b77423ed0105c14c1f961cf',
+          repo: 'funaihui.github.io',
+          owner: 'funaihui',
+          admin: ['funaihui'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/3.10.0/av-min.js"></script>
+  <script>AV.initialize("M8Q7e1X2U3UeMd8yFEeHWS2P-gzGzoHsz", "S7Cu9Js4grKw4hU0DHgunStq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
