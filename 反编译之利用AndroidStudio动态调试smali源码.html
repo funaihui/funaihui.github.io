@@ -110,7 +110,7 @@
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/15/167afbe49fb05386?w=996&h=197&f=png&s=72144">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/15/167afc305ebf7fe4?w=664&h=39&f=png&s=4739">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/12/15/167afc678a8f81de?w=1029&h=49&f=png&s=16828">
-<meta property="og:updated_time" content="2018-12-15T03:06:12.779Z">
+<meta property="og:updated_time" content="2018-12-15T03:10:20.599Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="反编译之利用AndroidStudio动态调试smali源码">
 <meta name="twitter:description" content="前言：我们可以利用apktool得到smali源码，可以利用dex2jar将classes.dex文件编译成.jar文件，然后通过jd-gui工具来查看Java代码，对比着Java代码，基本就可以看懂smali源码了。但有时一个变量的值很难确定，这时候就需要我们通过动态调试来确定不同的条件下这个变量具体的值了。">
@@ -432,7 +432,7 @@
 <p>前言：我们可以利用apktool得到smali源码，可以利用<code>dex2jar</code>将<code>classes.dex</code>文件编译成<code>.jar</code>文件，然后通过<code>jd-gui</code>工具来查看Java代码，对比着Java代码，基本就可以看懂smali源码了。但有时一个变量的值很难确定，这时候就需要我们通过动态调试来确定不同的条件下这个变量具体的值了。</p>
 </blockquote>
 <a id="more"></a>
-<h3 id="让apk可调式"><a href="#让apk可调式" class="headerlink" title="让apk可调式"></a>让apk可调式</h3><p>&emsp;&emsp;想要调试apk的首要条件就是让这个apk具备可以调试的条件，让apk具备可以调试的方法有三种：</p>
+<h3 id="让apk可调式"><a href="#让apk可调式" class="headerlink" title="让apk可调式"></a>让apk可调式</h3><p>&emsp;&emsp;想要调试apk的首要条件就是让这个apk具备可以调试的条件，让apk具备可以调试的方法有两种：</p>
 <ol>
 <li>反编译apk，修改AndroidManifest.xml的debug属性并在程序的入口处添加<code>waitForDebugger</code>代码进行调试等待。</li>
 <li>打开系统调试总开关，使用am命令，以调试模式启动应用。</li>
@@ -483,7 +483,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">adb shell</div><div class="line">props</div></pre></td></tr></table></figure>
 <p>会出现这个界面<img src="https://user-gold-cdn.xitu.io/2018/12/14/167acc1ba5770c50?w=423&amp;h=543&amp;f=png&amp;s=43411" alt=""></p>
 <p>然后，输入3，回车，会出现这个界面<img src="https://user-gold-cdn.xitu.io/2018/12/14/167acc312eaaa2d2?w=429&amp;h=396&amp;f=png&amp;s=32338" alt=""></p>
-<p>然后，输入1，回车，出现这个界面<img src="/Users/funaihui/Library/Application Support/typora-user-images/image-20181214205015903.png" alt="image-20181214205015903"></p>
+<p>然后，输入1，回车，出现这个界面</p>
+<p><img src="/Users/funaihui/Library/Application Support/typora-user-images/image-20181214205015903.png" alt="image-20181214205015903"></p>
 <p>可以看到图中显示当前的“ro.debuggable”的值为0，如果要修改为1的话输入“y”，回车即可修改完成。</p>
 </li>
 <li><p>接着终端会弹出是否重启，这时继续输入“y”重启，重启后修改的“ro.debuggable”才会生效。</p>
