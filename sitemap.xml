@@ -2,13 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.wizardev.cn/google5241dec6f382e5a0.html</loc>
-    
-    <lastmod>2018-12-31T01:25:11.937Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.wizardev.cn/%E5%88%A9%E7%94%A8RecyclerView%E5%AE%9E%E7%8E%B0%E6%97%A0%E9%99%90%E8%BD%AE%E6%92%AD%E5%B9%BF%E5%91%8A%E6%9D%A1.html</loc>
     
     <lastmod>2018-12-30T09:11:27.376Z</lastmod>
@@ -191,14 +184,14 @@
   </url>
   
   <url>
-    <loc>http://www.wizardev.cn/categories/index.html</loc>
+    <loc>http://www.wizardev.cn/tags/index.html</loc>
     
     <lastmod>2018-11-10T03:19:09.887Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.wizardev.cn/tags/index.html</loc>
+    <loc>http://www.wizardev.cn/categories/index.html</loc>
     
     <lastmod>2018-11-10T03:19:09.887Z</lastmod>
     
