@@ -16,6 +16,7 @@
 {"title":"ubuntu16.04开机后进入grub rescue>终端模式的解决办法","url":"/ubuntu16-04开机后进入grub-rescue-终端模式的解决办法.html"},
 {"title":"从源码定制你的专属Next主题","url":"/从源码定制你的专属Next主题.html"},
 {"title":"利用Android Studio在App中集成第三方支付","url":"/利用Android Studio在App中集成第三方支付.html"},
+{"title":"利用RecyclerView实现无限轮播广告条","url":"/利用RecyclerView实现无限轮播广告条.html"},
 {"title":"反编译之利用AndroidStudio动态调试smali源码","url":"/反编译之利用AndroidStudio动态调试smali源码.html"},
 {"title":"反编译之将脱壳后的dex文件重新打包成apk","url":"/反编译之将脱壳后的dex文件重新打包成apk.html"},
 {"title":"反编译之脱去乐固加固的壳","url":"/反编译之脱去乐固加固的壳.html"},
