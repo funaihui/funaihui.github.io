@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="RxJava2,源码," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言：到现在这个阶段，网上关于RxJava2源码分析的文章已经满天飞了，我写这篇文章的目的并不是说我会分析的比他们好，比他们透彻，这篇文章的目的只是单纯的记录自己分析RxJava2源码的成功及收获。">
+<meta name="keywords" content="RxJava2,源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava2源码分析（一）：基本流程分析">
+<meta property="og:url" content="http://www.wizardev.cn/RxJava2源码分析（一）：基本流程分析.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
+<meta property="og:description" content="前言：到现在这个阶段，网上关于RxJava2源码分析的文章已经满天飞了，我写这篇文章的目的并不是说我会分析的比他们好，比他们透彻，这篇文章的目的只是单纯的记录自己分析RxJava2源码的成功及收获。">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/6/16821733e47155e6?w=1201&h=771&f=jpeg&s=138704">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/6/16821733e47155e6?w=1201&h=771&f=jpeg&s=138704">
+<meta property="og:updated_time" content="2019-01-06T09:23:30.874Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava2源码分析（一）：基本流程分析">
+<meta name="twitter:description" content="前言：到现在这个阶段，网上关于RxJava2源码分析的文章已经满天飞了，我写这篇文章的目的并不是说我会分析的比他们好，比他们透彻，这篇文章的目的只是单纯的记录自己分析RxJava2源码的成功及收获。">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/1/6/16821733e47155e6?w=1201&h=771&f=jpeg&s=138704">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wizardev.cn/RxJava2源码分析（一）：基本流程分析.html"/>
+
+
+
+
+
+  <title>RxJava2源码分析（一）：基本流程分析 | wizardev's blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0584b46515b23a26aa7a405658f525a5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wizardev's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大水水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/RxJava2源码分析（一）：基本流程分析.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RxJava2源码分析（一）：基本流程分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-06T12:35:14+08:00">
+                2019-01-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/RxJava2源码分析（一）：基本流程分析.html" class="leancloud_visitors" data-flag-title="RxJava2源码分析（一）：基本流程分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2.3k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  10 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>前言：到现在这个阶段，网上关于RxJava2源码分析的文章已经满天飞了，我写这篇文章的目的并不是说我会分析的比他们好，比他们透彻，这篇文章的目的只是单纯的记录自己分析RxJava2源码的成功及收获。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>&emsp;&emsp;对于一个编程人的技术成长，一般会经历三个阶段，首先是学会使用开源库，然后是知道开源库的原理，最后就是自己写一个开源库。虽然在日常的开发中使用RxJava2已经达到了得心应手的地步，但是不了解具体的原理，总感觉有点虚。于是就想静下心来，好好的分析一下RxJava源码，达到不仅知其然更知其所以然的地步。</p>
+<p>&emsp;&emsp;下图是分析RxJava基本流程后，画的UML图，对于已经分析过源码的大神，可以看下图画的是否正确，对于没有分析过源码的人，可以看下，先有个映像，然后再跟着文章的内容，一点点的理解。<code>(点击图片查看大图)</code></p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/1/6/16821733e47155e6?w=1201&amp;h=771&amp;f=jpeg&amp;s=138704" alt="基本流程分析，UML图"></p>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>&emsp;&emsp;先看RxJava2基础用法的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">basicUseRxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">       Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">               emitter.onNext(<span class="number">1</span>);</div><div class="line">               emitter.onNext(<span class="number">2</span>);</div><div class="line">               emitter.onNext(<span class="number">3</span>);</div><div class="line">           &#125;</div><div class="line">       &#125;).subscribe(<span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line"></div><div class="line">           &#125;</div><div class="line"></div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">               Log.e(<span class="string">"wizardev"</span>, <span class="string">"onNext: "</span>+s);</div><div class="line">           &#125;</div><div class="line"></div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line"></div><div class="line">           &#125;</div><div class="line"></div><div class="line">           <span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">           &#125;</div><div class="line">       &#125;);</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>以上代码，只是RxJava2的基本使用，并没有涉及任何的操作符代码，下面我们就按方法顺序开始分析源码。</p>
+<h4 id="create方法分析"><a href="#create方法分析" class="headerlink" title="create方法分析"></a>create方法分析</h4><p>&emsp;&emsp;看下<code>create()</code>方法的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Observable&lt;T&gt; <span class="title">create</span><span class="params">(ObservableOnSubscribe&lt;T&gt; source)</span> </span>&#123;</div><div class="line">    <span class="comment">//1、判空</span></div><div class="line">       ObjectHelper.requireNonNull(source, <span class="string">"source is null"</span>);</div><div class="line">    <span class="comment">//2、</span></div><div class="line">       <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> ObservableCreate&lt;T&gt;(source));</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>从以上代码可以看出，<code>create</code>方法的返回值类型是<code>Observable</code>,参数是<code>ObservableOnSubscribe&lt;T&gt;</code>,可以先看下这个<code>ObservableOnSubscribe</code>类，源码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ObservableOnSubscribe</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * Called for each Observer that subscribes.</div><div class="line">     * <span class="doctag">@param</span> emitter the safe emitter instance, never null</div><div class="line">     * <span class="doctag">@throws</span> Exception on error</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(@NonNull ObservableEmitter&lt;T&gt; emitter)</span> <span class="keyword">throws</span> Exception</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>可以发现<code>ObservableOnSubscribe</code>类是一个接口，里面有一个<code>subscribe</code>方法</strong>。现在继续看<code>create</code>方法中的代码，在“1”处代码是判断传入的参数是否为空。这里主要看下“2”处，这句<code>RxJavaPlugins.onAssembly</code>其实是一个Hook方法，<strong>“2”处代码实质就是<code>return new ObservableCreate&lt;T&gt;(source);</code>,</strong>不信的话，可以看下<code>onAssembly</code>方法，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">Observable&lt;T&gt; <span class="title">onAssembly</span><span class="params">(@NonNull Observable&lt;T&gt; source)</span> </span>&#123;</div><div class="line">       Function&lt;? <span class="keyword">super</span> Observable, ? extends Observable&gt; f = onObservableAssembly;</div><div class="line">       <span class="keyword">if</span> (f != <span class="keyword">null</span>) &#123;</div><div class="line">           <span class="keyword">return</span> apply(f, source);</div><div class="line">       &#125;</div><div class="line">       <span class="keyword">return</span> source;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>经调试，<code>onObservableAssembly</code>为null，所以上面的代码就直接返回了<code>new ObservableCreate&lt;T&gt;(source)</code>。</p>
+<p>&emsp;&emsp;现在看下<code>ObservableCreate</code>类，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ObservableCreate</span>&lt;<span class="title">T</span>&gt; <span class="keyword">extends</span> <span class="title">Observable</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line">    <span class="comment">//1、全局变量</span></div><div class="line">    <span class="keyword">final</span> ObservableOnSubscribe&lt;T&gt; source;</div><div class="line"></div><div class="line">    <span class="comment">//2、构造方法中将source赋值</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ObservableCreate</span><span class="params">(ObservableOnSubscribe&lt;T&gt; source)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.source = source;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//3、这个方法是在调用subscribe方法才调用的</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</div><div class="line">        CreateEmitter&lt;T&gt; parent = <span class="keyword">new</span> CreateEmitter&lt;T&gt;(observer);</div><div class="line">        observer.onSubscribe(parent);</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            source.subscribe(parent);</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</div><div class="line">            Exceptions.throwIfFatal(ex);</div><div class="line">            parent.onError(ex);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//...省略部分代码</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>从上面的代码可以知道，<code>ObservableCreate</code>类继承自<code>Observable</code>，在实例化的时候将<code>create</code>方法中的<code>ObservableOnSubscribe&lt;T&gt; source</code>参数注入了进来，作为成员变量<code>source</code>。</strong></p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>&emsp;&emsp;通过分析<code>Observable</code>类的<code>create</code>方法，可以有以下结论：</p>
+<ol>
+<li><code>create</code>方法的返回值类型是<code>Observable</code>；</li>
+<li><code>create</code>方法的参数的类型是接口；</li>
+<li><code>create</code>方法实际返回的是<code>ObservableCreate</code>类,而<code>ObservableCreate</code>类是<code>Observable</code>的子类；</li>
+<li>在实例化<code>ObservableCreate</code>类的时候将<code>create</code>的方法的参数注入到了<code>ObservableCreate</code>类中，作为它的成员变量<code>source</code>。</li>
+</ol>
+<p>这里重点看下第4个结论，在这里<code>create</code>方法的参数实际就是下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                emitter.onNext(<span class="number">1</span>);</div><div class="line">                emitter.onNext(<span class="number">2</span>);</div><div class="line">                emitter.onNext(<span class="number">3</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<h3 id="subscribe方法分析"><a href="#subscribe方法分析" class="headerlink" title="subscribe方法分析"></a>subscribe方法分析</h3><p>&emsp;&emsp;分析完了<code>create</code>方法，接着来分析<code>subscribe</code>方法，其方法代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</div><div class="line">     <span class="comment">//1、判空</span></div><div class="line">        ObjectHelper.requireNonNull(observer, <span class="string">"observer is null"</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//2、Hook方法，实质就是observer</span></div><div class="line">            observer = RxJavaPlugins.onSubscribe(<span class="keyword">this</span>, observer);</div><div class="line"><span class="comment">//判空</span></div><div class="line">            ObjectHelper.requireNonNull(observer, <span class="string">"The RxJavaPlugins.onSubscribe hook returned a null Observer. Please change the handler provided to RxJavaPlugins.setOnObservableSubscribe for invalid null returns. Further reading: https://github.com/ReactiveX/RxJava/wiki/Plugins"</span>);</div><div class="line">			<span class="comment">//4、重点，</span></div><div class="line">            subscribeActual(observer);</div><div class="line">        &#125; <span class="keyword">catch</span> (NullPointerException e) &#123; <span class="comment">// NOPMD</span></div><div class="line">            <span class="keyword">throw</span> e;</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable e) &#123;</div><div class="line">            Exceptions.throwIfFatal(e);</div><div class="line">            <span class="comment">// can't call onError because no way to know if a Disposable has been set or not</span></div><div class="line">            <span class="comment">// can't call onSubscribe because the call might have set a Subscription already</span></div><div class="line">            RxJavaPlugins.onError(e);</div><div class="line"></div><div class="line">            NullPointerException npe = <span class="keyword">new</span> NullPointerException(<span class="string">"Actually not, but can't throw other exceptions due to RS"</span>);</div><div class="line">            npe.initCause(e);</div><div class="line">            <span class="keyword">throw</span> npe;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这里重点看下“4”处， 这里调用了<code>Obeservable</code>的<code>subscribeActual</code>方法，可以看下<code>Obeservable</code>类中的这个方法，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span></span>;</div></pre></td></tr></table></figure>
+<p>这个方法是抽象的，实际调用的是它子类中的方法，通过上文的分析，我们知道<code>ObservableCreate</code>就<code>Obeservable</code>类的子类，所以，这里调用的实际就是<code>ObservableCreate</code>类中的<code>subscribeActual</code>方法。现在，我们再看下这个方法中的代码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</div><div class="line">      <span class="comment">//1、实例化CreateEmitter</span></div><div class="line">      CreateEmitter&lt;T&gt; parent = <span class="keyword">new</span> CreateEmitter&lt;T&gt;(observer);</div><div class="line">      <span class="comment">//2、回调方法</span></div><div class="line">      observer.onSubscribe(parent);</div><div class="line"></div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line">          <span class="comment">//3、回调方法</span></div><div class="line">          source.subscribe(parent);</div><div class="line">      &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</div><div class="line">          Exceptions.throwIfFatal(ex);</div><div class="line">          parent.onError(ex);</div><div class="line">      &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>我们一步步的分析这个方法中的代码，先看“1”处的代码，这里实例化了<code>CreateEmitter</code>这个类，在实例化的同时将<code>observer</code>传了进去。看下<code>CreateEmitter</code>这个类的代码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">CreateEmitter</span>&lt;<span class="title">T</span>&gt;</span></div><div class="line">    <span class="keyword">extends</span> <span class="title">AtomicReference</span>&lt;<span class="title">Disposable</span>&gt;</div><div class="line">    <span class="keyword">implements</span> <span class="title">ObservableEmitter</span>&lt;<span class="title">T</span>&gt;, <span class="title">Disposable</span> &#123;</div><div class="line"><span class="comment">//...省略部分代码</span></div><div class="line">        <span class="keyword">final</span> Observer&lt;? <span class="keyword">super</span> T&gt; observer;</div><div class="line">        CreateEmitter(Observer&lt;? <span class="keyword">super</span> T&gt; observer) &#123;</div><div class="line">            <span class="keyword">this</span>.observer = observer;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (t == <span class="keyword">null</span>) &#123;</div><div class="line">                onError(<span class="keyword">new</span> NullPointerException(<span class="string">"onNext called with null. Null values are generally not allowed in 2.x operators and sources."</span>));</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (!isDisposed()) &#123;</div><div class="line">                observer.onNext(t);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable t)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (!tryOnError(t)) &#123;</div><div class="line">                RxJavaPlugins.onError(t);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryOnError</span><span class="params">(Throwable t)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (t == <span class="keyword">null</span>) &#123;</div><div class="line">                t = <span class="keyword">new</span> NullPointerException(<span class="string">"onError called with null. Null values are generally not allowed in 2.x operators and sources."</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (!isDisposed()) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    observer.onError(t);</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    dispose();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (!isDisposed()) &#123;</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    observer.onComplete();</div><div class="line">                &#125; <span class="keyword">finally</span> &#123;</div><div class="line">                    dispose();</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">       <span class="comment">//...省略部分代码</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>通过上面的代码，可以发现<code>CreateEmitter</code>这个类实现了<code>ObservableEmitter</code>这个接口，而这个接口是<code>ObservableOnSubscribe</code>接口中<code>subscribe</code>方法的参数，是不是发现什么了？现在继续往下看，看下“2”处的代码，这里回调了<code>Observer</code>的<code>onSubscribe</code>方法，分析到这里，可以得出下面的结论</p>
+<blockquote>
+<p>onSubscribe()回调所在的线程是ObservableCreate执行subscribe()所在的线程，和subscribeOn()/observeOn()无关！</p>
+</blockquote>
+<p>重点来了，这里看下“3”处的代码，还记得<code>source</code>是谁吗？<strong>它就是执行<code>Observable.create</code>方法时，我们注入给<code>ObservableCreate</code>类的成员变量，是<code>ObservableOnSubscribe</code>接口的实例。</strong>这里调用的<code>subscribe</code>方法，实际就是下面代码的<code>subscribe</code>方法,</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">               emitter.onNext(<span class="number">1</span>);</div><div class="line">               emitter.onNext(<span class="number">2</span>);</div><div class="line">               emitter.onNext(<span class="number">3</span>);</div><div class="line">           &#125;</div></pre></td></tr></table></figure>
+<p>这段代码中的<code>subscribe</code>方法的参数实质就是<code>CreateEmitter</code>,调用的<code>onNext</code>方法就是<code>CreateEmitter</code>类中的<code>onNext</code>方法。继续看下<code>CreateEmitter</code>类中的<code>onNext</code>方法，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">          <span class="comment">//1、判断传入的参数是否为null</span></div><div class="line">          <span class="keyword">if</span> (t == <span class="keyword">null</span>) &#123;</div><div class="line">              onError(<span class="keyword">new</span> NullPointerException(<span class="string">"onNext called with null. Null values are generally not allowed in 2.x operators and sources."</span>));</div><div class="line">              <span class="keyword">return</span>;</div><div class="line">          &#125;</div><div class="line">          <span class="keyword">if</span> (!isDisposed()) &#123;</div><div class="line">              <span class="comment">//2、调用Observer中的onNext方法</span></div><div class="line">              observer.onNext(t);</div><div class="line">          &#125;</div><div class="line">      &#125;</div></pre></td></tr></table></figure>
+<p>分析到这里，就可以得出以下结论了</p>
+<blockquote>
+<p>subscribe方法中发射器所调用的onNext方法，如果代码没有出错的话，最终调用的就是Observer中的onNext方法。</p>
+</blockquote>
+<p>分析<code>CreateEmitter</code>中的其他方法，还可以知道为什么<code>Observer</code>中的<code>onError</code>和<code>onComplete</code>方法只有一个会回调的原因了，原因就是无论调用的是哪一个方法都会调用dispose()方法取消订阅。</p>
+<h4 id="结论-1"><a href="#结论-1" class="headerlink" title="结论"></a>结论</h4><p>&emsp;&emsp;对<code>Observable.subscribe</code>方法的分析可以得出以下结论</p>
+<ol>
+<li><code>subscribe</code>方法最终调用了<code>ObservableCreate</code>类中的<code>subscribeActual</code>方法。</li>
+<li><code>subscribeActual</code>方法中，实例化了发射器，并开始发射数据。</li>
+<li><code>subscribe</code>方法中发射器所调用的<code>onNext</code>方法，如果代码没有出错的话，最终调用的就是<code>Observer</code>接口中的<code>onNext</code>方法。</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;通过对RxJava基本流程的源码分析，是不是对RxJava的原理有了更清晰的认识呢？分析完之后，我们再看下这张图，是不是感觉现在看起来就明白多了呢？</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/1/6/16821733e47155e6?w=1201&amp;h=771&amp;f=jpeg&amp;s=138704" alt=""></p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>&emsp;&emsp;想要了解一些开源库的原理，我们必须要阅读其源码，只有从源码中才能得到想要的答案，才能对库的原理有更清晰的认识。</p>
+<p>&emsp;&emsp;再说下，阅读开源库的注意事项，阅读源码时，我们最好带着问题来阅读，阅读前先有个目标，比如我这次阅读要搞懂什么问题，然后再开始阅读，不然就会很容易在茫茫代码中迷失。还有就是不要想着每句代码都搞懂，搞懂与自己想要获取的答案有关的代码即可。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.wizardev.cn/RxJava2源码分析（一）：基本流程分析.html" title="RxJava2源码分析（一）：基本流程分析">http://www.wizardev.cn/RxJava2源码分析（一）：基本流程分析.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RxJava2/" rel="tag"><i class="fa fa-tag"></i> RxJava2</a>
+          
+            <a href="/tags/源码/" rel="tag"><i class="fa fa-tag"></i> 源码</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/利用RecyclerView实现无限轮播广告条.html" rel="next" title="利用RecyclerView实现无限轮播广告条">
+                <i class="fa fa-chevron-left"></i> 利用RecyclerView实现无限轮播广告条
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/fnhfire_7030" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wizardev.cn/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E5%88%A9%E7%94%A8AndroidStudio%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95smali%E6%BA%90%E7%A0%81.html" title="反编译之利用AndroidStudio动态调试smali源码" target="_blank">反编译之利用AndroidStudio动态调试smali源码</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码分析"><span class="nav-number">2.</span> <span class="nav-text">源码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#create方法分析"><span class="nav-number">2.1.</span> <span class="nav-text">create方法分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结论"><span class="nav-number">2.2.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribe方法分析"><span class="nav-number">3.</span> <span class="nav-text">subscribe方法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#结论-1"><span class="nav-number">3.1.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束语"><span class="nav-number">5.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数：
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      访问量：
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '9adc0861a1bf2bd6531c',
+          clientSecret: 'd2768669a1c30cc30b77423ed0105c14c1f961cf',
+          repo: 'funaihui.github.io',
+          owner: 'funaihui',
+          admin: ['funaihui'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/3.10.0/av-min.js"></script>
+  <script>AV.initialize("M8Q7e1X2U3UeMd8yFEeHWS2P-gzGzoHsz", "S7Cu9Js4grKw4hU0DHgunStq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
