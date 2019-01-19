@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="RxJava2,源码," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言：上一篇文章RxJava2源码分析（一）：基本流程分析,是对RxJava2基本流程的分析，有了上一篇的基础，这篇就再深入一点，开始分析一下RxJava2操作符的原理。">
+<meta name="keywords" content="RxJava2,源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava2源码分析（二）：操作符原理分析">
+<meta property="og:url" content="http://www.wizardev.cn/RxJava2源码分析（二）：操作符原理分析.html">
+<meta property="og:site_name" content="wizardev&#39;s blog">
+<meta property="og:description" content="前言：上一篇文章RxJava2源码分析（一）：基本流程分析,是对RxJava2基本流程的分析，有了上一篇的基础，这篇就再深入一点，开始分析一下RxJava2操作符的原理。">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/19/16864e9c3ba86dfb?w=1202&h=1152&f=jpeg&s=125485">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/19/168651c34ceedf3e?w=1640&h=854&f=jpeg&s=150059">
+<meta property="og:updated_time" content="2019-01-19T08:57:08.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava2源码分析（二）：操作符原理分析">
+<meta name="twitter:description" content="前言：上一篇文章RxJava2源码分析（一）：基本流程分析,是对RxJava2基本流程的分析，有了上一篇的基础，这篇就再深入一点，开始分析一下RxJava2操作符的原理。">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/1/19/16864e9c3ba86dfb?w=1202&h=1152&f=jpeg&s=125485">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.wizardev.cn/RxJava2源码分析（二）：操作符原理分析.html"/>
+
+
+
+
+
+  <title>RxJava2源码分析（二）：操作符原理分析 | wizardev's blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0584b46515b23a26aa7a405658f525a5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">wizardev's blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">大水水</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/RxJava2源码分析（二）：操作符原理分析.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wizardev">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wizardev's blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RxJava2源码分析（二）：操作符原理分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-18T20:26:10+08:00">
+                2019-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/RxJava2源码分析（二）：操作符原理分析.html" class="leancloud_visitors" data-flag-title="RxJava2源码分析（二）：操作符原理分析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  2k 字
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  8 分钟
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>前言：上一篇文章<a href="http://wizardev.cn/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90.html#more" target="_blank" rel="external">RxJava2源码分析（一）：基本流程分析</a>,是对RxJava2基本流程的分析，有了上一篇的基础，这篇就再深入一点，开始分析一下RxJava2操作符的原理。</p>
+</blockquote>
+<a id="more"></a>
+<p>&emsp;&emsp;为了方便理解RxJava2操作符的原理，这里选择最常用的<code>map</code>操作符来讲解操作符的原理，示例代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">basicUseRxJava</span><span class="params">()</span> </span>&#123;</div><div class="line">        Observable.create(<span class="keyword">new</span> ObservableOnSubscribe&lt;Integer&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                emitter.onNext(<span class="number">1</span>);</div><div class="line">                emitter.onNext(<span class="number">2</span>);</div><div class="line">                emitter.onNext(<span class="number">3</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;).map(<span class="keyword">new</span> Function&lt;Integer, String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="string">"我是数字"</span> + integer;</div><div class="line">            &#125;</div><div class="line">        &#125;).subscribe(<span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">                Log.e(<span class="string">"wizardev"</span>, <span class="string">"onNext: "</span> + s);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line"></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="内容回顾"><a href="#内容回顾" class="headerlink" title="内容回顾"></a>内容回顾</h3><p>&emsp;&emsp;因为这一篇的内容是在上一篇的基础上进行讲解的，所以在讲解操作符之前，先回顾一下前一篇主要的知识，如下：</p>
+<ol>
+<li>Observable执行的create方法后返回的是ObservableCreate实例。</li>
+<li>create方法的参数，实际是注入到ObservableCreate类中，作为它的成员变量。</li>
+<li>调用Observable的subscribe方法最终调用的是ObservableCreate类中的subscribeActual方法。</li>
+</ol>
+<h3 id="操作符分析"><a href="#操作符分析" class="headerlink" title="操作符分析"></a>操作符分析</h3><p>&emsp;&emsp;同样，这里分析源码的顺序依然按照代码的执行顺序，<code>create</code>方法前文已经分析过了，这里就直接看<code>map</code>方法，<code>map</code>方法的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; <span class="function">Observable&lt;R&gt; <span class="title">map</span><span class="params">(Function&lt;? <span class="keyword">super</span> T, ? extends R&gt; mapper)</span> </span>&#123;</div><div class="line">       ObjectHelper.requireNonNull(mapper, <span class="string">"mapper is null"</span>);</div><div class="line">       <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> ObservableMap&lt;T, R&gt;(<span class="keyword">this</span>, mapper));</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<p>有了前一篇的经验，可以直接从这个方法中得出结论<strong>即<code>map</code>方法返回的是ObservableMap实例，同时将<code>map</code>方法的参数及Observable自身注入了其构造方法中。</strong></p>
+<p>&emsp;&emsp;现在看下ObservableMap类的源码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ObservableMap</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt; <span class="keyword">extends</span> <span class="title">AbstractObservableWithUpstream</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">final</span> Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; function;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ObservableMap</span><span class="params">(ObservableSource&lt;T&gt; source, Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; function)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(source);<span class="comment">//调用了其父类的构造方法</span></div><div class="line">        <span class="keyword">this</span>.function = function;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> U&gt; t)</span> </span>&#123;</div><div class="line">        source.subscribe(<span class="keyword">new</span> MapObserver&lt;T, U&gt;(t, function));</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//省略部分无关代码</span></div><div class="line">    <span class="comment">//...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上面的代码中可以看出，<code>ObservableMap</code>继承至<code>AbstractObservableWithUpstream</code>,继续进入<code>AbstractObservableWithUpstream</code>类中看下源码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractObservableWithUpstream</span>&lt;<span class="title">T</span>, <span class="title">U</span>&gt; <span class="keyword">extends</span> <span class="title">Observable</span>&lt;<span class="title">U</span>&gt; <span class="keyword">implements</span> <span class="title">HasUpstreamObservableSource</span>&lt;<span class="title">T</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> ObservableSource&lt;T&gt; source;</div><div class="line"></div><div class="line">    AbstractObservableWithUpstream(ObservableSource&lt;T&gt; source) &#123;</div><div class="line">        <span class="keyword">this</span>.source = source;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> ObservableSource&lt;T&gt; <span class="title">source</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> source;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上面的一段代码，可以知道<code>AbstractObservableWithUpstream</code>类其实就是<code>Observable</code>类的装饰类,这个类的作用就是将实例化的<code>Observable</code>注入进来，作为其成员变量。分析到这里可以得出这几个类的关系如下</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/1/19/16864e9c3ba86dfb?w=1202&amp;h=1152&amp;f=jpeg&amp;s=125485" alt=""></p>
+<p><font color="red"> 注：</font>ObservableMap中的成员变量<code>function</code>就是我们写的这段代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Function&lt;Integer, String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">                <span class="keyword">return</span> <span class="string">"我是数字"</span> + integer;</div><div class="line">            &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>好了，到这里算是将<code>map</code>方法所做的事情分析完了，下面来看实例代码的最后一个方法<code>subscribe</code>.</p>
+<h3 id="subscribe方法分析"><a href="#subscribe方法分析" class="headerlink" title="subscribe方法分析"></a>subscribe方法分析</h3><p>&emsp;&emsp;通过上一篇文章可以知道<code>subscribe</code>方法实际调用的是Observable子类的<code>subscribeActual</code>方法，而这里调用<code>subscribe</code>方法的类是<code>ObservableMap</code>,所以这里调用的就是<code>ObservableMap</code>类的<code>subscribeActual</code>方法。现在来看下ObservableMap类的<code>subscribeActual</code>方法的源码，如下<code>(为了分析方便，这里将与subscribeActual方法有关的代码一起贴了出来)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; function;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ObservableMap</span><span class="params">(ObservableSource&lt;T&gt; source, Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; function)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(source);</div><div class="line">        <span class="keyword">this</span>.function = function;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> U&gt; t)</span> </span>&#123;</div><div class="line">        source.subscribe(<span class="keyword">new</span> MapObserver&lt;T, U&gt;(t, function));</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>从上面的代码可以发现<code>ObservableMap</code>类的<code>subscribeActual</code>方法又调用了其上游的<code>subscribe</code>方法，为了便于理解这里解释一下文中所说的上游下游</p>
+<blockquote>
+<p>文中说的“上游”及“下游”其实是相对而言的，这里的“上游”是靠近Observable的，如示例代码中的subscribe是最下游，map是其上游，而map操作符又是crate方法的下游。</p>
+</blockquote>
+<p>这里上游的<code>subscribe</code>方法就是ObservableCreate调用的<code>subscribe</code>方法，实际就是调用ObservableCreate的<code>subscribeActual</code>方法，接着就是前一篇讲过的流程了。</p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>&emsp;&emsp;分析到现在可以得出以下结论</p>
+<ul>
+<li><code>subscribe</code>方法的调用流程是从下往上的，就是从下游往上游分别调用其<code>subscribe</code>方法。</li>
+</ul>
+<p>为了方便理解，这里我用时序图表示<code>subscribe</code>的调用顺序，如下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/1/19/168651c34ceedf3e?w=1640&amp;h=854&amp;f=jpeg&amp;s=150059" alt=""></p>
+<h3 id="接收数据流程分析"><a href="#接收数据流程分析" class="headerlink" title="接收数据流程分析"></a>接收数据流程分析</h3><p>&emsp;&emsp;上面的内容分析了RxJava2基本流程加入操作符后的<code>subscribe</code>方法的执行顺序，接着就来看下，数据的接收顺序。经过上面的分析可以知道最终调用的是ObservableCreate类的<code>subscribeActual</code>方法，这里与前一篇文章<code>subscribeActual</code>方法不同的就是<code>subscribeActual</code>方法的参数改变了，这里的参数是<code>MapObserver</code>类的实例,再来看下ObservableCreate类的<code>subscribeActual</code>方法的源码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这里的参数实际是MapObserver类的实例</span></div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">subscribeActual</span><span class="params">(Observer&lt;? <span class="keyword">super</span> T&gt; observer)</span> </span>&#123;</div><div class="line">        CreateEmitter&lt;T&gt; parent = <span class="keyword">new</span> CreateEmitter&lt;T&gt;(observer);</div><div class="line">        observer.onSubscribe(parent);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//这句代码的最终调用的就是MapObserver类的onNext方法。</span></div><div class="line">            source.subscribe(parent);</div><div class="line">        &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</div><div class="line">            Exceptions.throwIfFatal(ex);</div><div class="line">            parent.onError(ex);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>一些重要的内容已经在上面的代码中进行了注释，可能这句<code>source.subscribe(parent);</code>代码，不好理解，这里就来解释一下这句代码，由上一篇文章可知，这里的<code>source</code>就是示例代码中的<code>new ObservableOnSubscribe&lt;Integer&gt;()...</code>实例，这里就是调用了这个实例的<code>subscribe</code>方法，而这个方法中的代码就是调用了其参数的<code>onNext</code>方法，<strong>最终调用的就是MapObserver类的onNext方法。</strong>现在，来看下MapObserver类的onNext方法的代码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(T t)</span> </span>&#123;</div><div class="line">            <span class="keyword">if</span> (done) &#123;</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (sourceMode != NONE) &#123;</div><div class="line">                downstream.onNext(<span class="keyword">null</span>);</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            U v;</div><div class="line"></div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">//1、</span></div><div class="line">                v = ObjectHelper.requireNonNull(mapper.apply(t), <span class="string">"The mapper function returned a null value."</span>);</div><div class="line">            &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</div><div class="line">                fail(ex);</div><div class="line">                <span class="keyword">return</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//2、</span></div><div class="line">            downstream.onNext(v);</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>主要来看下<code>v = ObjectHelper.requireNonNull(mapper.apply(t), &quot;The mapper function returned a null value.&quot;);</code>这句代码，这句代码中的mapper就是注入到ObservableMap中的成员变量function，详细内容可以查看源码。调用的apply方法，就是示例代码中的这句代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Override</span></div><div class="line">           <span class="function"><span class="keyword">public</span> String <span class="title">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">               <span class="keyword">return</span> <span class="string">"我是数字"</span> + integer;</div><div class="line">           &#125;</div></pre></td></tr></table></figure>
+<p>接着，可以发现又调用了“2”处的代码<code>downstream.onNext(v);</code>，这句代码中的<code>downstream</code>就是示例代码中最下游的<code>subscribe</code>方法中的参数即是下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Observer&lt;String&gt;() &#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSubscribe</span><span class="params">(Disposable d)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onNext</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">                Log.e(<span class="string">"wizardev"</span>, <span class="string">"onNext: "</span> + s);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Throwable e)</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onComplete</span><span class="params">()</span> </span>&#123;</div><div class="line"></div><div class="line">            &#125;</div><div class="line">        &#125;</div></pre></td></tr></table></figure>
+<p>所以这句<code>downstream.onNext(v);</code>调用的就是<code>new Observer&lt;String&gt;()</code>匿名类中的<code>onNext</code>方法。关于<code>downstream</code>的是何时初始化的，可以从MapObserver的父类BasicFuseableObserver类中知晓。</p>
+<h4 id="结论-1"><a href="#结论-1" class="headerlink" title="结论"></a>结论</h4><p>&emsp;&emsp;分析到这里，又可以得出一些结论</p>
+<ul>
+<li>关于数据的处理上从上游到下游一级级的处理的。</li>
+<li>在MapObserver类中的<code>onNext</code>方法，首先调用的是<code>function</code>中的<code>apply</code>方法，然后再调用下游的<code>onNext</code>方法并将处理后的参数传入。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;通过分析<code>map</code>操作符，可以知道订阅方法（subscribe）是从下游到上游进行订阅的，而数据的发射是从上游到下游进行的。这两个特性不仅仅是<code>map</code>操作符的特性，对其他的操作符同样适用。为了讲清楚这两个特性，本文就选了比较具有代表性的<code>map</code>操作符，如果想了解其他操作符的原理，就顺着这两个特性分析就行了。</p>
+<p>&emsp;&emsp;授之以鱼，不如授之以渔。本文的目的就是解释清楚操作符的思想及原理，理解了这种思想及原理，分析其他的操作符也就不在话下了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/uploads/wechat-qcode.jpg" alt="wizardev wechat" style="width: 200px; max-width: 100%;"/>
+    <div>欢迎您扫一扫上面的微信公众号，订阅我的博客！</div>
+</div>
+
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    wizardev
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://www.wizardev.cn/RxJava2源码分析（二）：操作符原理分析.html" title="RxJava2源码分析（二）：操作符原理分析">http://www.wizardev.cn/RxJava2源码分析（二）：操作符原理分析.html</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RxJava2/" rel="tag"><i class="fa fa-tag"></i> RxJava2</a>
+          
+            <a href="/tags/源码/" rel="tag"><i class="fa fa-tag"></i> 源码</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/RxJava2源码分析（一）：基本流程分析.html" rel="next" title="RxJava2源码分析（一）：基本流程分析">
+                <i class="fa fa-chevron-left"></i> RxJava2源码分析（一）：基本流程分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div id="gitalk-container"></div>
+
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="wizardev" />
+            
+              <p class="site-author-name" itemprop="name">wizardev</p>
+              <p class="site-description motion-element" itemprop="description">芝兰生于空谷，不以无人而不香。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/funaihui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/5815fabad203090055c47ab1" target="_blank" title="掘金">
+                      
+                        <i class="fa fa-fw fa-spinner"></i>掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://blog.csdn.net/fnhfire_7030" target="_blank" title="CSDN">
+                      
+                        <i class="fa fa-fw fa-copyright"></i>CSDN</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                推荐阅读
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://juejin.im/post/59f9c9856fb9a0452b488e11" title="打造你专属的ubuntu系统" target="_blank">打造你专属的ubuntu系统</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://wizardev.cn/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E5%88%A9%E7%94%A8AndroidStudio%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95smali%E6%BA%90%E7%A0%81.html" title="反编译之利用AndroidStudio动态调试smali源码" target="_blank">反编译之利用AndroidStudio动态调试smali源码</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#内容回顾"><span class="nav-number">1.</span> <span class="nav-text">内容回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作符分析"><span class="nav-number">2.</span> <span class="nav-text">操作符分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subscribe方法分析"><span class="nav-number">3.</span> <span class="nav-text">subscribe方法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#结论"><span class="nav-number">3.1.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收数据流程分析"><span class="nav-number">4.</span> <span class="nav-text">接收数据流程分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#结论-1"><span class="nav-number">4.1.</span> <span class="nav-text">结论</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wizardev</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      访客数：
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      访问量：
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/three.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/three/canvas_sphere.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="/js/src/md5.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '9adc0861a1bf2bd6531c',
+          clientSecret: 'd2768669a1c30cc30b77423ed0105c14c1f961cf',
+          repo: 'funaihui.github.io',
+          owner: 'funaihui',
+          admin: ['funaihui'],
+          id: md5(location.pathname),
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/3.10.0/av-min.js"></script>
+  <script>AV.initialize("M8Q7e1X2U3UeMd8yFEeHWS2P-gzGzoHsz", "S7Cu9Js4grKw4hU0DHgunStq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
