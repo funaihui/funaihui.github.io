@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="wizardev, 博客" />
+  <meta name="keywords" content="RxJava2,源码," />
 
 
 
@@ -86,18 +86,19 @@
 
 
 
-<meta name="description" content="前言：经过前面两篇文章对RxJava2源码的分析，我们已经对RxJava2的基本流程及操作符的原理有了一定程度的认识。这篇文章将在前面两篇文章的基础上，对RxJava2的线程调度进行分析，建议先阅读前面两篇的文章，再阅读本文。 注：文章内容过多，建议在空闲时阅读。  相关文章 RxJava2源码分析（一）：基本流程分析  RxJava2源码分析（二）：操作符原理分析   示例代码&amp;emsp;&amp;e">
+<meta name="description" content="前言：经过前面两篇文章对RxJava2源码的分析，我们已经对RxJava2的基本流程及操作符的原理有了一定程度的认识。这篇文章将在前面两篇文章的基础上，对RxJava2的线程调度进行分析，建议先阅读前面两篇的文章，再阅读本文。 注：文章内容过多，建议在空闲时阅读。">
+<meta name="keywords" content="RxJava2,源码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RxJava2源码分析（三）：线程调度分析">
 <meta property="og:url" content="http://www.wizardev.cn/RxJava2源码分析（三）：线程调度分析.html">
 <meta property="og:site_name" content="wizardev&#39;s blog">
-<meta property="og:description" content="前言：经过前面两篇文章对RxJava2源码的分析，我们已经对RxJava2的基本流程及操作符的原理有了一定程度的认识。这篇文章将在前面两篇文章的基础上，对RxJava2的线程调度进行分析，建议先阅读前面两篇的文章，再阅读本文。 注：文章内容过多，建议在空闲时阅读。  相关文章 RxJava2源码分析（一）：基本流程分析  RxJava2源码分析（二）：操作符原理分析   示例代码&amp;emsp;&amp;e">
+<meta property="og:description" content="前言：经过前面两篇文章对RxJava2源码的分析，我们已经对RxJava2的基本流程及操作符的原理有了一定程度的认识。这篇文章将在前面两篇文章的基础上，对RxJava2的线程调度进行分析，建议先阅读前面两篇的文章，再阅读本文。 注：文章内容过多，建议在空闲时阅读。">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/31/168a1d413caa3808?w=1018&h=190&f=png&s=53148">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/1/31/168a3da4099dceff?w=900&h=900&f=jpeg&s=59809">
-<meta property="og:updated_time" content="2019-02-01T01:44:33.212Z">
+<meta property="og:updated_time" content="2019-02-01T01:47:39.227Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava2源码分析（三）：线程调度分析">
-<meta name="twitter:description" content="前言：经过前面两篇文章对RxJava2源码的分析，我们已经对RxJava2的基本流程及操作符的原理有了一定程度的认识。这篇文章将在前面两篇文章的基础上，对RxJava2的线程调度进行分析，建议先阅读前面两篇的文章，再阅读本文。 注：文章内容过多，建议在空闲时阅读。  相关文章 RxJava2源码分析（一）：基本流程分析  RxJava2源码分析（二）：操作符原理分析   示例代码&amp;emsp;&amp;e">
+<meta name="twitter:description" content="前言：经过前面两篇文章对RxJava2源码的分析，我们已经对RxJava2的基本流程及操作符的原理有了一定程度的认识。这篇文章将在前面两篇文章的基础上，对RxJava2的线程调度进行分析，建议先阅读前面两篇的文章，再阅读本文。 注：文章内容过多，建议在空闲时阅读。">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/1/31/168a1d413caa3808?w=1018&h=190&f=png&s=53148">
 
 
@@ -321,6 +322,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -394,6 +417,7 @@
 <p>前言：经过前面两篇文章对RxJava2源码的分析，我们已经对RxJava2的基本流程及操作符的原理有了一定程度的认识。这篇文章将在前面两篇文章的基础上，对RxJava2的线程调度进行分析，建议先阅读前面两篇的文章，再阅读本文。</p>
 <p>注：文章内容过多，建议在空闲时阅读。</p>
 </blockquote>
+<a id="more"></a>
 <h3 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h3><ul>
 <li><p><a href="http://wizardev.cn/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90.html" target="_blank" rel="external">RxJava2源码分析（一）：基本流程分析</a></p>
 </li>
@@ -541,6 +565,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RxJava2/" rel="tag"><i class="fa fa-tag"></i> RxJava2</a>
+          
+            <a href="/tags/源码/" rel="tag"><i class="fa fa-tag"></i> 源码</a>
+          
+        </div>
       
 
       
