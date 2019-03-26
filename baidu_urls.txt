@@ -1,3 +1,4 @@
+http://www.wizardev.cn/其实模块化并没有你想的那么难.html
 http://www.wizardev.cn/撸一款”灵动“的滑动按钮.html
 http://www.wizardev.cn/RxJava2源码分析（三）：线程调度分析.html
 http://www.wizardev.cn/RxJava2源码分析（二）：操作符原理分析.html

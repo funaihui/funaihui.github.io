@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="图片,Android,分享," />
+  <meta name="keywords" content="模块化,组件化," />
 
 
 
@@ -86,20 +86,20 @@
 
 
 
-<meta name="description" content="在Android开发中，要实现分享功能，可能首先想到第三方的ShareSDK，其实，想要分享一些图片，文本之类的完全没必要在App中集成第三方SDK，利用原生的SDK就可以轻松实现分享功能。">
-<meta name="keywords" content="图片,Android,分享">
+<meta name="description" content="前言：不知道大家是不是像我没做模块化、组件化之前一样，感觉这个架构是一个很高深、很复杂的东西，做起来应该很难，其实做过之后你会发现模块化、组件化不过如此。这篇文章我将会向大家分享一下与模块化、组件化的一些知识，相信当你读过这篇文章后，你也会觉的模块化、组件化不过如此。">
+<meta name="keywords" content="模块化,组件化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android轻松实现分享功能">
-<meta property="og:url" content="http://www.wizardev.cn/Android轻松实现分享功能.html">
+<meta property="og:title" content="其实模块化并没有你想的那么难">
+<meta property="og:url" content="http://www.wizardev.cn/其实模块化并没有你想的那么难.html">
 <meta property="og:site_name" content="wizardev&#39;s blog">
-<meta property="og:description" content="在Android开发中，要实现分享功能，可能首先想到第三方的ShareSDK，其实，想要分享一些图片，文本之类的完全没必要在App中集成第三方SDK，利用原生的SDK就可以轻松实现分享功能。">
-<meta property="og:image" content="https://badge.juejin.im/entry/599ae92151882524302845fb/likes.svg?style=flat-square">
-<meta property="og:image" content="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_014.png">
-<meta property="og:updated_time" content="2018-11-14T03:21:34.975Z">
+<meta property="og:description" content="前言：不知道大家是不是像我没做模块化、组件化之前一样，感觉这个架构是一个很高深、很复杂的东西，做起来应该很难，其实做过之后你会发现模块化、组件化不过如此。这篇文章我将会向大家分享一下与模块化、组件化的一些知识，相信当你读过这篇文章后，你也会觉的模块化、组件化不过如此。">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/24/169af23851b9285a?w=1544&h=1012&f=png&s=111909">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/3/24/169aef56f000c9c6?w=242&h=279&f=png&s=19602">
+<meta property="og:updated_time" content="2019-03-26T11:43:59.089Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android轻松实现分享功能">
-<meta name="twitter:description" content="在Android开发中，要实现分享功能，可能首先想到第三方的ShareSDK，其实，想要分享一些图片，文本之类的完全没必要在App中集成第三方SDK，利用原生的SDK就可以轻松实现分享功能。">
-<meta name="twitter:image" content="https://badge.juejin.im/entry/599ae92151882524302845fb/likes.svg?style=flat-square">
+<meta name="twitter:title" content="其实模块化并没有你想的那么难">
+<meta name="twitter:description" content="前言：不知道大家是不是像我没做模块化、组件化之前一样，感觉这个架构是一个很高深、很复杂的东西，做起来应该很难，其实做过之后你会发现模块化、组件化不过如此。这篇文章我将会向大家分享一下与模块化、组件化的一些知识，相信当你读过这篇文章后，你也会觉的模块化、组件化不过如此。">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/3/24/169af23851b9285a?w=1544&h=1012&f=png&s=111909">
 
 
 
@@ -129,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://www.wizardev.cn/Android轻松实现分享功能.html"/>
+  <link rel="canonical" href="http://www.wizardev.cn/其实模块化并没有你想的那么难.html"/>
 
 
 
 
 
-  <title>Android轻松实现分享功能 | wizardev's blog</title>
+  <title>其实模块化并没有你想的那么难 | wizardev's blog</title>
   
 
 
@@ -282,7 +282,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/Android轻松实现分享功能.html">
+    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/其实模块化并没有你想的那么难.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wizardev">
@@ -299,7 +299,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Android轻松实现分享功能</h1>
+          <h1 class="post-title" itemprop="name headline">其实模块化并没有你想的那么难</h1>
         
 
         <div class="post-meta">
@@ -311,8 +311,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-20T17:09:06+08:00">
-                2017-08-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-23T09:11:19+08:00">
+                2019-03-23
               </time>
             
 
@@ -334,8 +334,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/架构/" itemprop="url" rel="index">
+                    <span itemprop="name">架构</span>
                   </a>
                 </span>
 
@@ -351,7 +351,7 @@
 
           
           
-             <span id="/Android轻松实现分享功能.html" class="leancloud_visitors" data-flag-title="Android轻松实现分享功能">
+             <span id="/其实模块化并没有你想的那么难.html" class="leancloud_visitors" data-flag-title="其实模块化并没有你想的那么难">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -376,7 +376,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  890 字
+                  1.9k 字
                 </span>
               
 
@@ -392,7 +392,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3 分钟
+                  6 分钟
                 </span>
               
             </div>
@@ -413,40 +413,38 @@
       
 
       
-        <p><left><a href="https://juejin.im/entry/599ae92151882524302845fb/detail" target="_blank" rel="external"><img src="https://badge.juejin.im/entry/599ae92151882524302845fb/likes.svg?style=flat-square" alt=""></a></left></p>
-<blockquote>
-<p>在Android开发中，要实现分享功能，可能首先想到第三方的ShareSDK，其实，想要分享一些图片，文本之类的完全没必要在App中集成第三方SDK，利用原生的SDK就可以轻松实现分享功能。</p>
+        <blockquote>
+<p>前言：不知道大家是不是像我没做模块化、组件化之前一样，感觉这个架构是一个很高深、很复杂的东西，做起来应该很难，其实做过之后你会发现模块化、组件化不过如此。这篇文章我将会向大家分享一下与模块化、组件化的一些知识，相信当你读过这篇文章后，你也会觉的模块化、组件化不过如此。</p>
 </blockquote>
 <a id="more"></a>
-<h1 id="Activity的跳转方式"><a href="#Activity的跳转方式" class="headerlink" title="Activity的跳转方式"></a>Activity的跳转方式</h1><p>&emsp;&emsp;众所周知，Activity的跳转方式分为两种，分别为<strong>显示跳转</strong>和<strong>隐式跳转</strong></p>
-<h2 id="显示跳转"><a href="#显示跳转" class="headerlink" title="显示跳转"></a>显示跳转</h2><p>&emsp;&emsp;显示跳转比较简单，直接看代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Intent intent=new Intent(MainActivity.this, OtherActivity.class); </div><div class="line">startActivity(intent);</div></pre></td></tr></table></figure></p>
-<h2 id="隐式跳转"><a href="#隐式跳转" class="headerlink" title="隐式跳转"></a>隐式跳转</h2><p>&emsp;&emsp;隐式跳转复杂一点，同样，先看下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Intent shareIntent = new Intent();</div><div class="line">shareIntent.setAction(Intent.ACTION_SEND);</div><div class="line">shareIntent.putExtra(Intent.EXTRA_STREAM, uri);</div><div class="line">shareIntent.setType(&quot;image/jpeg&quot;);</div><div class="line">startActivity(shareIntent);</div></pre></td></tr></table></figure></p>
-<p>可以看到隐式跳转Activity不像显示跳转那样，直接在Intent中设置类名进行跳转。隐式跳转的步骤如下</p>
+<h3 id="本文的基本结构"><a href="#本文的基本结构" class="headerlink" title="本文的基本结构"></a>本文的基本结构</h3><p>&emsp;&emsp;本文的结构如下图，文章将会围绕下图列出的几点来详细的讲解模块化、组件化的知识。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/3/24/169af23851b9285a?w=1544&amp;h=1012&amp;f=png&amp;s=111909" alt=""></p>
+<h3 id="模块化、组件化的概念"><a href="#模块化、组件化的概念" class="headerlink" title="模块化、组件化的概念"></a>模块化、组件化的概念</h3><p>&emsp;&emsp;模块化、组件化是一种架构思想、与平台无关的一种解耦手段。为什么我们总是把模块化、组件化放在一起呢？因为它们之间的关系是你中有我，我中有你的关系。就比如，我们将一个app拆分成几个功能模块，这几个模块肯定会依赖一些公共的组件，如网络组件、图片组件、音视频组件等，而这些组件中可能又会细分出一些模块，如图片组件中的，下载模块、缓存模块等。如果非要将它们两个区分开来，可能就是下面的定义：</p>
+<ul>
+<li>模块化：即可以表示上层的业务，也可以表示底层或者公用组件中的模块</li>
+<li>组件化：一般是在底层或则公用组件</li>
+</ul>
+<h3 id="为什么要模块化、组件化"><a href="#为什么要模块化、组件化" class="headerlink" title="为什么要模块化、组件化"></a>为什么要模块化、组件化</h3><p>&emsp;&emsp;项目做的好好的，为什么要将项目改成模块化、组件化的架构呢？原因如下：</p>
 <ol>
-<li>实例化Intent。</li>
-<li>设置Action。</li>
-<li>设置Extra（可选）。</li>
-<li>设置类型（可选）</li>
-<li>通过startActivity启动相应的Activity。</li>
+<li>随着项目版本的不断迭代，项目的功能不断增多，代码就会变得越来越复杂，耦合度就会越来越高，可能一个小的改动就会影响到好多功能。</li>
+<li>项目功能的不断增多，负责项目的开发人员可能由当初的一个人变成几个人来协同开发，这时可能就会出现大家都修改了某段代码或者都增加某些相同代码的情况。</li>
+<li>随着代码的不断增加，我们编译整个项目的时间就会变得越来越长，严重影响开发效率。</li>
 </ol>
-<p>步骤2中的setAction()，其中需要的参数是，你要跳转的目标Activity所设置的Action，设置Action可以在<strong>AndroidManifest.xml</strong>中进行设置。setAction()中的参数就是过滤条件，决定我们跳转到哪个Activity。同样，setType()中的参数也是过滤条件，如果说setAction()是一级过滤，那么setType()则是二级过滤，过滤的更加细致。putExtra()中的参数，就是跳转到目标Activity携带的参数。</p>
-<p>&emsp;&emsp;了解过了Activity的跳转方式，下面就进入本文的重点，为软件实现分享功能。</p>
-<h1 id="实现分享功能"><a href="#实现分享功能" class="headerlink" title="实现分享功能"></a>实现分享功能</h1><h2 id="分享图片"><a href="#分享图片" class="headerlink" title="分享图片"></a>分享图片</h2><p>&emsp;&emsp;由于需要调用系统的Activity，所以，我们只能选择Activity的隐式跳转方式，先看下实现分享图片的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public static void shareImage(Context context, Uri uri, String title) &#123;</div><div class="line">        Intent shareIntent = new Intent();</div><div class="line">        shareIntent.setAction(Intent.ACTION_SEND);</div><div class="line">        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);</div><div class="line">        shareIntent.setType(&quot;image/jpeg&quot;);</div><div class="line">        context.startActivity(Intent.createChooser(shareIntent, title));</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>这里主要说一下其中的一些参数，<strong>uri</strong>就是你要分享的图片的路径，<strong>title</strong>就是分享时显示的文字，额…，为了不让大家误解，下面看一张图，图中红框标起来的就是<strong>title</strong></p>
-<p><center><br><img src="http://ot6991tvl.bkt.clouddn.com/%E9%80%89%E5%8C%BA_014.png" alt=""></center><br>再来看一下这个代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Intent.createChooser(shareIntent, title)</div></pre></td></tr></table></figure></p>
-<p>官方文档的介绍如下</p>
-<blockquote>
-<p>Builds a new ACTION_CHOOSER Intent that wraps the given target intent, also optionally supplying a title. </p>
-</blockquote>
-<p>上面一段话的主要意思就是，就是为目标Activity提供一个标题。</p>
-<h2 id="分享文本"><a href="#分享文本" class="headerlink" title="分享文本"></a>分享文本</h2><p>&emsp;&emsp;文本分享和图片分享大同小异，直接看代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public static void shareText(Context context, String extraText) &#123;</div><div class="line">        Intent intent = new Intent(Intent.ACTION_SEND);</div><div class="line">        intent.setType(&quot;text/plain&quot;);</div><div class="line">        intent.putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.action_share));</div><div class="line">        intent.putExtra(Intent.EXTRA_TEXT, extraText);//extraText为文本的内容</div><div class="line">        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//为Activity新建一个任务栈</div><div class="line">        context.startActivity(</div><div class="line">                Intent.createChooser(intent, context.getString(R.string.action_share)));//R.string.action_share同样是标题</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
-<p>其中与分享图片不同的代码已经在代码中进行了注释。</p>
-<h1 id="实现可以被系统分享调用的App"><a href="#实现可以被系统分享调用的App" class="headerlink" title="实现可以被系统分享调用的App"></a>实现可以被系统分享调用的App</h1><p>&emsp;&emsp;以上实现了，通过系统调用其他的App进行分享，那么，我们怎样让自己的App可以被系统列入可以分享的App呢？<br>其实很简单，只要在<strong>AndroidManifest.xml</strong>中Activity的<strong>action</strong>标签设置以下值即可<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">android.intent.action.SEND</div></pre></td></tr></table></figure></p>
-<p>看下示例代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;activity android:name=&quot;.ShareActivity&quot;&gt;</div><div class="line">            &lt;intent-filter&gt;</div><div class="line">                &lt;action android:name=&quot;android.intent.action.SEND&quot;/&gt;</div><div class="line">                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;</div><div class="line">            &lt;/intent-filter&gt;</div><div class="line">        &lt;/activity&gt;</div></pre></td></tr></table></figure></p>
-<p>这样，在系统调用可以用来分享的App时，我们的软件就会出现在列表中了。</p>
-<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><blockquote>
-<p><font color="#d2691e" size="5">转载请注明出处：<a href="http://www.wizardev.cn">www.wizardev.cn</a><font></font></font></p>
-</blockquote>
+<p>将项目改成模块化、组件化的架构，就是为了解决上面出现的问题。</p>
+<p>&emsp;&emsp;其实不是每一个项目都应该有模块化、组件化的架构的。比如，我们做了一个小项目，这个项目的功能很少，并且以后也不会增加新功能，一个人开发这个项目完全没问题，在这种情况下，如果再用模块化、组件化的架构，简直就是杀鸡用牛刀、劳命伤财。</p>
+<h3 id="模块化划分的原则"><a href="#模块化划分的原则" class="headerlink" title="模块化划分的原则"></a>模块化划分的原则</h3><p>&emsp;&emsp;在我们将项目模块化的时候，就会面临怎么拆分模块的问题，所以在拆分模块化的时候就要遵循一些原则，需要遵循的原则就是</p>
+<ul>
+<li>同层模块间不能相互依赖。</li>
+<li>只能上层模块依赖下层模块，下层模块不能依赖上层。</li>
+</ul>
+<p>为什么要说这两个原则呢？因为在模块化的时候你可能会遇到不知道将某段代码应该放在哪个模块中的问题，这时你就根据上面的原则来判断应该将代码放在上层还是下层或则应该放在哪个模块中。</p>
+<p>&emsp;&emsp;解释一下上面的两个原则，看下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/3/24/169aef56f000c9c6?w=242&amp;h=279&amp;f=png&amp;s=19602" alt=""></p>
+<p>从图中可以看到，这里将模块化分成了四层，<strong>“同层之间不能相互依赖”这个原则，</strong>就是说在同一层的各个模块之间不能有依赖的关系，如在“业务功能模块”这一层可能会有几个功能模块，这几个功能模块之间是不能有依赖关系的。<strong>“只能上层模块依赖下层模块，下层模块不能依赖上层”这个原则</strong>就是不能让层级在下面的模块依赖上层的模块，如果有依赖关系，应该将被依赖的模块放在依赖模块的同层或则下层。</p>
+<h3 id="怎样拆分模块"><a href="#怎样拆分模块" class="headerlink" title="怎样拆分模块"></a>怎样拆分模块</h3><p>&emsp;&emsp;关于这个问题呢，并没有明确的答案。<strong>一般采用的做法就是将一些公用的并且不会变动或者不常改动的功能放在基础库中</strong>，如网络请求、图片加载及一些工具类等。<strong>基础组件着一层呢，就是放置一些第三方的SDK</strong>，如支付、统计、bug收集等。<strong>业务功能模块这一层就是放置我们项目功能有关的代码</strong>，这一层的拆分关系到以后开发的耦合度，因此要慎重，当然最合理就是一个功能拆分成一个模块，但这样就会出现拆分的粒度太小的问题，所以关于这一层的拆分最好是团队内讨论决定。最上面的一层就是app的壳了，这一层一般不会有什么功能，就是用来初始化项目，Android项目一般会将应用的application类放置在这层。</p>
+<h3 id="拆分后的模块应该怎样进行通讯"><a href="#拆分后的模块应该怎样进行通讯" class="headerlink" title="拆分后的模块应该怎样进行通讯"></a>拆分后的模块应该怎样进行通讯</h3><p>&emsp;&emsp;从上面模块间划分的原则，可以知道，同层模块之间是不能相互依赖的，这就会出现“不能依赖，模块间怎么通讯的问题？”举个例子，在两个模块之间，如果一个ActivityA要跳转并传值给ActivityB，应该怎么传值呢？没有模块化的时候可以通过<code>stratActivity</code>或则<code>startActivityForResult</code>方法来显式跳转界面完成传值，但是在模块化开发时，可能ActivityA在A模块里ActivityB在B模块中，因为模块A和模块B在同一层，没有依赖关系，就不能直接传值了，那怎么解决这个问题呢？答案就<strong>是用路由的方式</strong>，在Android中一般是用ARoute开源库，使用这个库后只要定义好跳转的路径就行了，在打包app后就会根据定义好的路径找到对应的界面，关于具体的使用方法，大家可以自行搜索。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&emsp;&emsp;本文主要的内容是将模块化的思想说明了一下，本文的目的是让大家不再认为模块化是一个很难的架构，不再会因为觉得模块化是一个比较高深的东西而不敢尝试。如果在项目开始的时候不考虑模块化，那么随着项目的发展总有一天你会采用这个架构的，等项目大起来以后重新修改架构就不是那么容易了。希望大家在做项目的时候不要欠下技术债，如果技术债是不可避免的，那么应该尽早的偿还。</p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>&emsp;&emsp;文中并没有讲解模块化的具体实现，关于具体的实现细节网上已经有很多的文章了，可以根据自己的需要自行了解。本文主要就是让大家领会模块化的思想，理解思想之后，剩下的就是去实践了，相信读过本文之后，你做起模块化一定会事半功倍。</p>
 
       
     </div>
@@ -475,7 +473,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.wizardev.cn/Android轻松实现分享功能.html" title="Android轻松实现分享功能">http://www.wizardev.cn/Android轻松实现分享功能.html</a>
+    <a href="http://www.wizardev.cn/其实模块化并没有你想的那么难.html" title="其实模块化并没有你想的那么难">http://www.wizardev.cn/其实模块化并没有你想的那么难.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -490,11 +488,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/图片/" rel="tag"><i class="fa fa-tag"></i> 图片</a>
+            <a href="/tags/模块化/" rel="tag"><i class="fa fa-tag"></i> 模块化</a>
           
-            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
-          
-            <a href="/tags/分享/" rel="tag"><i class="fa fa-tag"></i> 分享</a>
+            <a href="/tags/组件化/" rel="tag"><i class="fa fa-tag"></i> 组件化</a>
           
         </div>
       
@@ -507,8 +503,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/ubuntu16-04开机后进入grub-rescue-终端模式的解决办法.html" rel="next" title="ubuntu16.04开机后进入grub rescue>终端模式的解决办法">
-                <i class="fa fa-chevron-left"></i> ubuntu16.04开机后进入grub rescue>终端模式的解决办法
+              <a href="/撸一款”灵动“的滑动按钮.html" rel="next" title="撸一款“灵动”的滑动按钮">
+                <i class="fa fa-chevron-left"></i> 撸一款“灵动”的滑动按钮
               </a>
             
           </div>
@@ -516,10 +512,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/Android自定义一款带进度条的精美按键.html" rel="prev" title="Android自定义一款带进度条的精美按键">
-                Android自定义一款带进度条的精美按键 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -699,7 +691,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Activity的跳转方式"><span class="nav-number">1.</span> <span class="nav-text">Activity的跳转方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#显示跳转"><span class="nav-number">1.1.</span> <span class="nav-text">显示跳转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐式跳转"><span class="nav-number">1.2.</span> <span class="nav-text">隐式跳转</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现分享功能"><span class="nav-number">2.</span> <span class="nav-text">实现分享功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#分享图片"><span class="nav-number">2.1.</span> <span class="nav-text">分享图片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分享文本"><span class="nav-number">2.2.</span> <span class="nav-text">分享文本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现可以被系统分享调用的App"><span class="nav-number">3.</span> <span class="nav-text">实现可以被系统分享调用的App</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结束语"><span class="nav-number">4.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的基本结构"><span class="nav-number">1.</span> <span class="nav-text">本文的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块化、组件化的概念"><span class="nav-number">2.</span> <span class="nav-text">模块化、组件化的概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要模块化、组件化"><span class="nav-number">3.</span> <span class="nav-text">为什么要模块化、组件化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模块化划分的原则"><span class="nav-number">4.</span> <span class="nav-text">模块化划分的原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎样拆分模块"><span class="nav-number">5.</span> <span class="nav-text">怎样拆分模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拆分后的模块应该怎样进行通讯"><span class="nav-number">6.</span> <span class="nav-text">拆分后的模块应该怎样进行通讯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束语"><span class="nav-number">8.</span> <span class="nav-text">结束语</span></a></li></ol></div>
             
 
           </div>
