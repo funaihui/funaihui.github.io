@@ -96,8 +96,7 @@
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/6/8/16b350d6f6b42d5b?w=657&h=163&f=png&s=37683">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/6/8/16b3511e2ca9a474?w=193&h=297&f=png&s=18389">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/6/8/16b353e85ce8a464?w=450&h=690&f=png&s=57808">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/2/73ae48f0ddd55fcf76e8f5a485eb76f9"扫码关注公众号，回复"获取资料"有惊喜"">
-<meta property="og:updated_time" content="2019-06-08T07:28:33.715Z">
+<meta property="og:updated_time" content="2019-06-08T07:32:14.274Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ZXing源码解析一：让源码跑起来">
 <meta name="twitter:description" content="前言：因为公司用的扫码库是ZXing，但是在使用的时候发现存在一些问题，所以就想分析一下源码，搞清楚ZXing解析二维码的原理和步骤，然后再进一步对ZXing进行一些优化。">
@@ -378,7 +377,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  786 字
+                  776 字
                 </span>
               
 
@@ -489,10 +488,6 @@
 <p>修改为<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps = checkRows(<span class="keyword">new</span> ArrayList&lt;ExpandedRow&gt;(), <span class="number">0</span>);</div></pre></td></tr></table></figure></p>
 <p>将上面几处修改完成，此时项目就能跑起来了，不过这时跑起来的项目是横屏的，只要在<code>AndroidManifest.xml</code>修改以下Acticity的配置就能将横屏切换成竖屏了。</p>
 <h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>&emsp;&emsp;本篇主要讲述了怎样下载及运行项目，只有将项目运行起来，才能方便的调试，通过调试才能很好的理解其中的原理及解析源码的步骤。可以发现现在运行的项目其中有好多功能对我们来说都是多余的，下篇我们将删除多余的功能并开始分析源码，了解整个解码的步骤。</p>
-<blockquote>
-<p>本文已由公众号<font color="#d2691e" size="5">“AndroidShared”</font>首发</p>
-</blockquote>
-<p><img src="https://user-gold-cdn.xitu.io/2017/11/2/73ae48f0ddd55fcf76e8f5a485eb76f9&quot;扫码关注公众号，回复&quot;获取资料&quot;有惊喜&quot;" alt="欢迎关注我的公众号"> </p>
 
       
     </div>
