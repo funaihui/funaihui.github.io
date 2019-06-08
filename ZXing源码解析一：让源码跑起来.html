@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Android,源码," />
+  <meta name="keywords" content="源码,ZXing," />
 
 
 
@@ -86,21 +86,22 @@
 
 
 
-<meta name="description" content="前言：已经是第二次编译Android源码了，由于距离第一次编译Android源码的时间较长，所以有一些编译源码的命令以及编译的时候遇到问题的解决方法都忘记了，需要重新查找相关资料，这样就显得有些事倍功半了，故写下这篇文章记录编译Android源码的方式以及编译的时候遇到的问题。">
-<meta name="keywords" content="Android,源码">
+<meta name="description" content="前言：因为公司用的扫码库是ZXing，但是在使用的时候发现存在一些问题，所以就想分析一下源码，搞清楚ZXing解析二维码的原理和步骤，然后再进一步对ZXing进行一些优化。">
+<meta name="keywords" content="源码,ZXing">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记一次编译Android源码">
-<meta property="og:url" content="http://www.wizardev.cn/记一次编译Android源码.html">
+<meta property="og:title" content="ZXing源码解析一：让源码跑起来">
+<meta property="og:url" content="http://www.wizardev.cn/ZXing源码解析一：让源码跑起来.html">
 <meta property="og:site_name" content="wizardev&#39;s blog">
-<meta property="og:description" content="前言：已经是第二次编译Android源码了，由于距离第一次编译Android源码的时间较长，所以有一些编译源码的命令以及编译的时候遇到问题的解决方法都忘记了，需要重新查找相关资料，这样就显得有些事倍功半了，故写下这篇文章记录编译Android源码的方式以及编译的时候遇到的问题。">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/15/160f9c2e3256b0f8?w=710&h=369&f=png&s=76251">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/15/160f9c612293162b?w=721&h=1052&f=png&s=175939">
-<meta property="og:image" content="https://user-gold-cdn.xitu.io/2018/1/15/160f9f6d43141170?w=481&h=827&f=png&s=90011">
-<meta property="og:updated_time" content="2018-01-15T14:09:44.000Z">
+<meta property="og:description" content="前言：因为公司用的扫码库是ZXing，但是在使用的时候发现存在一些问题，所以就想分析一下源码，搞清楚ZXing解析二维码的原理和步骤，然后再进一步对ZXing进行一些优化。">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/6/8/16b350d6f6b42d5b?w=657&h=163&f=png&s=37683">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/6/8/16b3511e2ca9a474?w=193&h=297&f=png&s=18389">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/6/8/16b353e85ce8a464?w=450&h=690&f=png&s=57808">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/11/2/73ae48f0ddd55fcf76e8f5a485eb76f9"扫码关注公众号，回复"获取资料"有惊喜"">
+<meta property="og:updated_time" content="2019-06-08T07:28:33.715Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="记一次编译Android源码">
-<meta name="twitter:description" content="前言：已经是第二次编译Android源码了，由于距离第一次编译Android源码的时间较长，所以有一些编译源码的命令以及编译的时候遇到问题的解决方法都忘记了，需要重新查找相关资料，这样就显得有些事倍功半了，故写下这篇文章记录编译Android源码的方式以及编译的时候遇到的问题。">
-<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2018/1/15/160f9c2e3256b0f8?w=710&h=369&f=png&s=76251">
+<meta name="twitter:title" content="ZXing源码解析一：让源码跑起来">
+<meta name="twitter:description" content="前言：因为公司用的扫码库是ZXing，但是在使用的时候发现存在一些问题，所以就想分析一下源码，搞清楚ZXing解析二维码的原理和步骤，然后再进一步对ZXing进行一些优化。">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/6/8/16b350d6f6b42d5b?w=657&h=163&f=png&s=37683">
 
 
 
@@ -130,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://www.wizardev.cn/记一次编译Android源码.html"/>
+  <link rel="canonical" href="http://www.wizardev.cn/ZXing源码解析一：让源码跑起来.html"/>
 
 
 
 
 
-  <title>记一次编译Android源码 | wizardev's blog</title>
+  <title>ZXing源码解析一：让源码跑起来 | wizardev's blog</title>
   
 
 
@@ -283,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/记一次编译Android源码.html">
+    <link itemprop="mainEntityOfPage" href="http://www.wizardev.cn/ZXing源码解析一：让源码跑起来.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="wizardev">
@@ -300,7 +301,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">记一次编译Android源码</h1>
+          <h1 class="post-title" itemprop="name headline">ZXing源码解析一：让源码跑起来</h1>
         
 
         <div class="post-meta">
@@ -312,8 +313,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T21:58:48+08:00">
-                2018-01-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-08T12:15:47+08:00">
+                2019-06-08
               </time>
             
 
@@ -335,8 +336,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
+                  <a href="/categories/源码/" itemprop="url" rel="index">
+                    <span itemprop="name">源码</span>
                   </a>
                 </span>
 
@@ -352,7 +353,7 @@
 
           
           
-             <span id="/记一次编译Android源码.html" class="leancloud_visitors" data-flag-title="记一次编译Android源码">
+             <span id="/ZXing源码解析一：让源码跑起来.html" class="leancloud_visitors" data-flag-title="ZXing源码解析一：让源码跑起来">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,7 +378,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.6k 字
+                  786 字
                 </span>
               
 
@@ -393,7 +394,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6 分钟
+                  2 分钟
                 </span>
               
             </div>
@@ -415,66 +416,83 @@
 
       
         <blockquote>
-<p>前言：已经是第二次编译Android源码了，由于距离第一次编译Android源码的时间较长，所以有一些编译源码的命令以及编译的时候遇到问题的解决方法都忘记了，需要重新查找相关资料，这样就显得有些事倍功半了，故写下这篇文章记录编译Android源码的方式以及编译的时候遇到的问题。</p>
+<p>前言：因为公司用的扫码库是ZXing，但是在使用的时候发现存在一些问题，所以就想分析一下源码，搞清楚ZXing解析二维码的原理和步骤，然后再进一步对ZXing进行一些优化。</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="编译前的准备"><a href="#编译前的准备" class="headerlink" title="编译前的准备"></a>编译前的准备</h2><p>&emsp;&emsp;工欲善其事，必先利其器。在编译源码前需要进行一些相关环境的配置，有以下几点需要准备</p>
-<ul>
-<li>电脑需要安装Linux系统（不推荐虚拟机）</li>
-<li>配置Java环境</li>
-<li>已经安装过Git</li>
-<li>安装编译源码需要的依赖</li>
-</ul>
-<p>我编译源码的时候用的是Ubuntu16.04的系统，关于Ubuntu16.04的安装以及Java环境的配置大家可以自己搜索，这里就介绍一下编译源码时需要的依赖的安装方法，可以通过以下命令进行安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libx11-dev:i386 libreadline6-dev:i386 libgl1-mesa-dev g++-multilib </div><div class="line">sudo apt-get install -y git flex bison gperf build-essential libncurses5-dev:i386 </div><div class="line">sudo apt-get install tofrodos python-markdown libxml2-utils xsltproc zlib1g-dev:i386 </div><div class="line">sudo apt-get install dpkg-dev libsdl1.2-dev libesd0-dev</div><div class="line">sudo apt-get install git-core gnupg flex bison gperf build-essential  </div><div class="line">sudo apt-get install zip curl zlib1g-dev gcc-multilib</div><div class="line">sudo apt-get install libc6-dev-i386 </div><div class="line">sudo apt-get install lib32ncurses5-dev x11proto-core-dev libx11-dev </div><div class="line">sudo apt-get install libgl1-mesa-dev libxml2-utils xsltproc unzip m4</div><div class="line">sudo apt-get install lib32z-dev ccache</div></pre></td></tr></table></figure>
-<h2 id="同步源代码"><a href="#同步源代码" class="headerlink" title="同步源代码"></a>同步源代码</h2><p>&emsp;&emsp;这里推荐<a href="https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/" target="_blank" rel="external">清华大学开源软件镜像站</a>进行源码的同步，下载速度真的很快，清华大学开源软件镜像站提供了两种同步源码的方式，我采用的是第一种，好像这种同步下来的源码都是最新的Android源码，第一种同步源码的方式如下</p>
-<h3 id="下载安装repo工具"><a href="#下载安装repo工具" class="headerlink" title="下载安装repo工具"></a>下载安装repo工具</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">mkdir ~/bin</div><div class="line">PATH=~/bin:$PATH</div><div class="line">curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo</div><div class="line">## 如果上述 URL 不可访问，可以用下面的：</div><div class="line">## curl https://storage-googleapis.proxy.ustclug.org/git-repo-downloads/repo &gt; ~/bin/repo</div><div class="line">chmod a+x ~/bin/repo</div></pre></td></tr></table></figure>
-<h3 id="同步源代码-1"><a href="#同步源代码-1" class="headerlink" title="同步源代码"></a>同步源代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">wget -c https://mirrors.tuna.tsinghua.edu.cn/aosp-monthly/aosp-latest.tar # 下载初始化包</div><div class="line">tar xf aosp-latest.tar</div><div class="line">cd aosp   # 解压得到的 AOSP 工程目录</div><div class="line"># 这时 ls 的话什么也看不到，因为只有一个隐藏的 .repo 目录</div><div class="line">repo sync # 正常同步一遍即可得到完整目录</div><div class="line"># 或 repo sync -l 仅checkout代码</div></pre></td></tr></table></figure>
-<p><font size="5" color="red">注：</font>这里在执行repo sync的时候可能会出现下面的错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error: .repo/manifests/: contains uncommitted changes</div></pre></td></tr></table></figure>
-<p>这时我们在搜索引擎搜索这个错误，出来的答案大都如下</p>
+<h3 id="下载源码"><a href="#下载源码" class="headerlink" title="下载源码"></a>下载源码</h3><p>&emsp;&emsp;<code>ZXing</code>库是开源的，可以直接在github下载源码阅读，源码地址在<a href="https://github.com/zxing/zxing.git" target="_blank" rel="external">这里</a>，可以用git命令将源码clone道本地，如图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/6/8/16b350d6f6b42d5b?w=657&amp;h=163&amp;f=png&amp;s=37683" alt="用命令下载源码"></p>
+<p>从上图中可以发现源码有200多兆，当然这两百多兆不仅有源码，还有一些文档什么的。源码下载完成后，会有以下的目录，如图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/6/8/16b3511e2ca9a474?w=193&amp;h=297&amp;f=png&amp;s=18389" alt="源码包含的目录"><br>这里就称一个文件夹为一个模块，各个模块的描述如下表</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>core</td>
+<td>图像解码库和测试代码</td>
+</tr>
+<tr>
+<td>javase</td>
+<td>JavaSE的客户端代码</td>
+</tr>
+<tr>
+<td>android</td>
+<td>Android客户端的源码</td>
+</tr>
+<tr>
+<td>android-integration</td>
+<td>简化Intent与Android客户端集成</td>
+</tr>
+<tr>
+<td>android-core</td>
+<td>配置Android摄像头</td>
+</tr>
+<tr>
+<td>zxingorg</td>
+<td>在线解析二维码</td>
+</tr>
+<tr>
+<td>zxing.appspot.com</td>
+<td>在线生成二维码</td>
+</tr>
+<tr>
+<td>docs</td>
+<td>介绍ZXing项目的文档</td>
+</tr>
+</tbody>
+</table>
+<h3 id="运行源码"><a href="#运行源码" class="headerlink" title="运行源码"></a>运行源码</h3><p>&emsp;&emsp;源码下载下来后的工作就是导入Android Studio中来跑下，看下源码运行的效果，从下载下来的模块来看，这里与Android有关的代码应该是在<code>android</code>、<code>androidcore</code>和<code>core</code>模块中，这里的<code>android</code>模块Android客户端的源码，但是要想成功运行源码，还需要将<code>android</code>、<code>androidcore</code>作为其依赖库。具体的操作方法如下</p>
+<ol>
+<li>File–&gt;New–&gt;ImportModule 将<code>android</code>模块导入项目。</li>
+<li>File–&gt;New–&gt;NewModule在跳出的界面选择<code>AndroidLibrary</code>,修改名称后点击<code>Finish</code>即可生成一个<code>ModlueLibrary</code>，然后，将生成的<code>Library</code>中Java目录下的文件删除，将Zxing中的core文件夹下的Java目录下的文件拷贝过来，最后，将此模块设为<code>android</code>模块的依赖。</li>
+<li>用和步骤2一样的方法，导入<code>androidcore</code>模块。</li>
+</ol>
+<p>以上操作完成后，项目的结构应该如下图所示<br><img src="https://user-gold-cdn.xitu.io/2019/6/8/16b353e85ce8a464?w=450&amp;h=690&amp;f=png&amp;s=57808" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">这时还需要解决几个问题，代码才能运行起来，步骤如下</div></pre></td></tr></table></figure>
+<ol>
+<li>将<code>android</code>模块下的<code>AndroidManifest.xml</code>中的<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">uses-sdk</span> <span class="attr">android:minSdkVersion</span>=<span class="string">"19"</span> <span class="attr">android:targetSdkVersion</span>=<span class="string">"22"</span>/&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这行代码删除。</p>
+<ol>
+<li><p>将<code>HistoryItemAdapter.java</code>的构造方法中的代码修改为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">HistoryItemAdapter(Context activity) &#123;</div><div class="line">    <span class="keyword">super</span>(activity, R.layout.history_list_item, <span class="keyword">new</span> ArrayList&lt;HistoryItem&gt;());</div><div class="line">    <span class="keyword">this</span>.activity = activity;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>将<code>RSSExpandedReader.java</code>中的这句代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps = checkRows(<span class="keyword">new</span> ArrayList&lt;&gt;(), <span class="number">0</span>);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>修改为<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps = checkRows(<span class="keyword">new</span> ArrayList&lt;ExpandedRow&gt;(), <span class="number">0</span>);</div></pre></td></tr></table></figure></p>
+<p>将上面几处修改完成，此时项目就能跑起来了，不过这时跑起来的项目是横屏的，只要在<code>AndroidManifest.xml</code>修改以下Acticity的配置就能将横屏切换成竖屏了。</p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>&emsp;&emsp;本篇主要讲述了怎样下载及运行项目，只有将项目运行起来，才能方便的调试，通过调试才能很好的理解其中的原理及解析源码的步骤。可以发现现在运行的项目其中有好多功能对我们来说都是多余的，下篇我们将删除多余的功能并开始分析源码，了解整个解码的步骤。</p>
 <blockquote>
-<p>先 cd .repo/manifests</p>
-<p>再执行 Git stash 和 git clean -f -d</p>
-<p>然后再repo sync 就可以通过了</p>
+<p>本文已由公众号<font color="#d2691e" size="5">“AndroidShared”</font>首发</p>
 </blockquote>
-<p>但是，这答案对我并没用，历经千辛万苦最后终于找到了解决这个错误的办法，执行以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git config core.filemode false</div><div class="line"># 加入忽略文件权限的配置</div></pre></td></tr></table></figure>
-<p>然后在执行 <em>repo sync</em>便能同步成功。可能在同步的过程中会遇到下面的错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error:Exited sync due to fetch errors</div></pre></td></tr></table></figure>
-<p>解决办法就是再执行一次repo sync或 repo sync -f 命令。</p>
-<h2 id="编译源码"><a href="#编译源码" class="headerlink" title="编译源码"></a>编译源码</h2><p>&emsp;&emsp;进入解压后的aosp文件夹,执行下面的命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">source build/envsetup.sh</div></pre></td></tr></table></figure>
-<p>下面是执行命令后的结果</p>
-<p><img src="https://user-gold-cdn.xitu.io/2018/1/15/160f9c2e3256b0f8?w=710&amp;h=369&amp;f=png&amp;s=76251" alt=""></p>
-<p>可以看出这个命令是将一些脚本文件包含进来，接着执行一下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lunch</div></pre></td></tr></table></figure>
-<p>执行后的结果如下</p>
-<p><img src="https://user-gold-cdn.xitu.io/2018/1/15/160f9c612293162b?w=721&amp;h=1052&amp;f=png&amp;s=175939" alt=""></p>
-<p>这时我们只要输入相应的序号，就可以指定编译目标的格式了，如此时输入序号‘1’，则编译的目标格式为<strong>aosp_arm-eng</strong>,所谓的编译目标就是生成的镜像要运行在什么样的设备上。下面介绍一下编译目标格式，编译的目标格式都是<em>BUILD-BUILDTYPE</em>形式，<strong>BUILD</strong>就是</p>
-<blockquote>
-<p>BUILD指的是特定功能的组合的特定名称,即表示编译出的镜像可以运行在什么环境.其中,aosp(Android Open Source Project)代表Android开源项目;arm表示系统是运行在arm架构的处理器上,arm64则是指64位arm架构;处理器,x86则表示x86架构的处理器;</p>
-</blockquote>
-<p><strong>BUILDTYPE</strong>就是</p>
-<blockquote>
-<p>BUILD TYPE则指的是编译类型,通常有三种:<br>-user:代表这是编译出的系统镜像是可以用来正式发布到市场的版本,其权限是被限制的(如,没有root权限,不鞥年dedug等)<br>-userdebug:在user版本的基础上开放了root权限和debug权限.<br>-eng:代表engineer,也就是所谓的开发工程师的版本,拥有最大的权限(root等),此外还附带了许多debug工具</p>
-</blockquote>
-<p>了解了编译目标格式，我们根据自己的需要输入相应的序号即可。如果你是准备编译源码后在电脑上运行，那么推荐选择序号“5”进行编译，因为这样在运行时速度会快很多。</p>
-<h3 id="开始编译"><a href="#开始编译" class="headerlink" title="开始编译"></a>开始编译</h3><p>&emsp;&emsp;输入下面的命令则编译开始</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make -j8</div></pre></td></tr></table></figure>
-<p><font size="5" color="red">注：</font>这里的<strong>-j8</strong>代表的时启用编译的线程数，参与编译的线程并不是越多越好,通常是根据你机器cup的核心来确定:core*2,即当前cpu的核心的2倍.比如,我现在的笔记本是双核四线程的,因此根据公式,最快速的编译可以make -j8<code>(通过</code>cat /proc/cpuinfo<code>查看相关cpu信息)</code>。</p>
-<p>如果编译的过程中没有出现什么错误，那么在几个小时后你应该会看见下面的输出</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make completed successfully</div></pre></td></tr></table></figure>
-<p>那么恭喜你完成了Android的源码编译。</p>
-<h2 id="运行模拟器"><a href="#运行模拟器" class="headerlink" title="运行模拟器"></a>运行模拟器</h2><p>&emsp;&emsp;如果你是在编译完后立刻运行模拟器，可以通过以下命令来运行模</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">emulator</div></pre></td></tr></table></figure>
-<p>否则，通过以下命令来运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">source build/envsetup.sh</div><div class="line">lunch </div><div class="line">(选择刚才你设置的目标版本,比如这里了我选择的是5)</div><div class="line">emulator</div></pre></td></tr></table></figure>
-<p>下面看下，我此次编译后运行的模拟器<img src="https://user-gold-cdn.xitu.io/2018/1/15/160f9f6d43141170?w=481&amp;h=827&amp;f=png&amp;s=90011" alt=""></p>
-<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&emsp;&emsp;编译源码的时候还是有一些坑的，本文的目的就是让大家在编译源码时少入坑，节省时间做更有意义的事情。至此，已经成功编译了Android源码，有了Android的源码，你就可以更深入的研究Android了。</p>
-<blockquote>
-<p><strong>ps:</strong> 历史文章中有干货哦！</p>
-</blockquote>
+<p><img src="https://user-gold-cdn.xitu.io/2017/11/2/73ae48f0ddd55fcf76e8f5a485eb76f9&quot;扫码关注公众号，回复&quot;获取资料&quot;有惊喜&quot;" alt="欢迎关注我的公众号"> </p>
 
       
     </div>
@@ -503,7 +521,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://www.wizardev.cn/记一次编译Android源码.html" title="记一次编译Android源码">http://www.wizardev.cn/记一次编译Android源码.html</a>
+    <a href="http://www.wizardev.cn/ZXing源码解析一：让源码跑起来.html" title="ZXing源码解析一：让源码跑起来">http://www.wizardev.cn/ZXing源码解析一：让源码跑起来.html</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -518,9 +536,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Android/" rel="tag"><i class="fa fa-tag"></i> Android</a>
-          
             <a href="/tags/源码/" rel="tag"><i class="fa fa-tag"></i> 源码</a>
+          
+            <a href="/tags/ZXing/" rel="tag"><i class="fa fa-tag"></i> ZXing</a>
           
         </div>
       
@@ -533,8 +551,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/致终将逝去的2017.html" rel="next" title="致终将逝去的2017">
-                <i class="fa fa-chevron-left"></i> 致终将逝去的2017
+              <a href="/其实模块化并没有你想的那么难.html" rel="next" title="其实模块化并没有你想的那么难">
+                <i class="fa fa-chevron-left"></i> 其实模块化并没有你想的那么难
               </a>
             
           </div>
@@ -542,10 +560,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/推荐一款好用的视频播放器.html" rel="prev" title="推荐一款好用的视频播放器">
-                推荐一款好用的视频播放器 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -725,7 +739,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译前的准备"><span class="nav-number">1.</span> <span class="nav-text">编译前的准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步源代码"><span class="nav-number">2.</span> <span class="nav-text">同步源代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装repo工具"><span class="nav-number">2.1.</span> <span class="nav-text">下载安装repo工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同步源代码-1"><span class="nav-number">2.2.</span> <span class="nav-text">同步源代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译源码"><span class="nav-number">3.</span> <span class="nav-text">编译源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开始编译"><span class="nav-number">3.1.</span> <span class="nav-text">开始编译</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行模拟器"><span class="nav-number">4.</span> <span class="nav-text">运行模拟器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">5.</span> <span class="nav-text">结束语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载源码"><span class="nav-number">1.</span> <span class="nav-text">下载源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行源码"><span class="nav-number">2.</span> <span class="nav-text">运行源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
             
 
           </div>
