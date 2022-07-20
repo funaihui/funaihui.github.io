@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>RxJava2源码分析（二）：操作符原理分析 | wizardev的博客</title><meta name="keywords" content="RxJava2,源码"><meta name="author" content="wizardev"><meta name="copyright" content="wizardev"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言：上一篇文章RxJava2源码分析（一）：基本流程分析,是对RxJava2基本流程的分析，有了上一篇的基础，这篇就再深入一点，开始分析一下RxJava2操作符的原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava2源码分析（二）：操作符原理分析">
+<meta property="og:url" content="http://pi.wizardev.com:88/blog/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%93%8D%E4%BD%9C%E7%AC%A6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="wizardev的博客">
+<meta property="og:description" content="前言：上一篇文章RxJava2源码分析（一）：基本流程分析,是对RxJava2基本流程的分析，有了上一篇的基础，这篇就再深入一点，开始分析一下RxJava2操作符的原理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2019-01-18T12:26:10.000Z">
+<meta property="article:modified_time" content="2020-11-23T12:38:22.000Z">
+<meta property="article:author" content="wizardev">
+<meta property="article:tag" content="RxJava2">
+<meta property="article:tag" content="源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://pi.wizardev.com:88/blog/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%93%8D%E4%BD%9C%E7%AC%A6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'RxJava2源码分析（二）：操作符原理分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-11-23 20:38:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">wizardev的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">RxJava2源码分析（二）：操作符原理分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2019-01-18T12:26:10.000Z" title="发表于 2019-01-18 20:26:10">2019-01-18</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-23T12:38:22.000Z" title="更新于 2020-11-23 20:38:22">2020-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%BA%90%E7%A0%81/">源码</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="RxJava2源码分析（二）：操作符原理分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>前言：上一篇文章<a target="_blank" rel="noopener" href="http://wizardev.cn/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90.html#more">RxJava2源码分析（一）：基本流程分析</a>,是对RxJava2基本流程的分析，有了上一篇的基础，这篇就再深入一点，开始分析一下RxJava2操作符的原理。</p>
+</blockquote>
+<span id="more"></span>
+
+<p>&amp;emsp;&amp;emsp;为了方便理解RxJava2操作符的原理，这里选择最常用的<code>map</code>操作符来讲解操作符的原理，示例代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">basicUseRxJava</span><span class="params">()</span> &#123;</span><br><span class="line">        Observable.create(<span class="keyword">new</span> <span class="title class_">ObservableOnSubscribe</span>&lt;Integer&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">subscribe</span><span class="params">(ObservableEmitter&lt;Integer&gt; emitter)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                emitter.onNext(<span class="number">1</span>);</span><br><span class="line">                emitter.onNext(<span class="number">2</span>);</span><br><span class="line">                emitter.onNext(<span class="number">3</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).map(<span class="keyword">new</span> <span class="title class_">Function</span>&lt;Integer, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> String <span class="title function_">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;我是数字&quot;</span> + integer;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).subscribe(<span class="keyword">new</span> <span class="title class_">Observer</span>&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSubscribe</span><span class="params">(Disposable d)</span> &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onNext</span><span class="params">(String s)</span> &#123;</span><br><span class="line">                Log.e(<span class="string">&quot;wizardev&quot;</span>, <span class="string">&quot;onNext: &quot;</span> + s);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable e)</span> &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内容回顾"><a href="#内容回顾" class="headerlink" title="内容回顾"></a>内容回顾</h3><p>&amp;emsp;&amp;emsp;因为这一篇的内容是在上一篇的基础上进行讲解的，所以在讲解操作符之前，先回顾一下前一篇主要的知识，如下：</p>
+<ol>
+<li>Observable执行的create方法后返回的是ObservableCreate实例。</li>
+<li>create方法的参数，实际是注入到ObservableCreate类中，作为它的成员变量。</li>
+<li>调用Observable的subscribe方法最终调用的是ObservableCreate类中的subscribeActual方法。</li>
+</ol>
+<h3 id="操作符分析"><a href="#操作符分析" class="headerlink" title="操作符分析"></a>操作符分析</h3><p>&amp;emsp;&amp;emsp;同样，这里分析源码的顺序依然按照代码的执行顺序，<code>create</code>方法前文已经分析过了，这里就直接看<code>map</code>方法，<code>map</code>方法的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> &lt;R&gt; Observable&lt;R&gt; <span class="title function_">map</span><span class="params">(Function&lt;? <span class="built_in">super</span> T, ? extends R&gt; mapper)</span> &#123;</span><br><span class="line">       ObjectHelper.requireNonNull(mapper, <span class="string">&quot;mapper is null&quot;</span>);</span><br><span class="line">       <span class="keyword">return</span> RxJavaPlugins.onAssembly(<span class="keyword">new</span> <span class="title class_">ObservableMap</span>&lt;T, R&gt;(<span class="built_in">this</span>, mapper));</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>有了前一篇的经验，可以直接从这个方法中得出结论<strong>即<code>map</code>方法返回的是ObservableMap实例，同时将<code>map</code>方法的参数及Observable自身注入了其构造方法中。</strong></p>
+<p>&amp;emsp;&amp;emsp;现在看下ObservableMap类的源码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">class</span> <span class="title class_">ObservableMap</span>&lt;T, U&gt; <span class="keyword">extends</span> <span class="title class_">AbstractObservableWithUpstream</span>&lt;T, U&gt; &#123;</span><br><span class="line">    <span class="keyword">final</span> Function&lt;? <span class="built_in">super</span> T, ? <span class="keyword">extends</span> <span class="title class_">U</span>&gt; function;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ObservableMap</span><span class="params">(ObservableSource&lt;T&gt; source, Function&lt;? <span class="built_in">super</span> T, ? extends U&gt; function)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(source);<span class="comment">//调用了其父类的构造方法</span></span><br><span class="line">        <span class="built_in">this</span>.function = function;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">subscribeActual</span><span class="params">(Observer&lt;? <span class="built_in">super</span> U&gt; t)</span> &#123;</span><br><span class="line">        source.subscribe(<span class="keyword">new</span> <span class="title class_">MapObserver</span>&lt;T, U&gt;(t, function));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//省略部分无关代码</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的代码中可以看出，<code>ObservableMap</code>继承至<code>AbstractObservableWithUpstream</code>,继续进入<code>AbstractObservableWithUpstream</code>类中看下源码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">AbstractObservableWithUpstream</span>&lt;T, U&gt; <span class="keyword">extends</span> <span class="title class_">Observable</span>&lt;U&gt; <span class="keyword">implements</span> <span class="title class_">HasUpstreamObservableSource</span>&lt;T&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">final</span> ObservableSource&lt;T&gt; source;</span><br><span class="line"></span><br><span class="line">    AbstractObservableWithUpstream(ObservableSource&lt;T&gt; source) &#123;</span><br><span class="line">        <span class="built_in">this</span>.source = source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableSource&lt;T&gt; <span class="title function_">source</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> source;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的一段代码，可以知道<code>AbstractObservableWithUpstream</code>类其实就是<code>Observable</code>类的装饰类,这个类的作用就是将实例化的<code>Observable</code>注入进来，作为其成员变量。分析到这里可以得出这几个类的关系如下</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/1/19/16864e9c3ba86dfb?w=1202&h=1152&f=jpeg&s=125485"></p>
+<p><font color = 'red'> 注：</font>ObservableMap中的成员变量<code>function</code>就是我们写的这段代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Function</span>&lt;Integer, String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> String <span class="title function_">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">&quot;我是数字&quot;</span> + integer;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>好了，到这里算是将<code>map</code>方法所做的事情分析完了，下面来看实例代码的最后一个方法<code>subscribe</code>.</p>
+<h3 id="subscribe方法分析"><a href="#subscribe方法分析" class="headerlink" title="subscribe方法分析"></a>subscribe方法分析</h3><p>&amp;emsp;&amp;emsp;通过上一篇文章可以知道<code>subscribe</code>方法实际调用的是Observable子类的<code>subscribeActual</code>方法，而这里调用<code>subscribe</code>方法的类是<code>ObservableMap</code>,所以这里调用的就是<code>ObservableMap</code>类的<code>subscribeActual</code>方法。现在来看下ObservableMap类的<code>subscribeActual</code>方法的源码，如下<code>(为了分析方便，这里将与subscribeActual方法有关的代码一起贴了出来)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Function&lt;? <span class="built_in">super</span> T, ? <span class="keyword">extends</span> <span class="title class_">U</span>&gt; function;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ObservableMap</span><span class="params">(ObservableSource&lt;T&gt; source, Function&lt;? <span class="built_in">super</span> T, ? extends U&gt; function)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(source);</span><br><span class="line">        <span class="built_in">this</span>.function = function;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">subscribeActual</span><span class="params">(Observer&lt;? <span class="built_in">super</span> U&gt; t)</span> &#123;</span><br><span class="line">        source.subscribe(<span class="keyword">new</span> <span class="title class_">MapObserver</span>&lt;T, U&gt;(t, function));</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的代码可以发现<code>ObservableMap</code>类的<code>subscribeActual</code>方法又调用了其上游的<code>subscribe</code>方法，为了便于理解这里解释一下文中所说的上游下游</p>
+<blockquote>
+<p>文中说的“上游”及“下游”其实是相对而言的，这里的“上游”是靠近Observable的，如示例代码中的subscribe是最下游，map是其上游，而map操作符又是crate方法的下游。</p>
+</blockquote>
+<p>这里上游的<code>subscribe</code>方法就是ObservableCreate调用的<code>subscribe</code>方法，实际就是调用ObservableCreate的<code>subscribeActual</code>方法，接着就是前一篇讲过的流程了。</p>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>&amp;emsp;&amp;emsp;分析到现在可以得出以下结论</p>
+<ul>
+<li><code>subscribe</code>方法的调用流程是从下往上的，就是从下游往上游分别调用其<code>subscribe</code>方法。</li>
+</ul>
+<p>为了方便理解，这里我用时序图表示<code>subscribe</code>的调用顺序，如下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/1/19/168651c34ceedf3e?w=1640&h=854&f=jpeg&s=150059"></p>
+<h3 id="接收数据流程分析"><a href="#接收数据流程分析" class="headerlink" title="接收数据流程分析"></a>接收数据流程分析</h3><p>&amp;emsp;&amp;emsp;上面的内容分析了RxJava2基本流程加入操作符后的<code>subscribe</code>方法的执行顺序，接着就来看下，数据的接收顺序。经过上面的分析可以知道最终调用的是ObservableCreate类的<code>subscribeActual</code>方法，这里与前一篇文章<code>subscribeActual</code>方法不同的就是<code>subscribeActual</code>方法的参数改变了，这里的参数是<code>MapObserver</code>类的实例,再来看下ObservableCreate类的<code>subscribeActual</code>方法的源码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里的参数实际是MapObserver类的实例</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">subscribeActual</span><span class="params">(Observer&lt;? <span class="built_in">super</span> T&gt; observer)</span> &#123;</span><br><span class="line">        CreateEmitter&lt;T&gt; parent = <span class="keyword">new</span> <span class="title class_">CreateEmitter</span>&lt;T&gt;(observer);</span><br><span class="line">        observer.onSubscribe(parent);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//这句代码的最终调用的就是MapObserver类的onNext方法。</span></span><br><span class="line">            source.subscribe(parent);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">            Exceptions.throwIfFatal(ex);</span><br><span class="line">            parent.onError(ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>一些重要的内容已经在上面的代码中进行了注释，可能这句<code> source.subscribe(parent);</code>代码，不好理解，这里就来解释一下这句代码，由上一篇文章可知，这里的<code>source</code>就是示例代码中的<code>new ObservableOnSubscribe&lt;Integer&gt;()...</code>实例，这里就是调用了这个实例的<code>subscribe</code>方法，而这个方法中的代码就是调用了其参数的<code>onNext</code>方法，<strong>最终调用的就是MapObserver类的onNext方法。</strong>现在，来看下MapObserver类的onNext方法的代码，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onNext</span><span class="params">(T t)</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (done) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (sourceMode != NONE) &#123;</span><br><span class="line">                downstream.onNext(<span class="literal">null</span>);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            U v;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//1、</span></span><br><span class="line">                v = ObjectHelper.requireNonNull(mapper.apply(t), <span class="string">&quot;The mapper function returned a null value.&quot;</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">                fail(ex);</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//2、</span></span><br><span class="line">            downstream.onNext(v);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>主要来看下<code> v = ObjectHelper.requireNonNull(mapper.apply(t), &quot;The mapper function returned a null value.&quot;);</code>这句代码，这句代码中的mapper就是注入到ObservableMap中的成员变量function，详细内容可以查看源码。调用的apply方法，就是示例代码中的这句代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">           <span class="keyword">public</span> String <span class="title function_">apply</span><span class="params">(Integer integer)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">               <span class="keyword">return</span> <span class="string">&quot;我是数字&quot;</span> + integer;</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着，可以发现又调用了“2”处的代码<code>downstream.onNext(v);</code>，这句代码中的<code>downstream</code>就是示例代码中最下游的<code>subscribe</code>方法中的参数即是下面的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Observer</span>&lt;String&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onSubscribe</span><span class="params">(Disposable d)</span> &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onNext</span><span class="params">(String s)</span> &#123;</span><br><span class="line">                Log.e(<span class="string">&quot;wizardev&quot;</span>, <span class="string">&quot;onNext: &quot;</span> + s);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onError</span><span class="params">(Throwable e)</span> &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">onComplete</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以这句<code>downstream.onNext(v);</code>调用的就是<code>new Observer&lt;String&gt;()</code>匿名类中的<code>onNext</code>方法。关于<code>downstream</code>的是何时初始化的，可以从MapObserver的父类BasicFuseableObserver类中知晓。</p>
+<h4 id="结论-1"><a href="#结论-1" class="headerlink" title="结论"></a>结论</h4><p>&amp;emsp;&amp;emsp;分析到这里，又可以得出一些结论</p>
+<ul>
+<li>关于数据的处理上从上游到下游一级级的处理的。</li>
+<li>在MapObserver类中的<code>onNext</code>方法，首先调用的是<code>function</code>中的<code>apply</code>方法，然后再调用下游的<code>onNext</code>方法并将处理后的参数传入。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&amp;emsp;&amp;emsp;通过分析<code>map</code>操作符，可以知道订阅方法（subscribe）是从下游到上游进行订阅的，而数据的发射是从上游到下游进行的。这两个特性不仅仅是<code>map</code>操作符的特性，对其他的操作符同样适用。为了讲清楚这两个特性，本文就选了比较具有代表性的<code>map</code>操作符，如果想了解其他操作符的原理，就顺着这两个特性分析就行了。</p>
+<p>&amp;emsp;&amp;emsp;授之以鱼，不如授之以渔。本文的目的就是解释清楚操作符的思想及原理，理解了这种思想及原理，分析其他的操作符也就不在话下了。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88">wizardev</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88/blog/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%93%8D%E4%BD%9C%E7%AC%A6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/">http://pi.wizardev.com:88/blog/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%BA%8C%EF%BC%89%EF%BC%9A%E6%93%8D%E4%BD%9C%E7%AC%A6%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pi.wizardev.com:88" target="_blank">wizardev的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/RxJava2/">RxJava2</a><a class="post-meta__tags" href="/tags/%E6%BA%90%E7%A0%81/">源码</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E7%BA%BF%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%88%86%E6%9E%90/"><img class="prev-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">RxJava2源码分析（三）：线程调度分析</div></div></a></div><div class="next-post pull-right"><a href="/blog/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">RxJava2源码分析（一）：基本流程分析</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%9A%E7%BA%BF%E7%A8%8B%E8%B0%83%E5%BA%A6%E5%88%86%E6%9E%90/" title="RxJava2源码分析（三）：线程调度分析"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-01-31</div><div class="title">RxJava2源码分析（三）：线程调度分析</div></div></a></div><div><a href="/blog/RxJava2%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9A%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/" title="RxJava2源码分析（一）：基本流程分析"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-01-06</div><div class="title">RxJava2源码分析（一）：基本流程分析</div></div></a></div><div><a href="/blog/ZXing%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B8%80%EF%BC%9A%E8%AE%A9%E6%BA%90%E7%A0%81%E8%B7%91%E8%B5%B7%E6%9D%A5/" title="ZXing源码解析一：让源码跑起来"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-08</div><div class="title">ZXing源码解析一：让源码跑起来</div></div></a></div><div><a href="/blog/ZXing%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%BA%8C%EF%BC%9A%E6%8E%8C%E6%8F%A1%E8%A7%A3%E7%A0%81%E6%AD%A5%E9%AA%A4/" title="ZXing源码解析二：掌握解码步骤"><img class="cover" src="/../../images/zxing2/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2019-06-15</div><div class="title">ZXing源码解析二：掌握解码步骤</div></div></a></div><div><a href="/blog/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%BC%96%E8%AF%91Android%E6%BA%90%E7%A0%81/" title="记一次编译Android源码"><img class="cover" src="/../../images/androidSource/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-01-15</div><div class="title">记一次编译Android源码</div></div></a></div><div><a href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-06-04</div><div class="title">Hilt原理分析一（Hilt技术概览）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wizardev</div><div class="author-info__description">大前端技术博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/funaihui"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><a target="_blank" rel="noopener" href="https://wizardev.cn">This is my Blog</a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AE%B9%E5%9B%9E%E9%A1%BE"><span class="toc-number">1.</span> <span class="toc-text">内容回顾</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">操作符分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#subscribe%E6%96%B9%E6%B3%95%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">subscribe方法分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-number">3.1.</span> <span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90"><span class="toc-number">4.</span> <span class="toc-text">接收数据流程分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA-1"><span class="toc-number">4.1.</span> <span class="toc-text">结论</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hilt原理分析一（Hilt技术概览）"/></a><div class="content"><a class="title" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）">Hilt原理分析一（Hilt技术概览）</a><time datetime="2022-06-04T14:05:24.000Z" title="发表于 2022-06-04 22:05:24">2022-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img src="/../../images/raspbian3/image-20210626215003546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将树莓派作为服务器也太爽了吧"/></a><div class="content"><a class="title" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧">将树莓派作为服务器也太爽了吧</a><time datetime="2021-06-28T14:51:45.000Z" title="发表于 2021-06-28 22:51:45">2021-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧"><img src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动手开发了一款微信插件，这也太好用了吧"/></a><div class="content"><a class="title" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧">动手开发了一款微信插件，这也太好用了吧</a><time datetime="2021-02-22T01:41:22.000Z" title="发表于 2021-02-22 09:41:22">2021-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单"><img src="/../../images/raspbian2/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派上安装Nginx竟如此简单"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单">树莓派上安装Nginx竟如此简单</a><time datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img src="/../../images/raspbian1/picture0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派折腾记——安装系统"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统">树莓派折腾记——安装系统</a><time datetime="2020-12-21T01:06:46.000Z" title="发表于 2020-12-21 09:06:46">2020-12-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2017 - 2022 By wizardev</div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png"><span>备案号：浙ICP备19049794</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '154d349ea0b53e3b5a16',
+      clientSecret: '30feac3af8329db37bdf1b7d141c1401a18c9f9b',
+      repo: 'https://github.com/funaihui/blogTalk',
+      owner: 'funaihui',
+      admin: ['funaihui'],
+      id: 'ffa4b7d5fd303b5ae9a7fb585cd425cb',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

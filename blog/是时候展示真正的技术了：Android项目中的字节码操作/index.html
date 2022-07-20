@@ -1,0 +1,284 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>是时候展示真正的技术了：Android项目中的字节码操作 | wizardev的博客</title><meta name="keywords" content="Android,Linux,前端,博客"><meta name="author" content="wizardev"><meta name="copyright" content="wizardev"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="上篇文章讲解了Gradle中的Plugin，本篇将在上篇文章的基础上介绍一下Android项目中怎么操作字节码。  为什么要操作Android项目中的字节码&amp;emsp;&amp;emsp;要操作项目中的字节码肯定是有原因的，不可能是闲得慌，无缘无故来找乐子的，那么为什么要操作字节码呢？操作字节码能给我们带来什么便利呢？简单的举几个例子：  引入的第三方库，缺少try,catch语句导致项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="是时候展示真正的技术了：Android项目中的字节码操作">
+<meta property="og:url" content="http://pi.wizardev.com:88/blog/%E6%98%AF%E6%97%B6%E5%80%99%E5%B1%95%E7%A4%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%8A%80%E6%9C%AF%E4%BA%86%EF%BC%9AAndroid%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E7%A0%81%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="wizardev的博客">
+<meta property="og:description" content="上篇文章讲解了Gradle中的Plugin，本篇将在上篇文章的基础上介绍一下Android项目中怎么操作字节码。  为什么要操作Android项目中的字节码&amp;emsp;&amp;emsp;要操作项目中的字节码肯定是有原因的，不可能是闲得慌，无缘无故来找乐子的，那么为什么要操作字节码呢？操作字节码能给我们带来什么便利呢？简单的举几个例子：  引入的第三方库，缺少try,catch语句导致项">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2020-02-07T01:43:50.000Z">
+<meta property="article:modified_time" content="2020-11-23T12:38:22.000Z">
+<meta property="article:author" content="wizardev">
+<meta property="article:tag" content="Android,Linux,前端,博客">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://pi.wizardev.com:88/blog/%E6%98%AF%E6%97%B6%E5%80%99%E5%B1%95%E7%A4%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%8A%80%E6%9C%AF%E4%BA%86%EF%BC%9AAndroid%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E7%A0%81%E6%93%8D%E4%BD%9C/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '是时候展示真正的技术了：Android项目中的字节码操作',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-11-23 20:38:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">wizardev的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">是时候展示真正的技术了：Android项目中的字节码操作</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-02-07T01:43:50.000Z" title="发表于 2020-02-07 09:43:50">2020-02-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-23T12:38:22.000Z" title="更新于 2020-11-23 20:38:22">2020-11-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="是时候展示真正的技术了：Android项目中的字节码操作"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.wizardev.cn/blog/%E5%81%9A%E4%BA%86%E8%BF%99%E4%B9%88%E4%B9%85%E7%9A%84Android%EF%BC%8CGradle%E7%9A%84plugin%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/">上篇文章</a>讲解了Gradle中的Plugin，本篇将在上篇文章的基础上介绍一下Android项目中怎么操作字节码。</p>
+</blockquote>
+<h3 id="为什么要操作Android项目中的字节码"><a href="#为什么要操作Android项目中的字节码" class="headerlink" title="为什么要操作Android项目中的字节码"></a>为什么要操作Android项目中的字节码</h3><p>&amp;emsp;&amp;emsp;要操作项目中的字节码肯定是有原因的，不可能是闲得慌，无缘无故来找乐子的，那么为什么要操作字节码呢？操作字节码能给我们带来什么便利呢？简单的举几个例子：</p>
+<ul>
+<li>引入的第三方库，缺少<code>try</code>,<code>catch</code>语句导致项目运行时崩溃，可以操作字节码来添加<code>try</code>,<code>catch</code>。</li>
+<li>想要统一的拦截监听网络请求，但是引用的三方库中的网络请求不能拦截，此时也可以通过字节码操作来添加统一的监听。</li>
+<li>想要看项目中每个方法的执行时间，不可能每个方法都添加统计时间的语句，同样可以利用字节码操作来为每个方法添加耗时统计。</li>
+<li>Android项目中的“无埋点技术”也需要操作字节码。</li>
+</ul>
+<p>上面只是简单的举了几个例子，当然操作字节码的用途远不止这些，但是，操作字节码实现任何需求的前提是“要会操作字节码”，哈哈</p>
+<h2 id="字节码"><a href="#字节码" class="headerlink" title="字节码"></a>字节码</h2><h3 id="什么是字节码"><a href="#什么是字节码" class="headerlink" title="什么是字节码"></a>什么是字节码</h3><p>&amp;emsp;&amp;emsp;众所周知，Java语言是运行在JVM上的，当然，能运行在JVM上的语言不知Java，另外还有Kotlin、Groovy等，为什么这些语言都能在JVM上运行呢？能在JVM上运行的文件是<code>class</code>文件，只要能把语言编译成<code>class</code>文件，符合<code>class</code>文件的语法规则，那么就能在JVM上运行了。其实，JVM其实就相当于一个计算机，<code>class</code>文件就相当于CPU可以识别的0，1指令。简单的说<code>class</code>文件中的指令就是Java字节码。</p>
+<blockquote>
+<p>Java 所有的指令有 200 个左右，一个字节（ 8 位）可以存 储 256 种不同的指令信息，一个这样的字节称为字节码（ Bytecode ）。</p>
+</blockquote>
+<p>同理，Android代码是运行在Android虚拟机中，运行的是Dex文件，字节码为Dalvik 字节码。</p>
+<h3 id="编译插桩"><a href="#编译插桩" class="headerlink" title="编译插桩"></a>编译插桩</h3><p>&amp;emsp;&amp;emsp;什么是编译插桩呢？其实，就是字节码操作的专业说法，实质就是在编译时通过操作字节码来实现一些自己想要的功能。编译插桩有三种方法，下面会分别介绍：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.eclipse.org/aspectj/">AspectJ</a>：是 Java 中流行的 AOP（aspect-oriented programming）编程扩展框架，网上很多文章说它处理的是 Java 文件，其实并不正确，它内部也是通过字节码处理技术实现的代码注入。</li>
+<li><a target="_blank" rel="noopener" href="http://asm.ow2.org/">ASM</a>：如果说 AspectJ 只能满足 50% 的字节码处理场景，那ASM就是一个可以实现 100% 场景的 Java 字节码操作框架，它的功能也非常强大。使用 ASM 操作字节码主要的特点有：<ul>
+<li><strong>操作灵活</strong>。操作起来很灵活，可以根据需求自定义修改、插入、删除。</li>
+<li><strong>上手难。</strong>上手比较难，需要对 Java 字节码有比较深入的了解。</li>
+</ul>
+</li>
+<li>ReDex：不仅只是作为一款 Dex 优化工具，它也提供了很多的小工具和文档里没有提到的一些新奇功能。比如在 ReDex 里提供了一个简单的 Method Tracing 和 Block Tracing 工具，这个工具可以在所有方法或者指定方法前面插入一段跟踪代码。</li>
+</ol>
+<p>ASM是目前使用最多，功能最强大的一款字节码操作工具，本文也会基于ASM来实现字节码操作。</p>
+<h2 id="ASM"><a href="#ASM" class="headerlink" title="ASM"></a>ASM</h2><h3 id="ASM简介"><a href="#ASM简介" class="headerlink" title="ASM简介"></a>ASM简介</h3><p>&amp;emsp;&amp;emsp;下面是官方文档对ASM库的介绍</p>
+<blockquote>
+<p>ASM 库的目的是生成、转换和分析以字节数组表示的已编译 Java 类（它们在磁盘中的存储 和在 Java 虚拟机中的加载都采用这种字节数组形式）。为此，ASM 提供了一些工具，使用高于 字节级别的概念来读写和转换这种字节数组，这些概念包括数值常数、字符串、Java 标识符、Java 类型、Java 类结构元素，等等。注意，ASM 库的范围严格限制于类的读、写、转换和分析。具 体来说，类的加载过程就超出了它的范围之外。</p>
+</blockquote>
+<h3 id="ASM的优点"><a href="#ASM的优点" class="headerlink" title="ASM的优点"></a>ASM的优点</h3><p>&amp;emsp;&amp;emsp;ASM 并不是惟一可生成和转换已编译 Java 类的工具，但它是最新、最高效的工具之一，可 从 <a target="_blank" rel="noopener" href="http://asm.objectweb.org/">http://asm.objectweb.org</a> 下载。其主要优点如下：</p>
+<ul>
+<li>有一个简单的模块 API，设计完善、使用方便。</li>
+<li>文档齐全，拥有一个相关的 Eclipse 插件。</li>
+<li>支持最新的 Java 版本</li>
+<li>小而快、非常可靠。</li>
+<li>拥有庞大的用户社区，可以为新用户提供支持。</li>
+<li>源许可开放，几乎允许任意使用。</li>
+</ul>
+<p>注：<code>上面的介绍和优点来自ASM的官方文档</code></p>
+<h3 id="ASM关键API"><a href="#ASM关键API" class="headerlink" title="ASM关键API"></a>ASM关键API</h3><p>&amp;emsp;&amp;emsp;由于篇幅的原因，这里只会挑ASM库中关键的API来介绍。</p>
+<ul>
+<li><strong>ClassVisitor：</strong>用于生成和变转已编译的类。</li>
+<li><strong>ClassReader：</strong>分析以字节数组形式给出的已编译类</li>
+<li><strong>ClassWriter：</strong>是 ClassVisitor 抽象类的一个子类，它直接以二进制形式生成编译后的类。 它会生成一个字节数组形式的输出， 其中包含了已编译类， 可以用 toByteArray 方法来提取。这个类可以看作一个事件使用器。</li>
+</ul>
+<p>上面只是列出了API的作用，具体怎么使用，下面会分别进行介绍：</p>
+<h4 id="ClassVisitor及ClassReader"><a href="#ClassVisitor及ClassReader" class="headerlink" title="ClassVisitor及ClassReader"></a>ClassVisitor及ClassReader</h4><p>&amp;emsp;&amp;emsp;在分析一个已经存在的类时，惟一必需的组件是 ClassReader 组件。第一步是编写 ClassVisitor 类的一个子类，打印它所访问的类的相关信息。代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ClassPrinter</span> <span class="keyword">extends</span> <span class="title class_">org</span>.objectweb.asm.ClassVisitor &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">ClassPrinter</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(ASM4);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">visit</span><span class="params">(<span class="type">int</span> version, <span class="type">int</span> access, String name, String signature, String superName, String[] interfaces)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.visit(version, access, name, signature, superName, interfaces);</span><br><span class="line">        System.out.println(name + <span class="string">&quot; extends &quot;</span> + superName + <span class="string">&quot; &#123;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">visitSource</span><span class="params">(String source, String debug)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.visitSource(source, debug);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">visitOuterClass</span><span class="params">(String owner, String name, String desc)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.visitOuterClass(owner, name, desc);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> AnnotationVisitor <span class="title function_">visitAnnotation</span><span class="params">(String desc, <span class="type">boolean</span> visible)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.visitAnnotation(desc, visible);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">visitAttribute</span><span class="params">(Attribute attr)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.visitAttribute(attr);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">visitInnerClass</span><span class="params">(String name, String outerName, String innerName, <span class="type">int</span> access)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.visitInnerClass(name, outerName, innerName, access);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> FieldVisitor <span class="title function_">visitField</span><span class="params">(<span class="type">int</span> access, String name, String desc, String signature, Object value)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;     &quot;</span> + desc + <span class="string">&quot;  &quot;</span> + name);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> MethodVisitor <span class="title function_">visitMethod</span><span class="params">(<span class="type">int</span> access, String name, String desc, String signature, String[] exceptions)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;    &quot;</span> + name + desc);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">visitEnd</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;&#125;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>第二步是将这个ClassPrinter与一个ClassReader组件合并在一起，使ClassReader 产生的事件由我们的 ClassPrinter 使用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">ClassPrinter</span> <span class="variable">cp</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassPrinterer</span>();</span><br><span class="line">        <span class="type">ClassReader</span> <span class="variable">cr</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            cr = <span class="keyword">new</span> <span class="title class_">ClassReader</span>(<span class="string">&quot;java.lang.Runnable&quot;</span>);</span><br><span class="line">            cr.accept(cp, <span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码运行的结果如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java/lang/Runnable extends java/lang/Object &#123;</span><br><span class="line">    run()V</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的代码展示，<strong>再来总结一下<code>ClassVisitor</code>及<code>ClassReader</code>的作用，<code>ClassVisitor</code>相当于一个处理器，处理<code>ClassReader</code>获取的字节码。</strong></p>
+<h4 id="ClassWriter"><a href="#ClassWriter" class="headerlink" title="ClassWriter"></a>ClassWriter</h4><p>&amp;emsp;&amp;emsp;为生成一个类，唯一必需的组件是 ClassWriter 组件。以一个例子来说明ClassWriter的作用，看下面的一段代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> pkg; </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Comparable</span> <span class="keyword">extends</span> <span class="title class_">Mesurable</span> &#123; </span><br><span class="line"><span class="type">int</span> <span class="variable">LESS</span> <span class="operator">=</span> -<span class="number">1</span>; </span><br><span class="line"><span class="type">int</span> <span class="variable">EQUAL</span> <span class="operator">=</span> <span class="number">0</span>; </span><br><span class="line"><span class="type">int</span> <span class="variable">GREATER</span> <span class="operator">=</span> <span class="number">1</span>; </span><br><span class="line"><span class="type">int</span> <span class="title function_">compareTo</span><span class="params">(Object o)</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里将会用ClassWriter来生成上面的一段代码，具体的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">byte</span>[] testTraceClassWrite() &#123;</span><br><span class="line">        <span class="type">PrintWriter</span> <span class="variable">printWriter</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">             printWriter = <span class="keyword">new</span> <span class="title class_">PrintWriter</span>(<span class="string">&quot;/Users/funaihui/Desktop/test.txt&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">ClassWriter</span> <span class="variable">cw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassWriter</span>(<span class="number">0</span>);</span><br><span class="line">        org.objectweb.asm.util.<span class="type">TraceClassVisitor</span> <span class="variable">cv</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">org</span>.objectweb.asm.util.TraceClassVisitor(cw, printWriter);</span><br><span class="line">        cv.visit(V1_8, ACC_PUBLIC + ACC_ABSTRACT + ACC_INTERFACE, <span class="string">&quot;pkg/Comparable&quot;</span>, <span class="literal">null</span>, <span class="string">&quot;java/lang/Object&quot;</span>, <span class="keyword">new</span> <span class="title class_">String</span>[]&#123;<span class="string">&quot;pkg/Mesurable&quot;</span>&#125;);</span><br><span class="line">        cv.visitField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC, <span class="string">&quot;LESS&quot;</span>, <span class="string">&quot;I&quot;</span>, <span class="literal">null</span>, -<span class="number">1</span>).visitEnd();</span><br><span class="line">        cv.visitField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC, <span class="string">&quot;EQUAL&quot;</span>, <span class="string">&quot;I&quot;</span>, <span class="literal">null</span>, <span class="number">0</span>).visitEnd();</span><br><span class="line">        cv.visitField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC, <span class="string">&quot;GREATER&quot;</span>, <span class="string">&quot;I&quot;</span>, <span class="literal">null</span>, <span class="number">1</span>).visitEnd();</span><br><span class="line">        cv.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, <span class="string">&quot;compareTo&quot;</span>, <span class="string">&quot;(Ljava/lang/Object)&quot;</span>, <span class="literal">null</span>, <span class="literal">null</span>).visitEnd();</span><br><span class="line">        cv.visitEnd();</span><br><span class="line">        <span class="keyword">return</span> cw.toByteArray();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了能看出是否生成了上面的代码，这里用了<code>TraceClassVisitor</code>，它的作用是把ClassWriter 返回的字母数组用文本形式表示。为了方便操作，ASM库提供了一系列的XXXVisitor来方便操作字节码。最后生成的代码可以在<code>/Users/funaihui/Desktop/test.txt</code>文件中查看，看下最后生成的代码，如下</p>
+<p><img src="/Users/funaihui/Desktop/blog/source/_posts/image-20200207114902659.png" alt="image-20200207114902659"></p>
+<p>讲到这里可以知道**<code>ClassWriter</code>的作用是生成类**。Android项目的编译时插桩依赖Gradle的Transform，通过上面的介绍，已经简单的了解ASM操作字节码，下面再来看下Gradle plugin的Transform。</p>
+<h2 id="Transform"><a href="#Transform" class="headerlink" title="Transform"></a>Transform</h2><h3 id="Transform简介"><a href="#Transform简介" class="headerlink" title="Transform简介"></a>Transform简介</h3><p>&amp;emsp;&amp;emsp;添加一个Transform就相当于新创建了一个Task，它负责处理任务之间的依赖关系，一个Transform的输出可以作为其他Transform的输入使用，这些任务会自动链接在一起。看下Transform API文档的介绍</p>
+<blockquote>
+<p>A Transform that processes intermediary build artifacts.</p>
+<p>For each added transform, a new task is created. The action of adding a transform takes care of handling dependencies between the tasks. This is done based on what the transform processes. The output of the transform becomes consumable by other transforms and these tasks get automatically linked together.</p>
+</blockquote>
+<p>更详细的内容可以查看API<a target="_blank" rel="noopener" href="http://google.github.io/android-gradle-dsl/javadoc/2.1/com/android/build/api/transform/Transform.html">文档</a>。</p>
+<h3 id="Transform的原理"><a href="#Transform的原理" class="headerlink" title="Transform的原理"></a>Transform的原理</h3><p>&amp;emsp;&amp;emsp;先通过一张图简单的了解一下Transform，如下图</p>
+<p><img src="/Users/funaihui/Desktop/blog/source/_posts/image-20200207142016154.png" alt="image-20200207142016154"></p>
+<p>每个Transform其实都是一个gradle task，Android编译器中的TaskManager将每个Transform串连起来，第一个Transform接收来自javac编译的结果，以及已经拉取到在本地的第三方依赖（jar. aar），还有resource资源，注意，这里的resource并非android项目中的res资源，而是asset目录下的资源。这些编译的中间产物，在Transform组成的链条上流动，每个Transform节点可以对class进行处理再传递给下一个Transform。我们常见的混淆，Desugar等逻辑，它们的实现如今都是封装在一个个Transform中，而我们自定义的Transform，会插入到这个Transform链条的最前面。</p>
+<p>&amp;emsp;&amp;emsp;其实，上面这幅图，只是展示Transform的其中一种情况。而Transform其实可以有两种输入，一种是消费型的，当前Transform需要将消费型型输出给下一个Transform，另一种是引用型的，当前Transform可以读取这些输入，而不需要输出给下一个Transform，比如Instant Run就是通过这种方式，检查两次编译之间的diff的。由于Transform不是本文的重点，这里只简单的了解一下，想要了解更多，<a target="_blank" rel="noopener" href="https://xsfelvis.github.io/2019/05/02/gradle%E6%8F%92%E4%BB%B6%E4%B9%8BTransform/">可以参考这篇文章</a>。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>&amp;emsp;&amp;emsp;文章到这里，已经讲解了操作字节码的原因，什么是字节码，ASM的介绍和Transform，为什么要先将这些内容内容？因为这些内容是在Android项目中操作字节码需要的基础知识，只要先掌握了这些知识才能理解Android项目编译时插桩的基本原理，了解了这些原理之后，下面就进入实战环节，以一个例子说明，怎么实现Android项目编译时插桩。</p>
+<h2 id="实现编译时插桩"><a href="#实现编译时插桩" class="headerlink" title="实现编译时插桩"></a>实现编译时插桩</h2><p>&amp;emsp;&amp;emsp;本部分将通过前文讲到的知识，利用编译时插桩技术来实现监测项目中每个方法执行时间的功能。主要分下面几步</p>
+<ol>
+<li>自定义Transform，添加新的Task来获取编译后的class文件。</li>
+<li>利用ASM来添加需要的字节码。</li>
+<li>利用前一篇文章的内容，将前两步功能封装成Gradle的plugin。</li>
+</ol>
+<p>下面开始第一步，自定义Transform。</p>
+<h3 id="自定义Transform"><a href="#自定义Transform" class="headerlink" title="自定义Transform"></a>自定义Transform</h3></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88">wizardev</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88/blog/%E6%98%AF%E6%97%B6%E5%80%99%E5%B1%95%E7%A4%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%8A%80%E6%9C%AF%E4%BA%86%EF%BC%9AAndroid%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E7%A0%81%E6%93%8D%E4%BD%9C/">http://pi.wizardev.com:88/blog/%E6%98%AF%E6%97%B6%E5%80%99%E5%B1%95%E7%A4%BA%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%8A%80%E6%9C%AF%E4%BA%86%EF%BC%9AAndroid%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E7%A0%81%E6%93%8D%E4%BD%9C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pi.wizardev.com:88" target="_blank">wizardev的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/%E5%81%9A%E4%BA%86%E8%BF%99%E4%B9%88%E4%B9%85%E7%9A%84Android%EF%BC%8CGradle%E7%9A%84plugin%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97%EF%BC%9F/"><img class="prev-cover" src="/../../images/plugin/image-20200130175551790.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">做了这么久的Android，Gradle的plugin你知道吗？</div></div></a></div><div class="next-post pull-right"><a href="/blog/%E4%BD%A0%E7%9C%9F%E7%9A%84%E4%BA%86%E8%A7%A3%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E5%92%8C%E7%89%A9%E7%90%86%E5%86%85%E5%AD%98%E5%90%97/"><img class="next-cover" src="/../../images/vm/picture1.gif" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">你真的了解虚拟内存和物理内存吗</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wizardev</div><div class="author-info__description">大前端技术博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/funaihui"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><a target="_blank" rel="noopener" href="https://wizardev.cn">This is my Blog</a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%93%8D%E4%BD%9CAndroid%E9%A1%B9%E7%9B%AE%E4%B8%AD%E7%9A%84%E5%AD%97%E8%8A%82%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">为什么要操作Android项目中的字节码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81"><span class="toc-number"></span> <span class="toc-text">字节码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%97%E8%8A%82%E7%A0%81"><span class="toc-number">1.</span> <span class="toc-text">什么是字节码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E6%8F%92%E6%A1%A9"><span class="toc-number">2.</span> <span class="toc-text">编译插桩</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASM"><span class="toc-number"></span> <span class="toc-text">ASM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ASM%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">ASM简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASM%E7%9A%84%E4%BC%98%E7%82%B9"><span class="toc-number">2.</span> <span class="toc-text">ASM的优点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ASM%E5%85%B3%E9%94%AEAPI"><span class="toc-number">3.</span> <span class="toc-text">ASM关键API</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ClassVisitor%E5%8F%8AClassReader"><span class="toc-number">3.1.</span> <span class="toc-text">ClassVisitor及ClassReader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ClassWriter"><span class="toc-number">3.2.</span> <span class="toc-text">ClassWriter</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transform"><span class="toc-number"></span> <span class="toc-text">Transform</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Transform%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Transform简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Transform%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">Transform的原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E7%BC%96%E8%AF%91%E6%97%B6%E6%8F%92%E6%A1%A9"><span class="toc-number"></span> <span class="toc-text">实现编译时插桩</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89Transform"><span class="toc-number">1.</span> <span class="toc-text">自定义Transform</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hilt原理分析一（Hilt技术概览）"/></a><div class="content"><a class="title" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）">Hilt原理分析一（Hilt技术概览）</a><time datetime="2022-06-04T14:05:24.000Z" title="发表于 2022-06-04 22:05:24">2022-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img src="/../../images/raspbian3/image-20210626215003546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将树莓派作为服务器也太爽了吧"/></a><div class="content"><a class="title" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧">将树莓派作为服务器也太爽了吧</a><time datetime="2021-06-28T14:51:45.000Z" title="发表于 2021-06-28 22:51:45">2021-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧"><img src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动手开发了一款微信插件，这也太好用了吧"/></a><div class="content"><a class="title" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧">动手开发了一款微信插件，这也太好用了吧</a><time datetime="2021-02-22T01:41:22.000Z" title="发表于 2021-02-22 09:41:22">2021-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单"><img src="/../../images/raspbian2/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派上安装Nginx竟如此简单"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单">树莓派上安装Nginx竟如此简单</a><time datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img src="/../../images/raspbian1/picture0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派折腾记——安装系统"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统">树莓派折腾记——安装系统</a><time datetime="2020-12-21T01:06:46.000Z" title="发表于 2020-12-21 09:06:46">2020-12-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2017 - 2022 By wizardev</div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png"><span>备案号：浙ICP备19049794</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '154d349ea0b53e3b5a16',
+      clientSecret: '30feac3af8329db37bdf1b7d141c1401a18c9f9b',
+      repo: 'https://github.com/funaihui/blogTalk',
+      owner: 'funaihui',
+      admin: ['funaihui'],
+      id: '3f8aa79b8b2af0f536f8f3ae798dd743',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

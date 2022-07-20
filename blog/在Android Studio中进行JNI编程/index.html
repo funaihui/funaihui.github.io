@@ -1,0 +1,288 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>在Android Studio中进行JNI编程 | wizardev的博客</title><meta name="keywords" content="Android,JNI,AndroidStudio"><meta name="author" content="wizardev"><meta name="copyright" content="wizardev"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="&amp;emsp;&amp;emsp;本文主要讲在Android Studio中进行JNI编程的步骤，不涉及编码及在代码中声明本地源文件，如有这方面需要，请自行查找。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Android Studio中进行JNI编程">
+<meta property="og:url" content="http://pi.wizardev.com:88/blog/%E5%9C%A8Android%20Studio%E4%B8%AD%E8%BF%9B%E8%A1%8CJNI%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="wizardev的博客">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;本文主要讲在Android Studio中进行JNI编程的步骤，不涉及编码及在代码中声明本地源文件，如有这方面需要，请自行查找。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://pi.wizardev.com:88/images/androidJNI/picture1.png">
+<meta property="article:published_time" content="2017-02-19T08:41:49.000Z">
+<meta property="article:modified_time" content="2020-11-23T12:38:22.000Z">
+<meta property="article:author" content="wizardev">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="JNI">
+<meta property="article:tag" content="AndroidStudio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pi.wizardev.com:88/images/androidJNI/picture1.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://pi.wizardev.com:88/blog/%E5%9C%A8Android%20Studio%E4%B8%AD%E8%BF%9B%E8%A1%8CJNI%E7%BC%96%E7%A8%8B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '在Android Studio中进行JNI编程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-11-23 20:38:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../../images/androidJNI/picture1.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">wizardev的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">在Android Studio中进行JNI编程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2017-02-19T08:41:49.000Z" title="发表于 2017-02-19 16:41:49">2017-02-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-23T12:38:22.000Z" title="更新于 2020-11-23 20:38:22">2020-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="在Android Studio中进行JNI编程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>&amp;emsp;&amp;emsp;本文主要讲在Android Studio中进行JNI编程的步骤，不涉及编码及在代码中声明本地源文件，如有这方面需要，请自行查找。</p>
+<span id="more"></span>
+<blockquote>
+<p>&amp;emsp;&amp;emsp;想过自己想要的生活，没有捷径，即便是努力了没有收获时，也不能放弃自己，只要每天在变得更好的路上，你就能看见更好的风景。</p>
+</blockquote>
+<h2 id="开始前的准备"><a href="#开始前的准备" class="headerlink" title="开始前的准备"></a>开始前的准备</h2><p>&amp;emsp;&amp;emsp;使用JNI时，你需要下载NDK和工具，具体下载的方法和需要的工具，你可以移步这里<a target="_blank" rel="noopener" href="https://developer.android.google.cn/ndk/guides/index.html">“NDK和工具下载”</a></p>
+<h2 id="在Android-Studio中使用C-x2F-C-的方式"><a href="#在Android-Studio中使用C-x2F-C-的方式" class="headerlink" title="在Android Studio中使用C&#x2F;C++的方式"></a>在Android Studio中使用C&#x2F;C++的方式</h2><h3 id="直接创建支持C-x2F-C-的新项目"><a href="#直接创建支持C-x2F-C-的新项目" class="headerlink" title="直接创建支持C&#x2F;C++的新项目"></a>直接创建支持C&#x2F;C++的新项目</h3><p>&amp;emsp;&amp;emsp;创建支持原生代码的项目与创建任何其他 Android Studio 项目类似，不过前者还需要额外几个步骤：</p>
+<ol>
+<li>在向导的 Configure your new project 部分，选中 Include C++ Support 复选框。</li>
+<li>点击 Next。</li>
+<li>正常填写所有其他字段并完成向导接下来的几个部分。</li>
+<li>在向导的 Customize C++ Support 部分，您可以使用下列选项自定义项目：</li>
+</ol>
+<ul>
+<li>C++ Standard：使用下拉列表选择您希望使用哪种 C++ 标准。选择 Toolchain Default 会使用默认的 CMake 设置。</li>
+<li>Exceptions Support：如果您希望启用对 C++ 异常处理的支持，请选中此复选框。如果启用此复选框，Android Studio 会将 -fexceptions 标志添加到模块级 build.gradle 文件的 cppFlags 中，Gradle 会将其传递到 CMake。</li>
+<li>Runtime Type Information Support：如果您希望支持 RTTI，请选中此复选框。如果启用此复选框，Android Studio 会将 -frtti 标志添加到模块级 build.gradle 文件的 cppFlags 中，Gradle 会将其传递到 CMake。</li>
+</ul>
+<ol start="8">
+<li>点击 Finish。</li>
+</ol>
+<p>&amp;emsp;&amp;emsp;具体内容请移步这里<a target="_blank" rel="noopener" href="https://developer.android.google.cn/studio/projects/add-native-code.html#new-project">直接创建支持C&#x2F;C++的新项目</a><br><font color = "red" size = 5>注：</font><strong>需要使用 Android Studio 2.2 或更高版本与 Android Plugin for Gradle 版本 2.2.0 或更高版本</strong></p>
+<h3 id="向现有项目添加-C-x2F-C-代码"><a href="#向现有项目添加-C-x2F-C-代码" class="headerlink" title="向现有项目添加 C&#x2F;C++ 代码"></a>向现有项目添加 C&#x2F;C++ 代码</h3><h4 id="创建新的原生源文件"><a href="#创建新的原生源文件" class="headerlink" title="创建新的原生源文件"></a>创建新的原生源文件</h4><p>&amp;emsp;&amp;emsp;要在应用模块的主源代码集中创建一个包含新建原生源文件的 cpp&#x2F; 目录，请按以下步骤操作：</p>
+<ol>
+<li>从 IDE 的左侧打开 Project 窗格并从下拉菜单中选择 Project 视图。</li>
+<li>导航到<font color = "purple">您的模块</font> &gt; src，右键点击 main 目录，然后选择 New &gt; Directory。</li>
+<li>为目录输入一个名称（例如 cpp）并点击 OK。</li>
+<li>右键点击您刚刚创建的目录，然后选择 New &gt; C&#x2F;C++ Source File。</li>
+<li>为您的源文件输入一个名称，例如 native-lib。</li>
+<li>从 Type 下拉菜单中，为您的源文件选择文件扩展名，例如 .cpp。</li>
+<li>点击 Edit File Types ，您可以向下拉菜单中添加其他文件类型，例如 .cxx 或 .hxx。在弹出的 C&#x2F;C++ 对话框中，从 Source Extension 和 Header Extension 下拉菜单中选择另一个文件扩展名，然后点击 OK。</li>
+<li>如果您还希望创建一个标头文件，请选中 Create an associated header 复选框。</li>
+<li>点击 OK。</li>
+</ol>
+<h4 id="创建-CMake-构建脚本"><a href="#创建-CMake-构建脚本" class="headerlink" title="创建 CMake 构建脚本"></a>创建 CMake 构建脚本</h4><p>&amp;emsp;&amp;emsp;在Android Studio中默认使用CMake 构建脚本，如果您的项目使用 ndk-build，则不需要创建 CMake 构建脚本。提供一个指向您的 Android.mk 文件的路径，将 Gradle 关联到您的原生库.<br><br>&amp;emsp;&amp;emsp;如果您的原生源文件还没有 CMake 构建脚本，则您需要自行创建一个并包含适当的 CMake 命令。CMake 构建脚本是一个纯文本文件，您必须将其命名为 <font color = "green">CMakeLists.txt</font>。</p>
+<ol>
+<li><p>从 IDE 的左侧打开 Project 窗格并从下拉菜单中选择 Project 视图。</p>
+</li>
+<li><p>右键点击您的模块的根目录并选择 New &gt; File。</p>
+<blockquote>
+<p>注：您可以在所需的任意位置创建构建脚本。不过，在配置构建脚本时，原生源文件和库的路径将与构建脚本的位置相关。</p>
+</blockquote>
+</li>
+<li><p>输入“CMakeLists.txt”作为文件名并点击 OK。<br><br>&amp;emsp;&amp;emsp;现在，您可以添加 CMake 命令，对您的构建脚本进行配置。要指示 CMake 从原生源代码创建一个原生库，请将cmake_ minimum_ required() 和 add_library() 命令添加到您的构建脚本中：</p>
+<p> cmake_minimum_required(VERSION 3.4.1)<br> add_library(<br> ​		 # 要生成动态库的名称，可以自己设定<br>​          native-lib </p>
+<pre><code>      # 设置这个库为公开的
+      SHARED
+ 
+      # 关联源码的路径
+      src/main/cpp/native-lib.cpp )
+</code></pre>
+</li>
+</ol>
+<p>&amp;emsp;&amp;emsp;使用 add_library() 向您的 CMake 构建脚本添加源文件或库时，Android Studio 还会在您同步项目后在 Project 视图下显示关联的标头文件。不过，为了确保 CMake 可以在编译时定位您的标头文件，您需要将 include_directories() 命令添加到 CMake 构建脚本中并指定标头的路径：</p>
+<pre><code>add_library(...)
+
+# Specifies a path to native header files.
+include_directories(src/main/cpp/include/)
+</code></pre>
+<p>&amp;emsp;&amp;emsp;CMake 使用以下规范来为库文件命名：</p>
+<p>&amp;emsp;&amp;emsp;lib<em>库名称</em>.so<br><br>&amp;emsp;&amp;emsp;例如，如果您在构建脚本中指定“native-lib”作为共享库的名称，CMake 将创建一个名称为 libnative-lib.so 的文件。不过，在 Java 代码中加载此库时，请使用您在 CMake 构建脚本中指定的名称：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static &#123;</span><br><span class="line">    	System.loadLibrary(“native-lib”);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="将-Gradle-关联到您的原生库"><a href="#将-Gradle-关联到您的原生库" class="headerlink" title="将 Gradle 关联到您的原生库"></a>将 Gradle 关联到您的原生库</h4><p>&amp;emsp;&amp;emsp;要将 Gradle 关联到您的原生库，您需要提供一个指向 CMake 或 ndk-build 脚本文件的路径。在您构建应用时，Gradle 会以依赖项的形式运行 CMake 或 ndk-build，并将共享的库封装到您的 APK 中。Gradle 还使用构建脚本来了解要将哪些文件添加到您的 Android Studio 项目中，以便您可以从 Project 窗口访问这些文件。如果您的原生源文件没有构建脚本，则需要先创建 CMake 构建脚本，然后再继续。<br><br>&amp;emsp;&amp;emsp;将 Gradle 关联到原生项目后，Android Studio 会更新 Project 窗格以在 cpp 组中显示您的源文件和原生库，在 External Build Files 组中显示您的外部构建脚本。<br><br> <font color=red>注：更改 Gradle 配置时，请确保通过点击工具栏中的 Sync Project  应用更改。此外，如果在将 CMake 或 ndk-build 脚本文件关联到 Gradle 后再对其进行更改，您应当从菜单栏中选择 Build &gt; Refresh Linked C++ Projects，将 Android Studio 与您的更改同步。</font></p>
+<p>&amp;emsp;&amp;emsp;您可以使用 Android Studio UI 将 Gradle 关联到外部 CMake 或 ndk-build 项目：</p>
+<ol>
+<li>从 IDE 左侧打开 Project 窗格并选择 Android 视图。</li>
+<li>右键点击您想要关联到原生库的模块（例如 app 模块），并从菜单中选择 Link C++ Project with Gradle。您应看到一个如图 4 所示的对话框。</li>
+<li>从下拉菜单中，选择 CMake 或 ndk-build。</li>
+</ol>
+<ul>
+<li>如果您选择 CMake，请使用 Project Path 旁的字段为您的外部 CMake 项目指定 CMakeLists.txt 脚本文件。</li>
+<li>如果您选择 ndk-build，请使用 Project Path 旁的字段为您的外部 ndk-build 项目指定 Android.mk 脚本文件。如果 Application.mk 文件与您的 Android.mk 文件位于相同目录下，Android Studio 也会包含此文件。<br><img src="/../../images/androidJNI/picture1.png" alt="使用 Android Studio 对话框关联外部 C++ 项目"><br>图 使用 Android Studio 对话框关联外部 C++ 项目。</li>
+</ul>
+<ol start="6">
+<li>点击 OK。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&amp;emsp;&amp;emsp;按上述步骤进行到这里，你已经可以使用Android Studio编写JNI程序了，总结步骤如下：</p>
+<ol>
+<li>创建新的源文件。</li>
+<li>创建 CMake 构建脚本。</li>
+<li>将 Gradle 关联到您的原生库。</li>
+<li>不要忘记在java文件中载入动态库文件。</li>
+</ol>
+<blockquote>
+<p>static {<br>        System.loadLibrary(“native-lib”);<br>    }</p>
+</blockquote>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>&amp;emsp;&amp;emsp;由于本人技术有限，难免有一些错误和遗漏的地方，欢迎大家指正。<br><br>&amp;emsp;&amp;emsp;<font color=#d2691e size = 5>转载请注明出处：<a target="_blank" rel="noopener" href="http://www.wizardev.cn/">www.wizardev.cn</a> </font></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88">wizardev</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88/blog/%E5%9C%A8Android%20Studio%E4%B8%AD%E8%BF%9B%E8%A1%8CJNI%E7%BC%96%E7%A8%8B/">http://pi.wizardev.com:88/blog/%E5%9C%A8Android%20Studio%E4%B8%AD%E8%BF%9B%E8%A1%8CJNI%E7%BC%96%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pi.wizardev.com:88" target="_blank">wizardev的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a><a class="post-meta__tags" href="/tags/JNI/">JNI</a><a class="post-meta__tags" href="/tags/AndroidStudio/">AndroidStudio</a></div><div class="post_share"><div class="social-share" data-image="/../../images/androidJNI/picture1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/%E5%88%A9%E7%94%A8Android%20Studio%E5%9C%A8App%E4%B8%AD%E9%9B%86%E6%88%90%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/"><img class="prev-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">利用Android Studio在App中集成第三方支付</div></div></a></div><div class="next-post pull-right"><a href="/blog/%E5%9C%A8Linux%EF%BC%88deepin%EF%BC%89%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%90%AD%E5%BB%BAAndroid%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/"><img class="next-cover" src="/../../images/deepin/picture1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">在Linux（deepin）系统中搭建Android开发环境</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/%E5%9C%A8Linux%EF%BC%88deepin%EF%BC%89%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%90%AD%E5%BB%BAAndroid%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" title="在Linux（deepin）系统中搭建Android开发环境"><img class="cover" src="/../../images/deepin/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-02-16</div><div class="title">在Linux（deepin）系统中搭建Android开发环境</div></div></a></div><div><a href="/blog/Eclipse%E4%BD%BF%E7%94%A8JDBC%E8%BF%9E%E6%8E%A5MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/" title="Eclipse使用JDBC连接MySQL数据库详细教程"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-09-06</div><div class="title">Eclipse使用JDBC连接MySQL数据库详细教程</div></div></a></div><div><a href="/blog/%E5%88%A9%E7%94%A8Android%20Studio%E5%9C%A8App%E4%B8%AD%E9%9B%86%E6%88%90%E7%AC%AC%E4%B8%89%E6%96%B9%E6%94%AF%E4%BB%98/" title="利用Android Studio在App中集成第三方支付"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-06-25</div><div class="title">利用Android Studio在App中集成第三方支付</div></div></a></div><div><a href="/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E5%88%A9%E7%94%A8AndroidStudio%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95smali%E6%BA%90%E7%A0%81/" title="反编译之利用AndroidStudio动态调试smali源码"><img class="cover" src="/../../images/smali/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-12-03</div><div class="title">反编译之利用AndroidStudio动态调试smali源码</div></div></a></div><div><a href="/blog/%E8%87%B4%E7%BB%88%E5%B0%86%E9%80%9D%E5%8E%BB%E7%9A%842017/" title="致终将逝去的2017"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-12-30</div><div class="title">致终将逝去的2017</div></div></a></div><div><a href="/blog/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99RecyclerView%E7%9A%84%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" title="自己动手写RecyclerView的下拉刷新"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-12-02</div><div class="title">自己动手写RecyclerView的下拉刷新</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wizardev</div><div class="author-info__description">大前端技术博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/funaihui"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><a target="_blank" rel="noopener" href="https://wizardev.cn">This is my Blog</a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text">开始前的准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8Android-Studio%E4%B8%AD%E4%BD%BF%E7%94%A8C-x2F-C-%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">在Android Studio中使用C&#x2F;C++的方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E5%88%9B%E5%BB%BA%E6%94%AF%E6%8C%81C-x2F-C-%E7%9A%84%E6%96%B0%E9%A1%B9%E7%9B%AE"><span class="toc-number">2.1.</span> <span class="toc-text">直接创建支持C&#x2F;C++的新项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E7%8E%B0%E6%9C%89%E9%A1%B9%E7%9B%AE%E6%B7%BB%E5%8A%A0-C-x2F-C-%E4%BB%A3%E7%A0%81"><span class="toc-number">2.2.</span> <span class="toc-text">向现有项目添加 C&#x2F;C++ 代码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%96%B0%E7%9A%84%E5%8E%9F%E7%94%9F%E6%BA%90%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.1.</span> <span class="toc-text">创建新的原生源文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-CMake-%E6%9E%84%E5%BB%BA%E8%84%9A%E6%9C%AC"><span class="toc-number">2.2.2.</span> <span class="toc-text">创建 CMake 构建脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86-Gradle-%E5%85%B3%E8%81%94%E5%88%B0%E6%82%A8%E7%9A%84%E5%8E%9F%E7%94%9F%E5%BA%93"><span class="toc-number">2.2.3.</span> <span class="toc-text">将 Gradle 关联到您的原生库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">4.</span> <span class="toc-text">后记</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hilt原理分析一（Hilt技术概览）"/></a><div class="content"><a class="title" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）">Hilt原理分析一（Hilt技术概览）</a><time datetime="2022-06-04T14:05:24.000Z" title="发表于 2022-06-04 22:05:24">2022-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img src="/../../images/raspbian3/image-20210626215003546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将树莓派作为服务器也太爽了吧"/></a><div class="content"><a class="title" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧">将树莓派作为服务器也太爽了吧</a><time datetime="2021-06-28T14:51:45.000Z" title="发表于 2021-06-28 22:51:45">2021-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧"><img src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动手开发了一款微信插件，这也太好用了吧"/></a><div class="content"><a class="title" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧">动手开发了一款微信插件，这也太好用了吧</a><time datetime="2021-02-22T01:41:22.000Z" title="发表于 2021-02-22 09:41:22">2021-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单"><img src="/../../images/raspbian2/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派上安装Nginx竟如此简单"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单">树莓派上安装Nginx竟如此简单</a><time datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img src="/../../images/raspbian1/picture0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派折腾记——安装系统"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统">树莓派折腾记——安装系统</a><time datetime="2020-12-21T01:06:46.000Z" title="发表于 2020-12-21 09:06:46">2020-12-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2017 - 2022 By wizardev</div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png"><span>备案号：浙ICP备19049794</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '154d349ea0b53e3b5a16',
+      clientSecret: '30feac3af8329db37bdf1b7d141c1401a18c9f9b',
+      repo: 'https://github.com/funaihui/blogTalk',
+      owner: 'funaihui',
+      admin: ['funaihui'],
+      id: 'a943669e66ddc325991b03528f8462a6',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

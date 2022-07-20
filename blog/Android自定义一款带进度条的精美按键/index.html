@@ -1,0 +1,244 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Android自定义一款带进度条的精美按键 | wizardev的博客</title><meta name="keywords" content="Android,自定义,精度条,按键"><meta name="author" content="wizardev"><meta name="copyright" content="wizardev"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android自定义一款带进度条的精美按键">
+<meta property="og:url" content="http://pi.wizardev.com:88/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E6%AC%BE%E5%B8%A6%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E7%B2%BE%E7%BE%8E%E6%8C%89%E9%94%AE/index.html">
+<meta property="og:site_name" content="wizardev的博客">
+<meta property="og:description" content="Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2017-08-27T02:35:04.000Z">
+<meta property="article:modified_time" content="2020-11-23T12:38:22.000Z">
+<meta property="article:author" content="wizardev">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="自定义">
+<meta property="article:tag" content="精度条">
+<meta property="article:tag" content="按键">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://pi.wizardev.com:88/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E6%AC%BE%E5%B8%A6%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E7%B2%BE%E7%BE%8E%E6%8C%89%E9%94%AE/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android自定义一款带进度条的精美按键',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-11-23 20:38:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">wizardev的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android自定义一款带进度条的精美按键</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2017-08-27T02:35:04.000Z" title="发表于 2017-08-27 10:35:04">2017-08-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-23T12:38:22.000Z" title="更新于 2020-11-23 20:38:22">2020-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android自定义一款带进度条的精美按键"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><a target="_blank" rel="noopener" href="https://juejin.im/entry/59a26ba851882524424a0e7b/detail"><img src="https://badge.juejin.im/entry/59a26ba851882524424a0e7b/likes.svg?style=flat-square"></a></p>
+<blockquote>
+<p>Android中自定义View并没有什么可怕的，拿到一个需要自定义的View，首先要做的就是把它肢解，然后思考每一步是怎样实现的，按分析的步骤一步一步的编码实现，最后你就会发现达到了你想要的效果。本文就按这样的步骤带你打造一款精美的按钮。</p>
+</blockquote>
+<span id="more"></span>
+<h1 id="效果预览"><a href="#效果预览" class="headerlink" title="效果预览"></a>效果预览</h1><p>&amp;emsp;&amp;emsp;在开始本文之前，照例，先看下实现后的效果，如下图</p>
+<center>![](http://ot6991tvl.bkt.clouddn.com/anim1.gif)</center>
+不想阅读本文，可以直接到[这里获取源码](https://github.com/funaihui/ImitateKeepButton)
+
+<p>阅读本文你需要掌握</p>
+<blockquote>
+<p>自定义属性<br> ValueAnimator动画<br>Viwe的测量、绘制<br>Paint和Path的用法</p>
+</blockquote>
+<h1 id="动手实现"><a href="#动手实现" class="headerlink" title="动手实现"></a>动手实现</h1><h2 id="拆解"><a href="#拆解" class="headerlink" title="拆解"></a>拆解</h2><p>&amp;emsp;&amp;emsp;在动手编码之前，要静下心来分析一下，这款View是怎样组成的，也就是要把这个View拆解一下。分析后，不难发现主要有一下部分组成</p>
+<ul>
+<li>圆形背景</li>
+<li>圆环的背景</li>
+<li>圆环</li>
+<li>文字</li>
+</ul>
+<p>知道这个View是怎样组成的，然后完成相应部分的编码，最后将这些部分按时间顺序进行拼装展示，就能达到文章开头那样的效果了。</p>
+<h2 id="分析原理"><a href="#分析原理" class="headerlink" title="分析原理"></a>分析原理</h2><p>&amp;emsp;&amp;emsp;经过拆解，知道了这个View都有那几部分组成了，下面就来分析一下是怎样将以上部分进行整合的</p>
+<ol>
+<li>在没点击之前，是一个中间带有文字的圆形。</li>
+<li>点击之后圆形缩小，当缩小到一定程度后，圆环背景出现，同时，圆环进度条开始加载。</li>
+<li>如果进度条加载完成，则改变文字（回调接口），抬起手后恢复原来的形状；如果没有加载完成，抬起手后，恢复原装，下次点击从新执行此步骤。</li>
+</ol>
+<p>为了理解清楚，可以自己画一下流程图。</p>
+<h2 id="编码实现"><a href="#编码实现" class="headerlink" title="编码实现"></a>编码实现</h2><p>&amp;emsp;&amp;emsp;相信，经过分析拆解之后，你脑子里应该有一个实现的流程了，下面就动手开始实现吧！</p>
+<p>先将需要的画笔和路径进行初始化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">//初始化画笔及路径</span><br><span class="line">   private void initPaintOrPath() &#123;</span><br><span class="line">       circleBgPaint = new Paint();</span><br><span class="line">       circleBgPaint.setAntiAlias(true);</span><br><span class="line">       circleBgPaint.setStyle(Paint.Style.FILL_AND_STROKE);</span><br><span class="line"></span><br><span class="line">       ringBgPaint = new Paint();</span><br><span class="line"></span><br><span class="line">       ringBgPaint.setColor(ringBgColor.getColorForState(getDrawableState(),0));</span><br><span class="line">       ringBgPaint.setAntiAlias(true);</span><br><span class="line">       ringBgPaint.setStrokeWidth(ringSize);</span><br><span class="line">       ringBgPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line"></span><br><span class="line">       ringPaint = new Paint();</span><br><span class="line">       ringPaint.setColor(ringColor.getColorForState(getDrawableState(),0));</span><br><span class="line">       ringPaint.setAntiAlias(true);</span><br><span class="line">       ringPaint.setStrokeWidth(ringSize);</span><br><span class="line">       ringPaint.setStyle(Paint.Style.STROKE);</span><br><span class="line"></span><br><span class="line">       path = new Path();</span><br><span class="line"></span><br><span class="line">       textPaint = new Paint();</span><br><span class="line">       textPaint.setAntiAlias(true);</span><br><span class="line">       textPaint.setTextAlign(Paint.Align.CENTER);</span><br><span class="line">       textPaint.setColor(textColor.getColorForState(getDrawableState(),0));</span><br><span class="line">       textPaint.setTextSize(textSize);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>自定义View需要经过三个重要的步骤，<em><strong>测量</strong></em>，<em><strong>布局</strong></em>，<em><strong>绘制</strong></em>，分别对应<em><strong>onMeasure()</strong></em>,<em><strong>onLayout()</strong></em>,***onDraw()<em><strong>方法。这里的</strong></em>onLayout()<em><strong>主要是对自定义ViewGroup的，自定义View只要重写</strong></em>onMeasure()<em><strong>和</strong></em>onDraw()***方法就行了，按照自定义View的套路来，先进行测量，直接看代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) &#123;</span><br><span class="line">        super.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        //获得父View传递过来的宽度的大小和类型</span><br><span class="line">        int widthMode = MeasureSpec.getMode(widthMeasureSpec);</span><br><span class="line">        int widthSize = MeasureSpec.getSize(widthMeasureSpec);</span><br><span class="line">		//获得父View传递过来的高度的大小和类型</span><br><span class="line">        int heightMode = MeasureSpec.getMode(heightMeasureSpec);</span><br><span class="line">        int heightSize = MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">        //初始化最终的宽高</span><br><span class="line">        int resultWidth = widthSize;</span><br><span class="line">        int resultHeight = heightSize;</span><br><span class="line">        //为了让文字可以在背景（圆形）中完全显示</span><br><span class="line">        if (mRadius * 2 &lt; textPaint.measureText(contentText)) &#123;</span><br><span class="line">            mRadius = (int) textPaint.measureText(contentText);</span><br><span class="line">        &#125;</span><br><span class="line">        if (widthMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">       	 //获取我们需要的宽度</span><br><span class="line">            int contentWidth =  (mRadius + space + ringSize)*2+ getPaddingLeft() + getPaddingRight();</span><br><span class="line">        //得到最终的宽度</span><br><span class="line">            resultWidth = (contentWidth &lt; widthSize) ? resultWidth : contentWidth;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (heightMode == MeasureSpec.AT_MOST) &#123;</span><br><span class="line">         //获取我们需要的高度</span><br><span class="line">            int contentHeight = (mRadius + space + ringSize)*2 + getPaddingTop() + getPaddingBottom();</span><br><span class="line">            //得到最终的高度</span><br><span class="line">            resultHeight = (contentHeight &lt; heightSize) ? resultHeight : contentHeight;</span><br><span class="line">        &#125;</span><br><span class="line">		//设置测量后的宽高</span><br><span class="line">        setMeasuredDimension(resultWidth,resultHeight);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>代码中都有注释，相信你可以看的懂。下面就开始画我们需要的圆形，圆环背景，圆环和文字了，我们需要在onDraw()方法中进行作画，代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">   protected void onDraw(Canvas canvas) &#123;</span><br><span class="line">       super.onDraw(canvas);</span><br><span class="line">       //画圆，改变ringRadius就可以改变圆形背景的大小，主要控制value值的改变</span><br><span class="line">       ringRadius = mRadius - DPUtils.dip2px(getContext(),value/2);</span><br><span class="line">       circleBgPaint.setColor(circleColor.getColorForState(getDrawableState(),0));</span><br><span class="line">       canvas.drawCircle(getWidth() / 2, getHeight() / 2, ringRadius, circleBgPaint);</span><br><span class="line">       //用户按键时开始画圆环</span><br><span class="line">       if (startDrawLine)&#123;</span><br><span class="line">           //计算外环的半径，记得要减去外环的宽度的一半</span><br><span class="line">           result = ringRadius + space +ringSize/2;</span><br><span class="line">           //画完整的进度条</span><br><span class="line">           canvas.drawCircle(getWidth() / 2, getHeight() / 2, result, ringBgPaint);</span><br><span class="line">          //画进度条路径</span><br><span class="line">           path.reset();//重置路径，否则下次精度条不会从开始位置，可以注释掉此代码，看下效果</span><br><span class="line">           //计算画路径的矩形</span><br><span class="line">           float left = getWidth()/2-result;</span><br><span class="line">           float top = getHeight()/2-result;</span><br><span class="line">           float right = getWidth()/2+result;</span><br><span class="line">           float bottom = getHeight()/2+result;</span><br><span class="line">           RectF rect = new RectF(left,top, right ,bottom);</span><br><span class="line">           path.addArc(rect, -90, angle);//通过改变angle就可以动态的改变进度条</span><br><span class="line"></span><br><span class="line">           //画圆环的路径</span><br><span class="line">           canvas.drawPath(path, ringPaint);</span><br><span class="line">       &#125;</span><br><span class="line">       canvas.drawText(contentText,getWidth()/2,getHeight()/2,textPaint);//文字</span><br><span class="line">   &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>完成以上几步，点击view时并没有反应，因为还没有为View添加触摸事件，也没有添加动画，进过分析原理那步，可以知道，手指按下时改变圆形背景的大小，既改变半径的大小……，这里就不在重复说了，直接看代码，代码中会有讲解</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">    public boolean onTouchEvent(final MotionEvent event) &#123;</span><br><span class="line">    //控制加载完成时候是否还可以相应点击事件，可以通过setEnable()方法来控制</span><br><span class="line">        if (!enable &amp;&amp; event.getAction()!=MotionEvent.ACTION_UP) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        switch (event.getAction()) &#123;</span><br><span class="line">            case MotionEvent.ACTION_DOWN: &#123;</span><br><span class="line">					//当手指按下时，移除手指抬起时的监听</span><br><span class="line">                    if (animator != null) &#123;</span><br><span class="line">                        animator.removeAllUpdateListeners();</span><br><span class="line">                    &#125;</span><br><span class="line">                    //改变narrowDown的值</span><br><span class="line">                    animatorValue = ValueAnimator.ofInt(0, narrowDown);</span><br><span class="line">                    animatorValue.setDuration(50);</span><br><span class="line">                    animatorValue.setInterpolator(new LinearInterpolator());</span><br><span class="line">                    animatorValue.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                        @Override</span><br><span class="line">                        public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;						</span><br><span class="line">                            value = (int) valueAnimator.getAnimatedValue();//改变value的值也就是按下手指让圆形背景缩小</span><br><span class="line">                            if (value == narrowDown) &#123;</span><br><span class="line">                            //当缩小到一定值时开始画圆环和精度条</span><br><span class="line">                                startDrawLine = true;//控制什么时候开始画圆环和进度条</span><br><span class="line">                                animatorValue.removeAllUpdateListeners();//当开始画进度条时移除改变背景大小的动画，既停止改变</span><br><span class="line">                            &#125;</span><br><span class="line">                            postInvalidate();//刷新画布</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line"></span><br><span class="line">                    animatorValue.start();//开始缩小</span><br><span class="line">                    </span><br><span class="line">                    angleAnimator = ValueAnimator.ofFloat(0, 360f);</span><br><span class="line">                    angleAnimator.setDuration(2000);</span><br><span class="line">                    angleAnimator.setInterpolator(new LinearInterpolator());</span><br><span class="line">                    angleAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">                        @Override</span><br><span class="line">                        public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;</span><br><span class="line">                            angle = (float) valueAnimator.getAnimatedValue();//angle用来画进度条，动态改变进度条加载的进度</span><br><span class="line">                            if (angle == 360) &#123;</span><br><span class="line">                            	//加载完成移除动画，既进度条停止加载</span><br><span class="line">                                angleAnimator.removeAllUpdateListeners();</span><br><span class="line">                                //进度条加载完成后的回调</span><br><span class="line">                                onViewClick.onFinish(ImitateKeepButton.this);</span><br><span class="line"></span><br><span class="line">                            &#125;</span><br><span class="line">                            postInvalidate();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;);</span><br><span class="line">                    angleAnimator.start();//开始加载</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            break;</span><br><span class="line">            case MotionEvent.ACTION_UP: &#123;</span><br><span class="line">                 angleAnimator.removeAllUpdateListeners();</span><br><span class="line">       			 animatorValue.removeAllUpdateListeners();</span><br><span class="line">        		 animator = ValueAnimator.ofInt(value,0);</span><br><span class="line">        		 animator.setDuration(300);</span><br><span class="line">       			 animator.setInterpolator(new LinearInterpolator());</span><br><span class="line">       			 animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() &#123;</span><br><span class="line">           		 @Override</span><br><span class="line">           		 public void onAnimationUpdate(ValueAnimator valueAnimator) &#123;</span><br><span class="line">              	  value = (int) valueAnimator.getAnimatedValue();</span><br><span class="line">              	  postInvalidate();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        animator.start();//开始恢复背景原来的大小</span><br><span class="line">            &#125;</span><br><span class="line">            startDrawLine = false;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        return true;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>好了，到这里已经达到了文章开始时的效果，可以结束本文了。</p>
+<h1 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h1><p>&amp;emsp;&amp;emsp;文中代码，只是粘贴部分比较重要的，不完整，完整代码可以到<a target="_blank" rel="noopener" href="https://github.com/funaihui/ImitateKeepButton">这里获取源码</a>。</p>
+<blockquote>
+<p><font color=#d2691e size = 5>转载请注明出处：<a target="_blank" rel="noopener" href="http://www.wizardev.cn/">www.wizardev.cn</a><font></p>
+</blockquote>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88">wizardev</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E6%AC%BE%E5%B8%A6%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E7%B2%BE%E7%BE%8E%E6%8C%89%E9%94%AE/">http://pi.wizardev.com:88/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E6%AC%BE%E5%B8%A6%E8%BF%9B%E5%BA%A6%E6%9D%A1%E7%9A%84%E7%B2%BE%E7%BE%8E%E6%8C%89%E9%94%AE/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pi.wizardev.com:88" target="_blank">wizardev的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89/">自定义</a><a class="post-meta__tags" href="/tags/%E7%B2%BE%E5%BA%A6%E6%9D%A1/">精度条</a><a class="post-meta__tags" href="/tags/%E6%8C%89%E9%94%AE/">按键</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/Android%E5%BA%95%E9%83%A8%E5%BC%B9%E7%AA%97%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%89%93%E5%BC%80%E6%96%B9%E5%BC%8F/"><img class="prev-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Android底部弹窗的正确打开方式</div></div></a></div><div class="next-post pull-right"><a href="/blog/Android%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E5%88%86%E4%BA%AB%E5%8A%9F%E8%83%BD/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android轻松实现分享功能</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/%E8%87%B4%E7%BB%88%E5%B0%86%E9%80%9D%E5%8E%BB%E7%9A%842017/" title="致终将逝去的2017"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-12-30</div><div class="title">致终将逝去的2017</div></div></a></div><div><a href="/blog/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99RecyclerView%E7%9A%84%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" title="自己动手写RecyclerView的下拉刷新"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-12-02</div><div class="title">自己动手写RecyclerView的下拉刷新</div></div></a></div><div><a href="/blog/Android%E9%9D%A2%E8%AF%95%E5%B8%B8%E5%AE%A2%E4%B9%8BHandler%E5%85%A8%E8%A7%A3/" title="Android面试常客之Handler全解"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-03-11</div><div class="title">Android面试常客之Handler全解</div></div></a></div><div><a href="/blog/Android%E8%93%9D%E7%89%99%E8%AF%A6%E8%A7%A3%EF%BC%88%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99%EF%BC%89/" title="Android蓝牙使用详解（低功耗蓝牙）"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-06-02</div><div class="title">Android蓝牙使用详解（低功耗蓝牙）</div></div></a></div><div><a href="/blog/%E5%9C%A8Android%20Studio%E4%B8%AD%E8%BF%9B%E8%A1%8CJNI%E7%BC%96%E7%A8%8B/" title="在Android Studio中进行JNI编程"><img class="cover" src="/../../images/androidJNI/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-02-19</div><div class="title">在Android Studio中进行JNI编程</div></div></a></div><div><a href="/blog/Android%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E5%88%86%E4%BA%AB%E5%8A%9F%E8%83%BD/" title="Android轻松实现分享功能"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-08-20</div><div class="title">Android轻松实现分享功能</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wizardev</div><div class="author-info__description">大前端技术博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/funaihui"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><a target="_blank" rel="noopener" href="https://wizardev.cn">This is my Blog</a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E9%A2%84%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">效果预览</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8A%A8%E6%89%8B%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.</span> <span class="toc-text">动手实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%86%E8%A7%A3"><span class="toc-number">2.1.</span> <span class="toc-text">拆解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E5%8E%9F%E7%90%86"><span class="toc-number">2.2.</span> <span class="toc-text">分析原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.3.</span> <span class="toc-text">编码实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="toc-number">3.</span> <span class="toc-text">结束语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hilt原理分析一（Hilt技术概览）"/></a><div class="content"><a class="title" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）">Hilt原理分析一（Hilt技术概览）</a><time datetime="2022-06-04T14:05:24.000Z" title="发表于 2022-06-04 22:05:24">2022-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img src="/../../images/raspbian3/image-20210626215003546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将树莓派作为服务器也太爽了吧"/></a><div class="content"><a class="title" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧">将树莓派作为服务器也太爽了吧</a><time datetime="2021-06-28T14:51:45.000Z" title="发表于 2021-06-28 22:51:45">2021-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧"><img src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动手开发了一款微信插件，这也太好用了吧"/></a><div class="content"><a class="title" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧">动手开发了一款微信插件，这也太好用了吧</a><time datetime="2021-02-22T01:41:22.000Z" title="发表于 2021-02-22 09:41:22">2021-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单"><img src="/../../images/raspbian2/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派上安装Nginx竟如此简单"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单">树莓派上安装Nginx竟如此简单</a><time datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img src="/../../images/raspbian1/picture0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派折腾记——安装系统"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统">树莓派折腾记——安装系统</a><time datetime="2020-12-21T01:06:46.000Z" title="发表于 2020-12-21 09:06:46">2020-12-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2017 - 2022 By wizardev</div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png"><span>备案号：浙ICP备19049794</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '154d349ea0b53e3b5a16',
+      clientSecret: '30feac3af8329db37bdf1b7d141c1401a18c9f9b',
+      repo: 'https://github.com/funaihui/blogTalk',
+      owner: 'funaihui',
+      admin: ['funaihui'],
+      id: 'f04462fcd9cad2e0eb2b542a4e759d4b',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

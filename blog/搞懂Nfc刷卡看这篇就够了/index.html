@@ -1,0 +1,363 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>搞懂Nfc刷卡看这篇就够了 | wizardev的博客</title><meta name="keywords" content="Android,NFC,刷卡"><meta name="author" content="wizardev"><meta name="copyright" content="wizardev"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="NFC在我们生活中出现的场景越来越多了，如蓝牙耳机的连接、刷交通卡、智能锁开锁等，相信在未来还会有越来越多的场景会用到NFC，所以作为开发者，掌握NFC的知识及NFC的开发技能、就显得尤为必要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搞懂Nfc刷卡看这篇就够了">
+<meta property="og:url" content="http://pi.wizardev.com:88/blog/%E6%90%9E%E6%87%82Nfc%E5%88%B7%E5%8D%A1%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/index.html">
+<meta property="og:site_name" content="wizardev的博客">
+<meta property="og:description" content="NFC在我们生活中出现的场景越来越多了，如蓝牙耳机的连接、刷交通卡、智能锁开锁等，相信在未来还会有越来越多的场景会用到NFC，所以作为开发者，掌握NFC的知识及NFC的开发技能、就显得尤为必要">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2020-11-30T07:57:31.000Z">
+<meta property="article:modified_time" content="2020-11-30T08:02:40.000Z">
+<meta property="article:author" content="wizardev">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="NFC">
+<meta property="article:tag" content="刷卡">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://pi.wizardev.com:88/blog/%E6%90%9E%E6%87%82Nfc%E5%88%B7%E5%8D%A1%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '搞懂Nfc刷卡看这篇就够了',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-11-30 16:02:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">wizardev的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">搞懂Nfc刷卡看这篇就够了</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2020-11-30T07:57:31.000Z" title="发表于 2020-11-30 15:57:31">2020-11-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-30T08:02:40.000Z" title="更新于 2020-11-30 16:02:40">2020-11-30</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="搞懂Nfc刷卡看这篇就够了"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>NFC在我们生活中出现的场景越来越多了，如蓝牙耳机的连接、刷交通卡、智能锁开锁等，相信在未来还会有越来越多的场景会用到NFC，所以作为开发者，掌握NFC的知识及NFC的开发技能、就显得尤为必要</p>
+</blockquote>
+<span id="more"></span>
+
+
+
+<p>这里放出Android<a target="_blank" rel="noopener" href="https://developer.android.google.cn/guide/topics/connectivity/nfc"><strong>官方文档</strong></a>，官方的文档讲的大而全，本文是对官方文档的抽丝剥茧，相对官方文档来说会更容易理解，但是会比官方文档少一些内容，如果本文没有你想了解的，可以自己查阅官方文档。</p>
+<h2 id="什么是NFC"><a href="#什么是NFC" class="headerlink" title="什么是NFC"></a>什么是NFC</h2><blockquote>
+<p><strong>NFC</strong>是Near Field Communication缩写，即近距离无线通讯技术。由飞利浦公司和索尼公司共同开发的NFC是一种非接触式识别和互联技术，可以在移动设备、消费类电子产品、PC 和智能控件工具间进行近距离无线通信。</p>
+</blockquote>
+<p>简单的说，<strong>NFC</strong>提供了一种简单、触控式的解决方案，可以让消费者简单直观地交换信息、访问内容与服务。</p>
+<h2 id="NFC的工作模式"><a href="#NFC的工作模式" class="headerlink" title="NFC的工作模式"></a>NFC的工作模式</h2><p>NFC的工作模式有三种，分别是读卡器模式（Reader&#x2F;writer mode）、仿真卡模式(Card Emulation Mode)、点对点模式（P2P mode）。</p>
+<ul>
+<li><p>读卡器模式</p>
+<p>数据在NFC芯片中，可以简单理解成“刷标签”。本质上就是通过支持NFC的手机或其它电子设备从带有NFC芯片的标签、贴纸、名片等媒介中读写信息。通常NFC标签是不需要外部供电的。当支持NFC的外设向NFC读写数据时，它会发送某种磁场，而这个磁场会自动的向NFC标签供电。</p>
+</li>
+<li><p>仿真卡模式</p>
+<p>数据在支持NFC的手机或其它电子设备中，可以简单理解成“刷手机”。本质上就是将支持NFC的手机或其它电子设备当成借记卡、公交卡、门禁卡等IC卡使用。基本原理是将相应IC卡中的信息凭证封装成数据包存储在支持NFC的外设中 。</p>
+<p>在使用时还需要一个NFC射频器（相当于刷卡器）。将手机靠近NFC射频器，手机就会接收到NFC射频器发过来的信号，在通过一系列复杂的验证后，将IC卡的相应信息传入NFC射频器，最后这些IC卡数据会传入NFC射频器连接的电脑，并进行相应的处理（如电子转帐、开门等操作）。</p>
+</li>
+<li><p>点对点模式</p>
+<p>该模式与蓝牙、红外差不多，用于不同NFC设备之间进行数据交换，不过这个模式已经没有有“刷”的感觉了。其有效距离一般不能超过4厘米，但传输建立速度要比红外和蓝牙技术快很多，传输速度比红外块得多，如过双方都使用Android4.2，NFC会直接利用蓝牙传输。这种技术被称为Android Beam。所以使用Android Beam传输数据的两部设备不再限于4厘米之内。</p>
+<p>点对点模式的典型应用是两部支持NFC的手机或平板电脑实现数据的点对点传输，例如，交换图片或同步设备联系人。因此，通过NFC，多个设备如数字相机，计算机，手机之间，都可以快速连接，并交换资料或者服务。</p>
+</li>
+</ul>
+<p>本文会主要讲解<strong>读卡器模式，</strong>相信理解了这个模式，其他的两种模式你也会触类旁通的。在讲解读卡器模式前，有一些知识是需要提前掌握的。</p>
+<h2 id="卡片的知识"><a href="#卡片的知识" class="headerlink" title="卡片的知识"></a>卡片的知识</h2><p>&amp;emsp;&amp;emsp;本文主要讲解的是NFC的读卡器模式，要想读到卡片的内容，我们要对卡片有一些基本的了解，比如卡片的分类，每种卡片内部的数据结构等。</p>
+<p>###卡片的分类</p>
+<p>&amp;emsp;&amp;emsp;现在市面上的卡片分类有IC卡、ID卡、M1卡和CPU卡，简单的了解一下这些卡的区别和用途，</p>
+<ul>
+<li><p>IC卡</p>
+<p>IC卡又称集成电路卡，通常是在塑料卡片内嵌入一个或多个集成电路构成的PVC卡。集成电路芯片可以是存储器或微处理器。带有存储器的IC卡又称为记忆卡或存储卡，带有微处理器的IC卡又称为智能卡或智慧卡。记忆卡可以存储大量信息；智能卡则不仅具有记忆能力，而且还具有处理信息的功能。</p>
+<p>IC卡可以十分方便地存汽车费、电话费、地铁乘车费、食堂就餐费、公路付费以及购物旅游、贸易服务等。</p>
+</li>
+<li><p>ID卡</p>
+<p>ID卡又叫身份识别卡，是一种不可写入的感应式卡，拥有一个固定卡号编号。卡号在封卡前写入后不可再更改，绝对确保卡号的唯一性和安全性。</p>
+<p>ID卡可以作为一般的门禁或停车场系统的使用者身份识别，因ID卡无密钥安全认证机制，且不能写卡，很难实现一卡通功能，同时也不合适做消费系统。</p>
+</li>
+<li><p>M1卡</p>
+<p>M1是菲利浦下属子公司恩智浦出品的芯片缩写，目前该公司的M1芯片与国产芯片相兼容，<strong>其实M1卡也属于非接触式IC卡</strong>。</p>
+<p>M1卡，优点是可读可写的多功能卡，缺点是：价格稍贵，感应距离短，适合非定额消费系统、停车场系统、门禁考勤系统等。</p>
+</li>
+<li><p>CPU卡</p>
+<p>CPU卡芯片是一个微处理器，它的功能相当于一台微型计算机。CPU卡可适用于金融、保险、交警、政府行业等多个领域，CPU卡的优点是存储空间大、读取速度快、支持一卡多用功能等特点，CPU卡从外型上与普通IC卡，射频卡并没有太大差异，但是性能上却有巨大提升，安全性和普通IC卡比，提高很多，通常CPU卡内含有随机数发生器，硬件DES,3DES加密算法等，配合CPU卡芯片上的COS操作系统,可以达到金融级的安全级别。</p>
+</li>
+</ul>
+<h3 id="M1卡的数据结构"><a href="#M1卡的数据结构" class="headerlink" title="M1卡的数据结构"></a>M1卡的数据结构</h3><p>&amp;emsp;&amp;emsp;为什么要介绍卡结构呢？因为用NFC读取卡片，获取卡片的内容的时候，你要知道卡片的数据结构，才能拿到自己想要的知识，这里就以M1卡进行讲解。</p>
+<p>&amp;emsp;&amp;emsp;M1卡有从0到15共16个扇区，每个扇区配备了从0到3共4个段，每个段可以保存16字节的内容。见下图</p>
+<p><img src="https://tcs.teambition.net/storage/312050a1f019d6bd58aafc8635410f9b66d8?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IjVmN2ZkNTM5MDIwZmI2ZWIyNmZjMTExYyIsImV4cCI6MTYwNzMyNzcwMiwiaWF0IjoxNjA2NzIyOTAyLCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMjA1MGExZjAxOWQ2YmQ1OGFhZmM4NjM1NDEwZjliNjZkOCJ9.keE_CvP6-pvxMPuuccK6IFcXO0kPbI6Os5CrHLH27Dw" alt="扇区0和扇区1"></p>
+<p>要想读取对应扇区的数据，需要知道对应扇区的秘钥，否则读取不到数据。</p>
+<h2 id="Android的NFC标签调度系统"><a href="#Android的NFC标签调度系统" class="headerlink" title="Android的NFC标签调度系统"></a>Android的NFC标签调度系统</h2><p>&amp;emsp;&amp;emsp;当手机发现外部NFC的标签（指含有NFC功能的设备）时，Android系统会寻找可以处理这个标签的Activity，那怎么知道哪个Activity能处理这条NFC消息呢？答案是清单文件，我们需要在清单文件中设置<code>intent-filter</code>。系统会分发NFC消息到设置<code>intent-filter</code>的Activity中，当然，接收NFC消息也有优先级之分，也是通过设置<code>intent-filter</code>来设置接收NFC消息的优先级的。</p>
+<p>&amp;emsp;&amp;emsp;NFC的标签调度系统绑定了3中intent，按优先级的高低列出，如下</p>
+<ol>
+<li><code>ACTION_NDEF_DISCOVERED</code>：如果扫描到包含此Intent的Activity，并且可识别其类型，则使用此 Intent 启动 Activity。这是优先级最高的 Intent，NFC标签调度系统会尽可能尝试使用此 Intent 启动 Activity，在找不到这个Intent时才会尝试使用其他 Intent。</li>
+<li><code>ACTION_TECH_DISCOVERED</code>：如果没有登记要处理 <code>ACTION_NDEF_DISCOVERED</code> Intent 的 Activity，则标签调度系统会尝试使用此 Intent 来启动应用。此外，如果扫描到的标签包含无法映射到 MIME 类型或 URI 的 NDEF 数据，或者该标签不包含 NDEF 数据，但它使用了已知的标签技术，那么也会直接启动此 Intent（无需先启动 <code>ACTION_NDEF_DISCOVERED</code>）。</li>
+<li><code>ACTION_TAG_DISCOVERED</code>：如果没有处理 <code>ACTION_NDEF_DISCOVERED</code> 或者 <code>ACTION_TECH_DISCOVERED</code> Intent 的 Activity，则使用此 Intent 启动 Activity。</li>
+</ol>
+<p>它们3者关系如下图所示</p>
+<p><img src="https://tcs.teambition.net/storage/3120a90736702098c9123dc0494319b763c3?Signature=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBcHBJRCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9hcHBJZCI6IjU5Mzc3MGZmODM5NjMyMDAyZTAzNThmMSIsIl9vcmdhbml6YXRpb25JZCI6IjVmN2ZkNTM5MDIwZmI2ZWIyNmZjMTExYyIsImV4cCI6MTYwNzMyNzcxNSwiaWF0IjoxNjA2NzIyOTE1LCJyZXNvdXJjZSI6Ii9zdG9yYWdlLzMxMjBhOTA3MzY3MDIwOThjOTEyM2RjMDQ5NDMxOWI3NjNjMyJ9.7L7p3ANkJHgHjE-B3TIfuQIJsz_R0970egi_pl0tRqs" alt="NFC-TAG"></p>
+<p>如果想处理所有的NFC标签，上面3个可以在清单文件中都进行设置。</p>
+<h2 id="实战演练"><a href="#实战演练" class="headerlink" title="实战演练"></a>实战演练</h2><p>&amp;emsp;&amp;emsp;前文我们已经知道了什么是NFC以及NFC的几种工作模式，也了解了市面上卡片的分类和M1卡的数据结构，基础知识已经掌握了，下面就开始进入实战演练，用Android的NFC来获取M1卡的唯一代码。</p>
+<h3 id="在-Android-清单中请求-NFC-访问权限"><a href="#在-Android-清单中请求-NFC-访问权限" class="headerlink" title="在 Android 清单中请求 NFC 访问权限"></a>在 Android 清单中请求 NFC 访问权限</h3><p>先在 <code>AndroidManifest.xml</code> 文件中声明以下内容，然后才能访问设备的 NFC 硬件并正确处理 NFC Intent：</p>
+<ul>
+<li>设置用于访问 NFC 硬件的 NFC <code>&lt;uses-permission&gt;</code></li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-permission</span> <span class="attr">android:name</span>=<span class="string">&quot;android.permission.NFC&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>设置<code>uses-feature</code> 元素，以便您的应用仅在那些具备 NFC 硬件的设备的 Google Play 中显示</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">uses-feature</span> <span class="attr">android:name</span>=<span class="string">&quot;android.hardware.nfc&quot;</span> <span class="attr">android:required</span>=<span class="string">&quot;true&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你的App不是必须要NFC功能，则<code>uses-feature</code>可以省略，然后再代码中通过<code>getDefaultAdapter()</code> 是否为 <code>null</code> 来判断 NFC 的可用性。</p>
+</li>
+</ul>
+<h3 id="设置过滤-NFC-Intent"><a href="#设置过滤-NFC-Intent" class="headerlink" title="设置过滤 NFC Intent"></a>设置过滤 NFC Intent</h3><p>以下示例展示了如何过滤 MIME 类型为 <code>text/plain</code> 的 <code>ACTION_NDEF_DISCOVERED</code> Intent：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.nfc.action.NDEF_DISCOVERED&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.DEFAULT&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:mimeType</span>=<span class="string">&quot;text/plain&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>另外两种<code>intent-filter</code>的使用，可以查阅<a target="_blank" rel="noopener" href="https://developer.android.google.cn/guide/topics/connectivity/nfc/nfc#ndef-disc">官方文档</a>。</p>
+<h3 id="使用前台调度系统"><a href="#使用前台调度系统" class="headerlink" title="使用前台调度系统"></a>使用前台调度系统</h3><p>前台调度系统的作用就是，在你打开一个可以处理NFC标签的Activity时，NFC的消息会优先发送给当前的Activity，不论当前的Activity设置的是哪一个<code>intent-filter</code>。使用前台调度系统的步骤如下</p>
+<ol>
+<li><p>在 Activity 的 <code>onCreate()</code> 方法中添加以下代码：</p>
+<p>a. 创建一个 <code>PendingIntent</code> 对象。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> intent = Intent(<span class="keyword">this</span>, javaClass).apply &#123;</span><br><span class="line">    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> pendingIntent: PendingIntent = PendingIntent.getActivity(<span class="keyword">this</span>, <span class="number">0</span>, intent, <span class="number">0</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>b.声明 Intent 过滤器，用来处理您要拦截的 Intent。前台调度系统会对照设备扫描标签时所获得的 Intent 来检查所指定的 Intent 过滤器。如果匹配，那么应用会处理该 Intent。如果不匹配，那么前台调度系统会回退到 Intent 调度系统。指定 Intent 过滤器和技术过滤器的 <code>null</code> 数组，以指明要过滤所有回退到 <code>TAG_DISCOVERED</code> Intent 的标签。以下代码段会处理 <code>NDEF_DISCOVERED</code> 的所有 MIME 类型。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> ndef = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED).apply &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        addDataType(<span class="string">&quot;*/*&quot;</span>)    <span class="comment">/* 处理所有 MIME 类型的标签 */</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> (e: IntentFilter.MalformedMimeTypeException) &#123;</span><br><span class="line">        <span class="keyword">throw</span> RuntimeException(<span class="string">&quot;fail&quot;</span>, e)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">   </span><br><span class="line">intentFiltersArray = arrayOf(ndef)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>c.设置应用要处理的一组标签技术。调用 <code>Object.class.getName()</code> 方法以获取要支持的技术的类。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">techListsArray = arrayOf(arrayOf&lt;String&gt;(NfcF::<span class="keyword">class</span>.java.name))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>替换以下 Activity 生命周期回调，并添加相应逻辑，以分别在 Activity 失去 (<code>onPause()</code>) 焦点和重新获得 (<code>onResume()</code>) 焦点时启用和停用前台调度。<code>enableForegroundDispatch()</code> 必须从主线程调用，并且只能在 Activity 在前台运行时调用（在 <code>onResume()</code> 中调用可确保这一点）。您还需要实现 <code>onNewIntent</code> 回调以处理扫描到的 NFC 标签中的数据。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onPause</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onPause()</span><br><span class="line">    adapter.disableForegroundDispatch(<span class="keyword">this</span>)</span><br><span class="line">&#125;</span><br><span class="line">   </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onResume</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">super</span>.onResume()</span><br><span class="line">    adapter.enableForegroundDispatch(<span class="keyword">this</span>, pendingIntent, intentFiltersArray, techListsArray)</span><br><span class="line">&#125;</span><br><span class="line">   </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">onNewIntent</span><span class="params">(intent: <span class="type">Intent</span>)</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> tagFromIntent: Tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)</span><br><span class="line">    <span class="comment">//在这里处理NFC扫描到的内容</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>&amp;emsp;&amp;emsp;下面展示核心代码，读取M1卡并解析卡号，代码如下</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//解析实体卡号</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">resolveCardNumIntent</span><span class="params">(intent: <span class="type">Intent</span>?)</span></span>: String &#123;</span><br><span class="line">    <span class="keyword">if</span> (intent == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//拿来装读取出来的数据，key代表扇区数，后面list存放四个块的内容</span></span><br><span class="line">    <span class="comment">//intent就是onNewIntent方法返回的那个intent</span></span><br><span class="line">    <span class="keyword">val</span> tag: Tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)</span><br><span class="line">    <span class="keyword">val</span> mfc = MifareClassic.<span class="keyword">get</span>(tag)</span><br><span class="line">    <span class="comment">//如果当前IC卡不是这个格式的mfc就会为空</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">null</span> != mfc) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (!mfc.isConnected) &#123;</span><br><span class="line">                <span class="comment">//链接NFC</span></span><br><span class="line">                mfc.connect()</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//验证扇区密码，否则会报错（链接失败错误）</span></span><br><span class="line">            <span class="keyword">val</span> isOpen = mfc.authenticateSectorWithKeyA(<span class="number">0</span> , CARD_KEY_15)</span><br><span class="line">            <span class="keyword">if</span> (isOpen) &#123;</span><br><span class="line">                <span class="comment">//获取扇区第一个块对应芯片存储器的位置</span></span><br><span class="line">                <span class="comment">//（我是这样理解的，因为第0扇区的这个值是4而不是0）</span></span><br><span class="line">                <span class="keyword">val</span> bIndex = mfc.sectorToBlock(<span class="number">0</span>)</span><br><span class="line">                <span class="keyword">val</span> <span class="keyword">data</span> = mfc.readBlock(bIndex)</span><br><span class="line">                <span class="keyword">val</span> byteArrToInt = DataUtils.byteArrToInt(<span class="keyword">data</span>, <span class="number">0</span>, <span class="number">4</span>)</span><br><span class="line"><span class="comment">//                LogUtils.print(&quot;卡号： $byteArrToInt&quot;)</span></span><br><span class="line">                <span class="keyword">return</span> byteArrToInt</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e: Exception) &#123;</span><br><span class="line">            e.printStackTrace()</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                mfc.close()</span><br><span class="line">            &#125; <span class="keyword">catch</span> (e: IOException) &#123;</span><br><span class="line">                e.printStackTrace()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码注释很清晰，重点看下这段代码</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> tag: Tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG)</span><br><span class="line"><span class="keyword">val</span> mfc = MifareClassic.<span class="keyword">get</span>(tag)<span class="comment">//用于解析MifareClassic的实例</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的Tag是获取卡片的Tag，NFC支持的Tag如下表</p>
+<p><strong>表 1.</strong> 支持的标签技术</p>
+<table>
+<thead>
+<tr>
+<th align="left">类</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">TagTechnology</td>
+<td align="left">这是所有标签技术类都必须实现的接口。</td>
+</tr>
+<tr>
+<td align="left">NfcA</td>
+<td align="left">提供对 NFC-A (ISO 14443-3A) 属性和 I&#x2F;O 操作的访问权限。</td>
+</tr>
+<tr>
+<td align="left">NfcB</td>
+<td align="left">提供对 NFC-B (ISO 14443-3B) 属性和 I&#x2F;O 操作的访问权限。</td>
+</tr>
+<tr>
+<td align="left">NfcF</td>
+<td align="left">提供对 NFC-F (JIS 6319-4) 属性和 I&#x2F;O 操作的访问权限。</td>
+</tr>
+<tr>
+<td align="left">NfcV</td>
+<td align="left">提供对 NFC-V (ISO 15693) 属性和 I&#x2F;O 操作的访问权限。</td>
+</tr>
+<tr>
+<td align="left">IsoDep</td>
+<td align="left">提供对 ISO-DEP (ISO 14443-4) 属性和 I&#x2F;O 操作的访问权限。</td>
+</tr>
+<tr>
+<td align="left">Ndef</td>
+<td align="left">提供对 NDEF 格式的 NFC 标签上的 NDEF 数据和操作的访问权限。</td>
+</tr>
+<tr>
+<td align="left">NdefFormatable</td>
+<td align="left">为可设置为 NDEF 格式的标签提供格式化操作。</td>
+</tr>
+</tbody></table>
+<p>Android 设备还可以选择支持以下标签技术。</p>
+<p><strong>表 2.</strong> 可选择支持的标签技术</p>
+<table>
+<thead>
+<tr>
+<th align="left">类</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">MifareClassic</td>
+<td align="left">提供对 MIFARE Classic 属性和 I&#x2F;O 操作的访问权限（如果此 Android 设备支持 MIFARE）。</td>
+</tr>
+<tr>
+<td align="left">MifareUltralight</td>
+<td align="left">提供对 MIFARE Ultralight 属性和 I&#x2F;O 操作的访问权限（如果此 Android 设备支持 MIFARE）。</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>&amp;emsp;&amp;emsp;<strong>本文首先介绍了NFC是什么以及它的几种工作模式，然后让大家认识了一下市面上卡片的分类，也介绍了M1卡的数据结构，最后，演示了一下怎在Android中使用NFC来读取M1卡的卡号。</strong>虽然文章没有把NFC的所有使用模式都进行讲解，但是挑了一个模式进行详细的讲解，相信阅读这篇文章后，你对Android的NFC不会那么的陌生了，其他的NFC的工作模式就由大家自行了解学习，这样才能加深印象和理解。</p>
+<p>&amp;emsp;&amp;emsp;最后放出本文的demo，大家可以<a target="_blank" rel="noopener" href="https://github.com/funaihui/Nfc">点击这里下载</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88">wizardev</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88/blog/%E6%90%9E%E6%87%82Nfc%E5%88%B7%E5%8D%A1%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/">http://pi.wizardev.com:88/blog/%E6%90%9E%E6%87%82Nfc%E5%88%B7%E5%8D%A1%E7%9C%8B%E8%BF%99%E7%AF%87%E5%B0%B1%E5%A4%9F%E4%BA%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pi.wizardev.com:88" target="_blank">wizardev的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a><a class="post-meta__tags" href="/tags/NFC/">NFC</a><a class="post-meta__tags" href="/tags/%E5%88%B7%E5%8D%A1/">刷卡</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/"><img class="prev-cover" src="/../../images/raspbian1/picture0.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">树莓派折腾记——安装系统</div></div></a></div><div class="next-post pull-right"><a href="/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E5%B0%86%E8%84%B1%E5%A3%B3%E5%90%8E%E7%9A%84dex%E6%96%87%E4%BB%B6%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85%E6%88%90apk/"><img class="next-cover" src="/../../images/dex2apk/picture1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">反编译之将脱壳后的dex文件重新打包成apk</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/%E8%87%B4%E7%BB%88%E5%B0%86%E9%80%9D%E5%8E%BB%E7%9A%842017/" title="致终将逝去的2017"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-12-30</div><div class="title">致终将逝去的2017</div></div></a></div><div><a href="/blog/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99RecyclerView%E7%9A%84%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" title="自己动手写RecyclerView的下拉刷新"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-12-02</div><div class="title">自己动手写RecyclerView的下拉刷新</div></div></a></div><div><a href="/blog/Android%E9%9D%A2%E8%AF%95%E5%B8%B8%E5%AE%A2%E4%B9%8BHandler%E5%85%A8%E8%A7%A3/" title="Android面试常客之Handler全解"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-03-11</div><div class="title">Android面试常客之Handler全解</div></div></a></div><div><a href="/blog/Android%E8%93%9D%E7%89%99%E8%AF%A6%E8%A7%A3%EF%BC%88%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99%EF%BC%89/" title="Android蓝牙使用详解（低功耗蓝牙）"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-06-02</div><div class="title">Android蓝牙使用详解（低功耗蓝牙）</div></div></a></div><div><a href="/blog/%E5%9C%A8Android%20Studio%E4%B8%AD%E8%BF%9B%E8%A1%8CJNI%E7%BC%96%E7%A8%8B/" title="在Android Studio中进行JNI编程"><img class="cover" src="/../../images/androidJNI/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-02-19</div><div class="title">在Android Studio中进行JNI编程</div></div></a></div><div><a href="/blog/Android%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E5%88%86%E4%BA%AB%E5%8A%9F%E8%83%BD/" title="Android轻松实现分享功能"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-08-20</div><div class="title">Android轻松实现分享功能</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wizardev</div><div class="author-info__description">大前端技术博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/funaihui"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><a target="_blank" rel="noopener" href="https://wizardev.cn">This is my Blog</a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFNFC"><span class="toc-number">1.</span> <span class="toc-text">什么是NFC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NFC%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">NFC的工作模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%A1%E7%89%87%E7%9A%84%E7%9F%A5%E8%AF%86"><span class="toc-number">3.</span> <span class="toc-text">卡片的知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#M1%E5%8D%A1%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">3.1.</span> <span class="toc-text">M1卡的数据结构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Android%E7%9A%84NFC%E6%A0%87%E7%AD%BE%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F"><span class="toc-number">4.</span> <span class="toc-text">Android的NFC标签调度系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83"><span class="toc-number">5.</span> <span class="toc-text">实战演练</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8-Android-%E6%B8%85%E5%8D%95%E4%B8%AD%E8%AF%B7%E6%B1%82-NFC-%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="toc-number">5.1.</span> <span class="toc-text">在 Android 清单中请求 NFC 访问权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%BF%87%E6%BB%A4-NFC-Intent"><span class="toc-number">5.2.</span> <span class="toc-text">设置过滤 NFC Intent</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%89%8D%E5%8F%B0%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F"><span class="toc-number">5.3.</span> <span class="toc-text">使用前台调度系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.4.</span> <span class="toc-text">代码示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hilt原理分析一（Hilt技术概览）"/></a><div class="content"><a class="title" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）">Hilt原理分析一（Hilt技术概览）</a><time datetime="2022-06-04T14:05:24.000Z" title="发表于 2022-06-04 22:05:24">2022-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img src="/../../images/raspbian3/image-20210626215003546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将树莓派作为服务器也太爽了吧"/></a><div class="content"><a class="title" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧">将树莓派作为服务器也太爽了吧</a><time datetime="2021-06-28T14:51:45.000Z" title="发表于 2021-06-28 22:51:45">2021-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧"><img src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动手开发了一款微信插件，这也太好用了吧"/></a><div class="content"><a class="title" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧">动手开发了一款微信插件，这也太好用了吧</a><time datetime="2021-02-22T01:41:22.000Z" title="发表于 2021-02-22 09:41:22">2021-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单"><img src="/../../images/raspbian2/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派上安装Nginx竟如此简单"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单">树莓派上安装Nginx竟如此简单</a><time datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img src="/../../images/raspbian1/picture0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派折腾记——安装系统"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统">树莓派折腾记——安装系统</a><time datetime="2020-12-21T01:06:46.000Z" title="发表于 2020-12-21 09:06:46">2020-12-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2017 - 2022 By wizardev</div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png"><span>备案号：浙ICP备19049794</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '154d349ea0b53e3b5a16',
+      clientSecret: '30feac3af8329db37bdf1b7d141c1401a18c9f9b',
+      repo: 'https://github.com/funaihui/blogTalk',
+      owner: 'funaihui',
+      admin: ['funaihui'],
+      id: '6eaeae03fd93834447bbfc05b0209e11',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

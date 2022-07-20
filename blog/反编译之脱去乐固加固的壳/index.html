@@ -1,0 +1,256 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>反编译之脱去乐固加固的壳 | wizardev的博客</title><meta name="keywords" content="反编译,dumpDex"><meta name="author" content="wizardev"><meta name="copyright" content="wizardev"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言；本文主要是介绍脱壳的方法，并不涉及原理，如果想要了解加固及脱壳的原理，请移驾别处。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反编译之脱去乐固加固的壳">
+<meta property="og:url" content="http://pi.wizardev.com:88/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E8%84%B1%E5%8E%BB%E4%B9%90%E5%9B%BA%E5%8A%A0%E5%9B%BA%E7%9A%84%E5%A3%B3/index.html">
+<meta property="og:site_name" content="wizardev的博客">
+<meta property="og:description" content="前言；本文主要是介绍脱壳的方法，并不涉及原理，如果想要了解加固及脱壳的原理，请移驾别处。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://pi.wizardev.com:88/images/legu/picture1.png">
+<meta property="article:published_time" content="2018-11-23T05:53:57.000Z">
+<meta property="article:modified_time" content="2020-11-23T12:38:22.000Z">
+<meta property="article:author" content="wizardev">
+<meta property="article:tag" content="反编译">
+<meta property="article:tag" content="dumpDex">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pi.wizardev.com:88/images/legu/picture1.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://pi.wizardev.com:88/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E8%84%B1%E5%8E%BB%E4%B9%90%E5%9B%BA%E5%8A%A0%E5%9B%BA%E7%9A%84%E5%A3%B3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '反编译之脱去乐固加固的壳',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-11-23 20:38:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../../images/legu/picture1.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">wizardev的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">反编译之脱去乐固加固的壳</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2018-11-23T05:53:57.000Z" title="发表于 2018-11-23 13:53:57">2018-11-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-23T12:38:22.000Z" title="更新于 2020-11-23 20:38:22">2020-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/%E5%8F%8D%E7%BC%96%E8%AF%91/">反编译</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="反编译之脱去乐固加固的壳"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>前言；本文主要是介绍脱壳的方法，并不涉及原理，如果想要了解加固及脱壳的原理，请移驾别处。</p>
+</blockquote>
+<span id="more"></span>
+
+
+
+<h3 id="写本文的原因"><a href="#写本文的原因" class="headerlink" title="写本文的原因"></a>写本文的原因</h3><p>&amp;emsp;&amp;emsp;最近遇到一款app需要开通Vip才能进行视频下载，像我这种贫穷的程序员怎么能忍，既然没钱解决问题那就用技术解决吧！果断开始反编译，但反编译之后的文件却是下面这样的</p>
+<img src="../../images/legu/picture1.png" style="zoom:50%;" />
+
+<p>额，这明显是经过加固后的文件，将真正的dex文件隐藏起来了，这就想让我放弃吗？肯定不可能，于是便有了本文。</p>
+<h3 id="脱壳必备的条件"><a href="#脱壳必备的条件" class="headerlink" title="脱壳必备的条件"></a>脱壳必备的条件</h3><p>&amp;emsp;&amp;emsp;在操作之前，请确保已经具备以下条件：</p>
+<ul>
+<li>一部已经root及刷入Xposed的安卓手机</li>
+<li>AndroidStudio（最好具备）</li>
+<li>dumpDex.apk（文中会介绍怎么编译最新源码生成）</li>
+</ul>
+<h3 id="编译源码生成dumpDex-apk"><a href="#编译源码生成dumpDex-apk" class="headerlink" title="编译源码生成dumpDex.apk"></a>编译源码生成dumpDex.apk</h3><p>&amp;emsp;&amp;emsp;虽然网上已经有dumpDex.apk的成品，但有可能你找到的是比较老的版本了，导致脱壳不成功，即费时又费力，不如自己动手编译最新源码，生成最新的apk，这样可以大大的提高脱壳成功率。</p>
+<h4 id="1、将dumpDex的源码下载到本地"><a href="#1、将dumpDex的源码下载到本地" class="headerlink" title="1、将dumpDex的源码下载到本地"></a>1、将dumpDex的源码下载到本地</h4><p>&amp;emsp;&amp;emsp;dumpDex的仓库地址为：<a target="_blank" rel="noopener" href="https://github.com/WrBug/dumpDex">https://github.com/WrBug/dumpDex</a></p>
+<h4 id="2、将dumpDex导入AndroiddStudio"><a href="#2、将dumpDex导入AndroiddStudio" class="headerlink" title="2、将dumpDex导入AndroiddStudio"></a>2、将dumpDex导入AndroiddStudio</h4><p>&amp;emsp;&amp;emsp;怎么将dumpDex导入AndroiddStudio就不说了，这里主要说下，导入项目编译源码的时候会遇到哪些错误及解决方法。</p>
+<ol>
+<li><p>“SSL peer shut down incorrectly”错误</p>
+<p>解决方法：将<code>gradle-wrapper.properties</code>中的以下代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">distributionUrl=https\://services.gradle.org/distributions/gradle-4.1-all.zip</span><br></pre></td></tr></table></figure>
+
+<p>改成</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">distributionUrl=http\://services.gradle.org/distributions/gradle-4.1-all.zip</span><br></pre></td></tr></table></figure>
+
+<p>即可解决问题。</p>
+</li>
+<li><blockquote>
+<p>Error while executing process cmake&#x2F;3.6.4111459&#x2F;bin&#x2F;cmake with arguments {–build &#x2F;Users&#x2F;funaihui&#x2F;搞基&#x2F;dumpDex&#x2F;app&#x2F;.externalNativeBuild&#x2F;cmake&#x2F;debug&#x2F;x86_64 –target nativeDump}</p>
+</blockquote>
+</li>
+</ol>
+<p>   解决方法：将app中的<code>build.gradle</code>中注释掉的这句</p>
+   <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//        ndk &#123;</span><br><span class="line">//            abiFilters &quot;armeabi&quot;, &quot;armeabi-v7a&quot;,&quot;arm64-v8a&quot;</span><br><span class="line">//        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>   取消注释而且还要将<code>&quot;armeabi&quot;</code>这代码删除，否则还会报其他错误。</p>
+<p>解决上面两个错误，这时编译的时候就不会报错了，出现以下界面则说明编译编译成功</p>
+<img src="../../images/legu/picture2.png" style="zoom:50%;" />
+
+<p>但这个时候，你会发现AndroidStudio的工具栏中<code>app</code>上面仍然有个红色的叉号，如下图</p>
+<p><img src="/../../images/legu/picture3.png"></p>
+<p>这个时候你不要认为还没有编译成功，其实已经成功了，出现这种情况是因为app没有主运行界面。这时点击菜单栏上面的Build–&gt;Build Apk即可生成apk文件。</p>
+<h3 id="将编译生成的dumpDex-apk安装到手机"><a href="#将编译生成的dumpDex-apk安装到手机" class="headerlink" title="将编译生成的dumpDex.apk安装到手机"></a>将编译生成的dumpDex.apk安装到手机</h3><p>&amp;emsp;&amp;emsp;安装dumpDex.apk后还要做以下几件事：</p>
+<ol>
+<li><p>arm32机型将 <strong>lib&#x2F;armeabi&#x2F;libnativeDump.so</strong> 复制到 <em>&#x2F;data&#x2F;local&#x2F;tmp&#x2F;libnativeDump.so</em> ，权限 设置为777，arm64机型还需要将将 <strong>lib&#x2F;arm64-v8a&#x2F;libnativeDump.so</strong> 复制到 <em>&#x2F;data&#x2F;local&#x2F;tmp&#x2F;libnativeDump64.so</em>可以通过文件管理器操作，也可以使用如下adb shell命令。使用adb命令操作的代码如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#仅适用于32位手机</span><br><span class="line">adb shell</span><br><span class="line">su</span><br><span class="line">cp /data/data/com.wrbug.dumpdex/lib/libnativeDump.so /data/local/tmp</span><br><span class="line">chmod 777 /data/local/tmp/libnativeDump.so</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Xposed中☑️dumpDex.apk模块并激活即可。</p>
+</li>
+</ol>
+<h3 id="开始脱壳"><a href="#开始脱壳" class="headerlink" title="开始脱壳"></a>开始脱壳</h3><p>&amp;emsp;&amp;emsp;上面的准备工作做完后，就可以愉快的脱壳了。脱壳的方法是启动Xposed，然后运行经过加固的app，这是界面可能会卡住，这时不要立即关掉，可能立即关掉会造成脱壳不完正，只需要等待几分钟关掉即可。</p>
+<p>&amp;emsp;&amp;emsp;这时会在<code>/data/data/包名/dump</code>目录下生成脱壳后的真正的dex文件，拿到真正的dex文件后你就可以做你想做的事了。</p>
+<h3 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h3><p>&amp;emsp;&amp;emsp;如果不能编译生成<code>dumpDex.apk</code>，可以<a target="_blank" rel="noopener" href="http://www.wizardev.cn/dumpDex.apk">点击这里</a>进行下载。如果遇到什么其他问题可以在下方留言讨论。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88">wizardev</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E8%84%B1%E5%8E%BB%E4%B9%90%E5%9B%BA%E5%8A%A0%E5%9B%BA%E7%9A%84%E5%A3%B3/">http://pi.wizardev.com:88/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E8%84%B1%E5%8E%BB%E4%B9%90%E5%9B%BA%E5%8A%A0%E5%9B%BA%E7%9A%84%E5%A3%B3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pi.wizardev.com:88" target="_blank">wizardev的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/">反编译</a><a class="post-meta__tags" href="/tags/dumpDex/">dumpDex</a></div><div class="post_share"><div class="social-share" data-image="/../../images/legu/picture1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E5%88%A9%E7%94%A8AndroidStudio%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95smali%E6%BA%90%E7%A0%81/"><img class="prev-cover" src="/../../images/smali/picture1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">反编译之利用AndroidStudio动态调试smali源码</div></div></a></div><div class="next-post pull-right"><a href="/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E4%B9%8B%E5%AE%9A%E7%82%B9%E5%86%99%E6%96%87%E5%AD%97/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Android自定义View之定点写文字</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E5%B0%86%E8%84%B1%E5%A3%B3%E5%90%8E%E7%9A%84dex%E6%96%87%E4%BB%B6%E9%87%8D%E6%96%B0%E6%89%93%E5%8C%85%E6%88%90apk/" title="反编译之将脱壳后的dex文件重新打包成apk"><img class="cover" src="/../../images/dex2apk/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-11-23</div><div class="title">反编译之将脱壳后的dex文件重新打包成apk</div></div></a></div><div><a href="/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E5%88%A9%E7%94%A8AndroidStudio%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95smali%E6%BA%90%E7%A0%81/" title="反编译之利用AndroidStudio动态调试smali源码"><img class="cover" src="/../../images/smali/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-12-03</div><div class="title">反编译之利用AndroidStudio动态调试smali源码</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wizardev</div><div class="author-info__description">大前端技术博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/funaihui"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><a target="_blank" rel="noopener" href="https://wizardev.cn">This is my Blog</a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%99%E6%9C%AC%E6%96%87%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">写本文的原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%84%B1%E5%A3%B3%E5%BF%85%E5%A4%87%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">脱壳必备的条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E6%BA%90%E7%A0%81%E7%94%9F%E6%88%90dumpDex-apk"><span class="toc-number">3.</span> <span class="toc-text">编译源码生成dumpDex.apk</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E5%B0%86dumpDex%E7%9A%84%E6%BA%90%E7%A0%81%E4%B8%8B%E8%BD%BD%E5%88%B0%E6%9C%AC%E5%9C%B0"><span class="toc-number">3.1.</span> <span class="toc-text">1、将dumpDex的源码下载到本地</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%B0%86dumpDex%E5%AF%BC%E5%85%A5AndroiddStudio"><span class="toc-number">3.2.</span> <span class="toc-text">2、将dumpDex导入AndroiddStudio</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E7%BC%96%E8%AF%91%E7%94%9F%E6%88%90%E7%9A%84dumpDex-apk%E5%AE%89%E8%A3%85%E5%88%B0%E6%89%8B%E6%9C%BA"><span class="toc-number">4.</span> <span class="toc-text">将编译生成的dumpDex.apk安装到手机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E8%84%B1%E5%A3%B3"><span class="toc-number">5.</span> <span class="toc-text">开始脱壳</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="toc-number">6.</span> <span class="toc-text">结束语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hilt原理分析一（Hilt技术概览）"/></a><div class="content"><a class="title" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）">Hilt原理分析一（Hilt技术概览）</a><time datetime="2022-06-04T14:05:24.000Z" title="发表于 2022-06-04 22:05:24">2022-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img src="/../../images/raspbian3/image-20210626215003546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将树莓派作为服务器也太爽了吧"/></a><div class="content"><a class="title" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧">将树莓派作为服务器也太爽了吧</a><time datetime="2021-06-28T14:51:45.000Z" title="发表于 2021-06-28 22:51:45">2021-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧"><img src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动手开发了一款微信插件，这也太好用了吧"/></a><div class="content"><a class="title" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧">动手开发了一款微信插件，这也太好用了吧</a><time datetime="2021-02-22T01:41:22.000Z" title="发表于 2021-02-22 09:41:22">2021-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单"><img src="/../../images/raspbian2/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派上安装Nginx竟如此简单"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单">树莓派上安装Nginx竟如此简单</a><time datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img src="/../../images/raspbian1/picture0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派折腾记——安装系统"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统">树莓派折腾记——安装系统</a><time datetime="2020-12-21T01:06:46.000Z" title="发表于 2020-12-21 09:06:46">2020-12-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2017 - 2022 By wizardev</div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png"><span>备案号：浙ICP备19049794</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '154d349ea0b53e3b5a16',
+      clientSecret: '30feac3af8329db37bdf1b7d141c1401a18c9f9b',
+      repo: 'https://github.com/funaihui/blogTalk',
+      owner: 'funaihui',
+      admin: ['funaihui'],
+      id: '303631d57c869a5020b0a183a30eb398',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

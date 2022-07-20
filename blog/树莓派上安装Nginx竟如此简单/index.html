@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>树莓派上安装Nginx竟如此简单 | wizardev的博客</title><meta name="keywords" content="树莓派"><meta name="author" content="wizardev"><meta name="copyright" content="wizardev"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言：上一篇文章树莓派折腾记-安装系统已经介绍了树莓派上怎么安装系统，同时也给大家推荐了由OPENFANS开源社区 &amp; 树莓派爱好者社区联合出品的Debian-Pi-Aarch64系统，本文就主要介绍怎么在这个系统的安装Nginx。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树莓派上安装Nginx竟如此简单">
+<meta property="og:url" content="http://pi.wizardev.com:88/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/index.html">
+<meta property="og:site_name" content="wizardev的博客">
+<meta property="og:description" content="前言：上一篇文章树莓派折腾记-安装系统已经介绍了树莓派上怎么安装系统，同时也给大家推荐了由OPENFANS开源社区 &amp; 树莓派爱好者社区联合出品的Debian-Pi-Aarch64系统，本文就主要介绍怎么在这个系统的安装Nginx。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://pi.wizardev.com:88/images/raspbian2/p1.png">
+<meta property="article:published_time" content="2021-01-04T14:25:57.000Z">
+<meta property="article:modified_time" content="2021-01-08T07:53:21.000Z">
+<meta property="article:author" content="wizardev">
+<meta property="article:tag" content="树莓派">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://pi.wizardev.com:88/images/raspbian2/p1.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://pi.wizardev.com:88/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '树莓派上安装Nginx竟如此简单',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-01-08 15:53:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../../images/raspbian2/p1.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">wizardev的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">树莓派上安装Nginx竟如此简单</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-08T07:53:21.000Z" title="更新于 2021-01-08 15:53:21">2021-01-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="树莓派上安装Nginx竟如此简单"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>前言：上一篇文章<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/MBmVIcq3HuqirDhRIBbCKQ">树莓派折腾记-安装系统</a>已经介绍了树莓派上怎么安装系统，同时也给大家推荐了由<strong>OPENFANS开源社区 &amp; 树莓派爱好者社区</strong>联合出品的Debian-Pi-Aarch64系统，本文就主要介绍怎么在这个系统的安装Nginx。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="系统简介"><a href="#系统简介" class="headerlink" title="系统简介"></a>系统简介</h2><p>Debian-Pi-Aarch64系统系统共有四种类型，“无桌面基础版”、“无桌面增强版”、“桌面全功能版”以及“深度桌面版”，关于这四种的差异，看下面的表格。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>无桌面基础版</th>
+<th>无桌面增强版</th>
+<th>桌面全功能版</th>
+<th>深度桌面</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>KVM硬件虚拟化支持</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
+</tr>
+<tr>
+<td>虚拟机图形化控制端</td>
+<td>X</td>
+<td>X</td>
+<td>★</td>
+<td>X</td>
+</tr>
+<tr>
+<td>Docker容器支持</td>
+<td>☆</td>
+<td>★</td>
+<td>☆</td>
+<td>☆</td>
+</tr>
+<tr>
+<td>CecOS CaaS容器云支持</td>
+<td>☆</td>
+<td>☆</td>
+<td>☆</td>
+<td>X</td>
+</tr>
+<tr>
+<td>WebGUI管理平台</td>
+<td>X</td>
+<td>★</td>
+<td>★</td>
+<td>X</td>
+</tr>
+<tr>
+<td>Web SSH 客户端支持</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
+</tr>
+<tr>
+<td>标准虚拟机套件</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
+<td>X</td>
+</tr>
+<tr>
+<td>宝塔虚拟机套件</td>
+<td>★</td>
+<td>★</td>
+<td>★</td>
+<td>X</td>
+</tr>
+</tbody></table>
+<hr>
+<p>如果你已经熟悉了Linux系统，这列推荐安装“<strong>无桌面增强版</strong>”系统自带有docker并且默认启动的，省去了安装docker的时间，如果你不熟悉Linux或则你想要安装带桌面的系统，那么可以根据自己的需求来进行选择，如果想一步到位，还是推荐安装“<strong>桌面全功能版</strong>”。</p>
+<h2 id="Nginx的安装"><a href="#Nginx的安装" class="headerlink" title="Nginx的安装"></a>Nginx的安装</h2><h3 id="启动docker"><a href="#启动docker" class="headerlink" title="启动docker"></a>启动docker</h3><p>Debian-Pi-Aarch64系统默认都带docker的，只不过有的版本默认是不开启了，如果你安装的不是<strong>无桌面增强版</strong>，那么你可以用以下命令来启动docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">手动开启：systemctl start docker.service</span><br><span class="line">启用开机启动：systemctl enable docker.service</span><br></pre></td></tr></table></figure>
+
+<p>以下命令来停止docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">手动停止：systemctl stop docker.service</span><br><span class="line">禁用开机启动：systemctl disable docker.service</span><br></pre></td></tr></table></figure>
+
+<p>启动之后可以用下面的命令来看下docker的运行状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status docker</span><br></pre></td></tr></table></figure>
+
+<p>运行命令后的看到如下图，则说明启动成功。</p>
+<p><img src="/../../images/raspbian2/p1.png" alt="docker运行状态"></p>
+<h3 id="通过docker来安装Nginx"><a href="#通过docker来安装Nginx" class="headerlink" title="通过docker来安装Nginx"></a>通过docker来安装Nginx</h3><p>启动docker后，安装Nginx就很简单了，只要一下几步就能成功安装Nginx。</p>
+<ol>
+<li><p>通过下面命令拉取Nginx的镜像到本地</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建并启动Nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name mynginx -p 88:80 nginx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>-d   指定容器以守护进程方式在后台运行</li>
+<li>–name 指定容器名称，此处我指定的是mynginx</li>
+<li>-p 指定主机与容器内部的端口号映射关系，格式 -p  [宿主机端口号]：[容器内部端口]，此处我使用了主机88端口，映射容器80端口</li>
+<li>最后是Nginx镜像的名称</li>
+</ul>
+</li>
+<li><p>查看Nginx容器是否启动成功</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../images/raspbian2/p2.png" alt="容器运行状态"></p>
+<p>状态<code>Up</code>则说明启动成功。</p>
+</li>
+<li><p>在浏览器输入<code>树莓派ip:88</code>则能看到如下界面</p>
+<p><img src="/../../images/raspbian2/p3.png" alt="访问网页"></p>
+<p>能看到上面的界面，则说明Nginx已经安装成功。</p>
+</li>
+</ol>
+<h2 id="如何修改Nginx的默认配置"><a href="#如何修改Nginx的默认配置" class="headerlink" title="如何修改Nginx的默认配置"></a>如何修改Nginx的默认配置</h2><p>但是，现在还有问题，就是我们现在的Nginx是安装在docker环境内的，如果我们想要更改Nginx的默认配置该怎么办呢？有两个方法：</p>
+<ol>
+<li>进入容器内部进行修改</li>
+<li>通过文件映射将docker容器的内Nginx文件映射到主机</li>
+</ol>
+<p>下面详细介绍一下这两个方法。</p>
+<h3 id="进入容器内部修改配置"><a href="#进入容器内部修改配置" class="headerlink" title="进入容器内部修改配置"></a>进入容器内部修改配置</h3><p>进入运行Nginx的docker环境，需要运行以下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it mynginx /bin/bash</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>exec 命令代表附着到运行着的容器内部</p>
+</li>
+<li><p>-it 是 -i 与 -t两个参数合并写法，-i -t 标志着为我们指定的容器创建了TTY并捕捉了STDIN</p>
+</li>
+<li><p>mynginx 是我们要进入的容器名称</p>
+</li>
+<li><p>&#x2F;bin&#x2F;bash 指定了执行命令的shell</p>
+</li>
+</ul>
+<p>执行命令后的界面如下</p>
+<p><img src="/../../images/raspbian2/p4.png" alt="进入容器内部"></p>
+<p>进入到nginx容器内部后，我们可以<code>cd /etc/nginx</code>，可以看到相关的nginx配置文件都在<code>/etc/nginx</code>目录下</p>
+<p><img src="/../../images/raspbian2/p5.png" alt="Nginx内的文件"></p>
+<p>在上面的图中，我们并没有发现nginx容器内的默认首页html文件目录，这是**因为默认首页html文件目录为<code>/usr/share/nginx/html</code>，而日志文件位于<code>/var/log/nginx</code>**。</p>
+<p>到此，就找到了Nginx对应的文件，如果你想要修改对应的文件则可以直接修改了。<strong>但是这样毕竟不方面，每次想要修改文件都要进入docker容器内，太繁琐了，下面就介绍一个简单的方法，只要将经常需要修改或则查看的文件映射到主机，以后直接操作映射到主机的文件就可以了。</strong></p>
+<h3 id="映射docker容器内的文件到主机"><a href="#映射docker容器内的文件到主机" class="headerlink" title="映射docker容器内的文件到主机"></a>映射docker容器内的文件到主机</h3><p>将nginx容器内部配置文件挂载到主机，之后就只需要在主机对应目录修改即可。下面介绍一下操作步骤</p>
+<ol>
+<li><p>创建挂载目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /mnt/nginx/&#123;conf,html,logs&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建成功后，文件目录如下</p>
+<p><img src="/../../images/raspbian2/p6.png" alt="新建文件目录"></p>
+</li>
+<li><p>将容器内的<code>nginx.conf</code>与<code>default.conf</code>文件分别拷贝到主机&#x2F;mnt&#x2F;nginx与目录&#x2F;mnt&#x2F;nginx&#x2F;conf下，分别执行以下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker cp mynginx:/etc/nginx/nginx.conf /mnt/nginx</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker cp mynginx:/etc/nginx/conf.d/default.conf /mnt/nginx/conf/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看刚才创建的nginx容器id</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps </span><br></pre></td></tr></table></figure>
+
+<p><img src="/../../images/raspbian2/p7.png" alt="容器id"></p>
+</li>
+<li><p>停止刚才创建的nginx容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop 74ca40396f6b(容器id)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除刚才创建的nginx容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm 74ca40396f6b(容器id)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行下面命令，重新创建nginx容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d --name mynginx --restart=always -p 88:80 -v /mnt/nginx/nginx.conf:/etc/nginx/nginx.conf -v /mnt/nginx/logs:/var/log/nginx -v /mnt/nginx/html:/usr/share/nginx/html -v /mnt/nginx/conf:/etc/nginx/conf.d --privileged=true nginx</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>-v 挂载目录，格式 -v: 表示将主机目录与容器目录之间进行共享,</li>
+<li>–privileged&#x3D;true 容器内部对挂载的目录拥有读写等特权</li>
+<li>–restart&#x3D;always 表示失败会重启</li>
+</ul>
+</li>
+<li><p>再次访问<code>树莓派ip:88</code>会出现403界面，如下</p>
+<p><img src="/../../images/raspbian2/p8.png" alt="403界面"></p>
+<p>这是因为挂载到主机的<code>html</code>文件件里面是空的，现在将我的博客的文件放到<code>html</code>文件夹内，再次访问下，出现以下界面</p>
+<p><img src="/../../images/raspbian2/p9.png" alt="我的博客首页"></p>
+<p>这里就成功完成了Nginx容器内的文件挂载到主机的操作。</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>文章首先介绍了怎么在系统的四个版本中选择适合自己的系统，接着介绍了一下怎么开启和关闭系统自带的docker，然后介绍了怎么在docker中安装Nginx，最后为了方便修改Nginx内的文件，介绍了怎么将docker内的nginx文件挂载到本地。</p>
+<p>本文完成了在树莓派上安装Nginx，但是还不完美，现在还只能在内网访问我们Nginx中的内容，<strong>下篇文章将会介绍怎么通过公网来访问我们的Nginx，真正的将树莓派打造成一款服务器，敬请期待。</strong></p>
+<p>最后，欢迎访问我在树莓派上搭建的博客<a target="_blank" rel="noopener" href="http://pi.wizardev.cn:88/">http://pi.wizardev.cn:88</a>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88">wizardev</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/">http://pi.wizardev.com:88/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pi.wizardev.com:88" target="_blank">wizardev的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A0%91%E8%8E%93%E6%B4%BE/">树莓派</a></div><div class="post_share"><div class="social-share" data-image="/../../images/raspbian2/p1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/"><img class="prev-cover" src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">动手开发了一款微信插件，这也太好用了吧</div></div></a></div><div class="next-post pull-right"><a href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/"><img class="next-cover" src="/../../images/raspbian1/picture0.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">树莓派折腾记——安装系统</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img class="cover" src="/../../images/raspbian3/image-20210626215003546.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-06-28</div><div class="title">将树莓派作为服务器也太爽了吧</div></div></a></div><div><a href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img class="cover" src="/../../images/raspbian1/picture0.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-21</div><div class="title">树莓派折腾记——安装系统</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wizardev</div><div class="author-info__description">大前端技术博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/funaihui"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><a target="_blank" rel="noopener" href="https://wizardev.cn">This is my Blog</a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">系统简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx%E7%9A%84%E5%AE%89%E8%A3%85"><span class="toc-number">2.</span> <span class="toc-text">Nginx的安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8docker"><span class="toc-number">2.1.</span> <span class="toc-text">启动docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87docker%E6%9D%A5%E5%AE%89%E8%A3%85Nginx"><span class="toc-number">2.2.</span> <span class="toc-text">通过docker来安装Nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9Nginx%E7%9A%84%E9%BB%98%E8%AE%A4%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">如何修改Nginx的默认配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">进入容器内部修改配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%A0%E5%B0%84docker%E5%AE%B9%E5%99%A8%E5%86%85%E7%9A%84%E6%96%87%E4%BB%B6%E5%88%B0%E4%B8%BB%E6%9C%BA"><span class="toc-number">3.2.</span> <span class="toc-text">映射docker容器内的文件到主机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hilt原理分析一（Hilt技术概览）"/></a><div class="content"><a class="title" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）">Hilt原理分析一（Hilt技术概览）</a><time datetime="2022-06-04T14:05:24.000Z" title="发表于 2022-06-04 22:05:24">2022-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img src="/../../images/raspbian3/image-20210626215003546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将树莓派作为服务器也太爽了吧"/></a><div class="content"><a class="title" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧">将树莓派作为服务器也太爽了吧</a><time datetime="2021-06-28T14:51:45.000Z" title="发表于 2021-06-28 22:51:45">2021-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧"><img src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动手开发了一款微信插件，这也太好用了吧"/></a><div class="content"><a class="title" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧">动手开发了一款微信插件，这也太好用了吧</a><time datetime="2021-02-22T01:41:22.000Z" title="发表于 2021-02-22 09:41:22">2021-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单"><img src="/../../images/raspbian2/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派上安装Nginx竟如此简单"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单">树莓派上安装Nginx竟如此简单</a><time datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img src="/../../images/raspbian1/picture0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派折腾记——安装系统"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统">树莓派折腾记——安装系统</a><time datetime="2020-12-21T01:06:46.000Z" title="发表于 2020-12-21 09:06:46">2020-12-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2017 - 2022 By wizardev</div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png"><span>备案号：浙ICP备19049794</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '154d349ea0b53e3b5a16',
+      clientSecret: '30feac3af8329db37bdf1b7d141c1401a18c9f9b',
+      repo: 'https://github.com/funaihui/blogTalk',
+      owner: 'funaihui',
+      admin: ['funaihui'],
+      id: '438419c045f41480d03c77fb7869e32e',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

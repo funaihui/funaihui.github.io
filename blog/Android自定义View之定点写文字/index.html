@@ -1,0 +1,281 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Android自定义View之定点写文字 | wizardev的博客</title><meta name="keywords" content="Android,自定义View,View"><meta name="author" content="wizardev"><meta name="copyright" content="wizardev"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言：有经验的Android开发者，应该都会遇到在自定义View的时候，在View的某个地方写文字，那么当你在自定义的View中写文字的时候，能够做到定点写文字吗？能够指哪写哪吗？写出来的文字的位置和自己想要的位置一样吗？即使你最后写的文字的位置和自己想象的位置是一样的，那么你知道其中的原理吗？如果其中有一个你不能回答出来，那就认真的阅读本文吧！本文会给出你想要的答案…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android自定义View之定点写文字">
+<meta property="og:url" content="http://pi.wizardev.com:88/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E4%B9%8B%E5%AE%9A%E7%82%B9%E5%86%99%E6%96%87%E5%AD%97/index.html">
+<meta property="og:site_name" content="wizardev的博客">
+<meta property="og:description" content="前言：有经验的Android开发者，应该都会遇到在自定义View的时候，在View的某个地方写文字，那么当你在自定义的View中写文字的时候，能够做到定点写文字吗？能够指哪写哪吗？写出来的文字的位置和自己想要的位置一样吗？即使你最后写的文字的位置和自己想象的位置是一样的，那么你知道其中的原理吗？如果其中有一个你不能回答出来，那就认真的阅读本文吧！本文会给出你想要的答案…">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg">
+<meta property="article:published_time" content="2018-07-31T01:59:49.000Z">
+<meta property="article:modified_time" content="2020-11-23T12:38:22.000Z">
+<meta property="article:author" content="wizardev">
+<meta property="article:tag" content="Android">
+<meta property="article:tag" content="自定义View">
+<meta property="article:tag" content="View">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://pi.wizardev.com:88/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E4%B9%8B%E5%AE%9A%E7%82%B9%E5%86%99%E6%96%87%E5%AD%97/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Android自定义View之定点写文字',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-11-23 20:38:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">wizardev的博客</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 简介</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Android自定义View之定点写文字</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2018-07-31T01:59:49.000Z" title="发表于 2018-07-31 09:59:49">2018-07-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2020-11-23T12:38:22.000Z" title="更新于 2020-11-23 20:38:22">2020-11-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Android/">Android</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Android自定义View之定点写文字"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><blockquote>
+<p>前言：有经验的Android开发者，应该都会遇到在自定义View的时候，在View的某个地方写文字，那么当你在自定义的View中写文字的时候，能够做到定点写文字吗？能够指哪写哪吗？写出来的文字的位置和自己想要的位置一样吗？即使你最后写的文字的位置和自己想象的位置是一样的，那么你知道其中的原理吗？如果其中有一个你不能回答出来，那就认真的阅读本文吧！本文会给出你想要的答案…</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="一个小例子"><a href="#一个小例子" class="headerlink" title="一个小例子"></a>一个小例子</h2><p>&amp;emsp;&amp;emsp;看下下面的图，假如下面的图是我们要做出的效果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/28/164e01409c028aad?w=610&h=462&f=png&s=15715"></p>
+<p>很简单，有没有？就是在一个圆的中心写文字。红色的圆形很好画出来，那么我们怎么将文字写在圆的中心点上呢？第一时间想到的是拿到圆中心点的坐标，然后直接调用<code>drawText()</code>方法来写文字。实现的代码大致如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">onDraw</span><span class="params">(Canvas canvas)</span> &#123;</span><br><span class="line">      <span class="built_in">super</span>.onDraw(canvas);</span><br><span class="line">      <span class="type">int</span> <span class="variable">measuredHeight</span> <span class="operator">=</span> getMeasuredHeight();</span><br><span class="line">      <span class="type">int</span> <span class="variable">measuredWidth</span> <span class="operator">=</span> getMeasuredWidth();</span><br><span class="line"></span><br><span class="line">      <span class="comment">//cx,cy为圆的中心点的坐标</span></span><br><span class="line">      <span class="type">int</span> <span class="variable">cx</span> <span class="operator">=</span> measuredWidth / <span class="number">2</span>;</span><br><span class="line">      <span class="type">int</span> <span class="variable">cy</span> <span class="operator">=</span> measuredHeight / <span class="number">2</span>;</span><br><span class="line">      canvas.drawCircle(cx, cy, mRadius, mPaint);</span><br><span class="line">      mPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.sp18));</span><br><span class="line">      mPaint.setColor(Color.WHITE);</span><br><span class="line">      mPaint.setTextAlign(Paint.Align.CENTER);</span><br><span class="line">      mPaint.setStrokeWidth(getResources().getDimensionPixelSize(R.dimen.dp1));</span><br><span class="line">      canvas.drawText(<span class="string">&quot;wizardev&quot;</span>, cx, cy, mPaint);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>现在，看下上面代码实现的效果</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/28/164e01ebecd769ea?w=634&h=368&f=png&s=14506"></p>
+<p>上图中的黄线是在圆的中心点画的线，可以发现上面代码实现的效果，明显不是我们想要的效果，为什么会这样呢？下文会给出答案。</p>
+<h2 id="drawText-中的基线"><a href="#drawText-中的基线" class="headerlink" title="drawText()中的基线"></a>drawText()中的基线</h2><p>&amp;emsp;&amp;emsp;在Android中自定义View的时候，怎么让系统知道应该在哪里画出我们想要的图形呢？比如画上面的圆，这时我们就要告诉系统，我们要画的圆形的圆心在什么位置，告诉系统我们想要的圆的半径是多少，然后系统就能在合适的位置画出你想要的圆了。同样，在画文字的时候我们要指定文字在什么位置，而指定的坐标的位置就是文字的基线。</p>
+<p>&amp;emsp;&amp;emsp;要理解<code>drawText()</code>中的基线是什么，需要先了解一下<code>darwText()</code>方法，<code>darwText()</code>方法有四个参数，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drawText(<span class="meta">@NonNull</span> String text, <span class="type">float</span> x, <span class="type">float</span> y, <span class="meta">@NonNull</span> Paint paint)</span><br></pre></td></tr></table></figure>
+
+<p>第一个参数为你想要写的内容，第二个参数为文字开始的X轴坐标，第三个参数为文字开始的Y轴坐标，第四个参数为画笔。以第二个第三个参数画的一条水平线，就是<code>drawText()</code>的基线。如上文中的第二张图，黄色的线即为<code>drawText()</code>基线，</p>
+<p><font color='red'>注：</font>第二和第三个参数不一定为文字开始的坐标，也可能为文字中心的坐标或则文字结尾的坐标，具体是哪种坐标与<code>Paint</code>中的<code>setTextAlign()</code>方法有关。</p>
+<p>&amp;emsp;&amp;emsp;可以得出结论，只要确定了基线的位置就确定了要画的文字的位置了。那么给定一个坐标，怎么确定基线的位置呢？其实画文字的时候，除了基线以外，还有其他几条线，其他几条线的位置如下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164ea06f94d4f6ca?w=560&h=440&f=jpeg&s=27109"></p>
+<p>这几条线的意义分别是：</p>
+<ul>
+<li>ascent: 系统建议的，字符所占的最高高度所在线</li>
+<li>descent:系统建议的，字符所占的最低高度所在线</li>
+<li>top: 可绘制的最高高度所在线</li>
+<li>bottom: 可绘制的最低高度所在线</li>
+</ul>
+<p>这几条线的位置可以通过<code>FontMetrics</code>对象获得。</p>
+<h2 id="FontMetrics"><a href="#FontMetrics" class="headerlink" title="FontMetrics"></a>FontMetrics</h2><h3 id="1-FontMetrics概述"><a href="#1-FontMetrics概述" class="headerlink" title="(1)FontMetrics概述"></a>(1)FontMetrics概述</h3><p>&amp;emsp;&amp;emsp;描述给定文本的各种度量值的类，它有五个成员变量，分别为<code>top</code>、<code>ascent</code>、<code>descent</code>、<code>bottom</code>、<code>leading</code>。这几个成员变量的值都是相对基线位置的距离，如：</p>
+<p>FontMetrics.top &#x3D; top的Y坐标 - 基线</p>
+<h3 id="2-获取FontMetrics对象"><a href="#2-获取FontMetrics对象" class="headerlink" title="(2)获取FontMetrics对象"></a>(2)获取FontMetrics对象</h3><p>想要获取FontMetrics，可以通过<code>getFontMetrics()</code>方法获取,具体代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Paint</span> <span class="variable">mPaint</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Paint</span>()</span><br><span class="line">mPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.sp18));</span><br><span class="line">mPaint.setColor(Color.WHITE);</span><br><span class="line">mPaint.setTextAlign(Paint.Align.CENTER);</span><br><span class="line">mPaint.setStrokeWidth(<span class="number">1</span>);</span><br><span class="line">Paint.<span class="type">FontMetrics</span> <span class="variable">fontMetrics</span> <span class="operator">=</span> mPaint.getFontMetrics();</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-FontMetrics注意事项"><a href="#3-FontMetrics注意事项" class="headerlink" title="(3)FontMetrics注意事项"></a>(3)FontMetrics注意事项</h3><p>&amp;emsp;&amp;emsp;使用FontMetrics获取到的<code>top</code>、<code>ascent</code>、<code>descent</code>、<code>bottom</code>、<code>leading</code>成员变量的值，是相对于基线的距离，并不是坐标，可以看下下图，方便理解</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164ea3e7c56e82e5?w=297&h=94&f=png&s=12783"></p>
+<p>可以发现<code>top</code>、<code>ascent</code>的值为负数，<code>descent</code>、<code>bottom</code>的值为正数，为什么会这样呢？因为<code>top</code>线和ascent线在基线的上方，<code>FontMetrics</code>对象中的几个成员变量的值都是表示相对基线的位置。</p>
+<h2 id="指定位置写文字"><a href="#指定位置写文字" class="headerlink" title="指定位置写文字"></a>指定位置写文字</h2><p>&amp;emsp;&amp;emsp;了解了<code>FontMetrics</code>再结合下图</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164ea06f94d4f6ca?w=560&h=440&f=jpeg&s=27109"></p>
+<p>可以得到下面的公式：</p>
+<ul>
+<li>top的Y坐标 &#x3D; 基线 + fontMetrics.top</li>
+<li>ascent的Y坐标 &#x3D; 基线 + fontMetrics.ascent</li>
+<li>decent的Y坐标 &#x3D; 基线 + fontMetrics.descent</li>
+<li>bottom的Y坐标 &#x3D; 基线 + fontMetrics.bottom</li>
+</ul>
+<h3 id="1-给定左上方点写字"><a href="#1-给定左上方点写字" class="headerlink" title="(1)给定左上方点写字"></a>(1)给定左上方点写字</h3><p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164ea586aa8c82c2?w=346&h=276&f=png&s=17743"></p>
+<p>根据得出的公式可以计算出基线的Y坐标</p>
+<blockquote>
+<p>top的Y坐标 &#x3D; 基线 + fontMetrics.top</p>
+<p>基线 &#x3D; top的Y坐标 -  fontMetrics.top</p>
+</blockquote>
+<p>实现的代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Paint</span> <span class="variable">mPaint</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Paint</span>();</span><br><span class="line">mPaint.setTextSize(getResources().getDimensionPixelSize(R.dimen.sp18));</span><br><span class="line">mPaint.setStrokeWidth(<span class="number">1</span>);</span><br><span class="line">mPaint.setColor(Color.RED);</span><br><span class="line">Paint.<span class="type">FontMetrics</span> <span class="variable">fontMetrics</span> <span class="operator">=</span> mPaint.getFontMetrics();</span><br><span class="line"><span class="type">float</span> <span class="variable">baseLine</span> <span class="operator">=</span> cy-fontMetrics.top;<span class="comment">//cy指定点的Y坐标</span></span><br><span class="line">canvas.drawText(<span class="string">&quot;wizardev&quot;</span>, <span class="number">0</span>, baseLine, mPaint);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-给定中间线写文字"><a href="#2-给定中间线写文字" class="headerlink" title="(2)给定中间线写文字"></a>(2)给定中间线写文字</h3><p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164eaf9cbdc854b5?w=340&h=285&f=png&s=11595"></p>
+<p>给定中间线写文字，可以说是自定义view写文字时用的最多的了，如，将文字写在圆的正中间，如上图，圆的中心线将文字平分，这种就是本文说的给定中间线写文字。文章前面说了，只要确定了基线的位置，文字的位置也就确定了，那么像这种，怎样来确定基线的位置呢？这时我们可以借助其他的几条线来计算出基线的位置。</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/7/30/164eb007f75f2c4a?w=412&h=404&f=png&s=20092"></p>
+<p>如上图，将<code>top</code>和<code>center</code>之间的间距设为<code>A</code>,将<code>center</code>和<code>baseline</code>之间的距离设为<code>B</code>,将<code>center</code>和<code>bottom</code>之间的距离设为<code>C</code>。这是就可以得出下面的公式</p>
+<blockquote>
+<p>A &#x3D; C &#x3D; (bottom - top)&#x2F;2</p>
+<p>B &#x3D; baseline - center</p>
+<p>B &#x3D; C - (bottom - baseline )</p>
+</blockquote>
+<p>然后根据上文得到的公式:</p>
+<blockquote>
+<p>bottom &#x3D; fontMetrics.bottom + baseline</p>
+<p>top  &#x3D; fontMetrics.top + baseline</p>
+</blockquote>
+<p>可以将最上面的公式修改为：</p>
+<blockquote>
+<p>baseline - center &#x3D; (fontMetrics.bottom + baseline - fontMetrics.top - baseline) &#x2F; 2 - (fontMetrics.bottom + baseline - baseline)</p>
+</blockquote>
+<p>最后的到的公式为：</p>
+<blockquote>
+<p>baseline &#x3D; center - (fontMetrics.bottom - fontMetrics.top) &#x2F; 2 + fontMetrics.bottom</p>
+</blockquote>
+<p>上面的到的公式就是给出中心线的位置，最后计算出的基线所在位置的公式。</p>
+<h3 id="3-给定底部线线文字"><a href="#3-给定底部线线文字" class="headerlink" title="(3)给定底部线线文字"></a>(3)给定底部线线文字</h3><p>&amp;emsp;&amp;emsp;这种情况应该是最简单的了，直接把给定点的Y坐标作为基线的Y坐标就行了。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>&amp;emsp;&amp;emsp;文章到这里，已经回答了文章开始的几个问题，相信阅读本文之后，你也对自定义View中画文字有了更清晰的理解。如果仍有什么疑问，可以在文章下方留言。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88">wizardev</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://pi.wizardev.com:88/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E4%B9%8B%E5%AE%9A%E7%82%B9%E5%86%99%E6%96%87%E5%AD%97/">http://pi.wizardev.com:88/blog/Android%E8%87%AA%E5%AE%9A%E4%B9%89View%E4%B9%8B%E5%AE%9A%E7%82%B9%E5%86%99%E6%96%87%E5%AD%97/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://pi.wizardev.com:88" target="_blank">wizardev的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Android/">Android</a><a class="post-meta__tags" href="/tags/%E8%87%AA%E5%AE%9A%E4%B9%89View/">自定义View</a><a class="post-meta__tags" href="/tags/View/">View</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/blog/%E5%8F%8D%E7%BC%96%E8%AF%91%E4%B9%8B%E8%84%B1%E5%8E%BB%E4%B9%90%E5%9B%BA%E5%8A%A0%E5%9B%BA%E7%9A%84%E5%A3%B3/"><img class="prev-cover" src="/../../images/legu/picture1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">反编译之脱去乐固加固的壳</div></div></a></div><div class="next-post pull-right"><a href="/blog/%E5%9C%A8Mac%20%E4%B8%8A%E6%90%AD%E5%BB%BAPygame%E7%8E%AF%E5%A2%83%EF%BC%88%E5%90%AB%E5%AE%89%E8%A3%85%E9%94%99%E8%AF%AF%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%EF%BC%89/"><img class="next-cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">在Mac 上搭建Pygame环境（含安装错误的解决办法）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/blog/%E8%87%B4%E7%BB%88%E5%B0%86%E9%80%9D%E5%8E%BB%E7%9A%842017/" title="致终将逝去的2017"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-12-30</div><div class="title">致终将逝去的2017</div></div></a></div><div><a href="/blog/%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B%E5%86%99RecyclerView%E7%9A%84%E4%B8%8B%E6%8B%89%E5%88%B7%E6%96%B0/" title="自己动手写RecyclerView的下拉刷新"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-12-02</div><div class="title">自己动手写RecyclerView的下拉刷新</div></div></a></div><div><a href="/blog/Android%E9%9D%A2%E8%AF%95%E5%B8%B8%E5%AE%A2%E4%B9%8BHandler%E5%85%A8%E8%A7%A3/" title="Android面试常客之Handler全解"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-03-11</div><div class="title">Android面试常客之Handler全解</div></div></a></div><div><a href="/blog/Android%E8%93%9D%E7%89%99%E8%AF%A6%E8%A7%A3%EF%BC%88%E4%BD%8E%E5%8A%9F%E8%80%97%E8%93%9D%E7%89%99%EF%BC%89/" title="Android蓝牙使用详解（低功耗蓝牙）"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2018-06-02</div><div class="title">Android蓝牙使用详解（低功耗蓝牙）</div></div></a></div><div><a href="/blog/%E5%9C%A8Android%20Studio%E4%B8%AD%E8%BF%9B%E8%A1%8CJNI%E7%BC%96%E7%A8%8B/" title="在Android Studio中进行JNI编程"><img class="cover" src="/../../images/androidJNI/picture1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-02-19</div><div class="title">在Android Studio中进行JNI编程</div></div></a></div><div><a href="/blog/Android%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E5%88%86%E4%BA%AB%E5%8A%9F%E8%83%BD/" title="Android轻松实现分享功能"><img class="cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-08-20</div><div class="title">Android轻松实现分享功能</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">wizardev</div><div class="author-info__description">大前端技术博客</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">49</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/funaihui"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><a target="_blank" rel="noopener" href="https://wizardev.cn">This is my Blog</a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E5%B0%8F%E4%BE%8B%E5%AD%90"><span class="toc-number">1.</span> <span class="toc-text">一个小例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#drawText-%E4%B8%AD%E7%9A%84%E5%9F%BA%E7%BA%BF"><span class="toc-number">2.</span> <span class="toc-text">drawText()中的基线</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FontMetrics"><span class="toc-number">3.</span> <span class="toc-text">FontMetrics</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-FontMetrics%E6%A6%82%E8%BF%B0"><span class="toc-number">3.1.</span> <span class="toc-text">(1)FontMetrics概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%8E%B7%E5%8F%96FontMetrics%E5%AF%B9%E8%B1%A1"><span class="toc-number">3.2.</span> <span class="toc-text">(2)获取FontMetrics对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-FontMetrics%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">3.3.</span> <span class="toc-text">(3)FontMetrics注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E5%86%99%E6%96%87%E5%AD%97"><span class="toc-number">4.</span> <span class="toc-text">指定位置写文字</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%BB%99%E5%AE%9A%E5%B7%A6%E4%B8%8A%E6%96%B9%E7%82%B9%E5%86%99%E5%AD%97"><span class="toc-number">4.1.</span> <span class="toc-text">(1)给定左上方点写字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%BB%99%E5%AE%9A%E4%B8%AD%E9%97%B4%E7%BA%BF%E5%86%99%E6%96%87%E5%AD%97"><span class="toc-number">4.2.</span> <span class="toc-text">(2)给定中间线写文字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BB%99%E5%AE%9A%E5%BA%95%E9%83%A8%E7%BA%BF%E7%BA%BF%E6%96%87%E5%AD%97"><span class="toc-number">4.3.</span> <span class="toc-text">(3)给定底部线线文字</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="toc-number">5.</span> <span class="toc-text">结束语</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）"><img src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hilt原理分析一（Hilt技术概览）"/></a><div class="content"><a class="title" href="/blog/Hilt%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90%E4%B8%80%EF%BC%88Hilt%E6%8A%80%E6%9C%AF%E6%A6%82%E8%A7%88%EF%BC%89/" title="Hilt原理分析一（Hilt技术概览）">Hilt原理分析一（Hilt技术概览）</a><time datetime="2022-06-04T14:05:24.000Z" title="发表于 2022-06-04 22:05:24">2022-06-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧"><img src="/../../images/raspbian3/image-20210626215003546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="将树莓派作为服务器也太爽了吧"/></a><div class="content"><a class="title" href="/blog/%E5%B0%86%E6%A0%91%E8%8E%93%E6%B4%BE%E4%BD%9C%E4%B8%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%9F%E5%A4%AA%E7%88%BD%E4%BA%86%E5%90%A7/" title="将树莓派作为服务器也太爽了吧">将树莓派作为服务器也太爽了吧</a><time datetime="2021-06-28T14:51:45.000Z" title="发表于 2021-06-28 22:51:45">2021-06-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧"><img src="/../../images/app/wizardev%202021-02-02%2021.44.03.2021-02-22%2021_47_42.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="动手开发了一款微信插件，这也太好用了吧"/></a><div class="content"><a class="title" href="/blog/%E5%8A%A8%E6%89%8B%E5%BC%80%E5%8F%91%E4%BA%86%E4%B8%80%E6%AC%BE%E5%BE%AE%E4%BF%A1%E6%8F%92%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B9%9F%E5%A4%AA%E5%A5%BD%E7%94%A8%E4%BA%86%E5%90%A7/" title="动手开发了一款微信插件，这也太好用了吧">动手开发了一款微信插件，这也太好用了吧</a><time datetime="2021-02-22T01:41:22.000Z" title="发表于 2021-02-22 09:41:22">2021-02-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单"><img src="/../../images/raspbian2/p1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派上安装Nginx竟如此简单"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E4%B8%8A%E5%AE%89%E8%A3%85Nginx%E7%AB%9F%E5%A6%82%E6%AD%A4%E7%AE%80%E5%8D%95/" title="树莓派上安装Nginx竟如此简单">树莓派上安装Nginx竟如此简单</a><time datetime="2021-01-04T14:25:57.000Z" title="发表于 2021-01-04 22:25:57">2021-01-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统"><img src="/../../images/raspbian1/picture0.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="树莓派折腾记——安装系统"/></a><div class="content"><a class="title" href="/blog/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%8A%98%E8%85%BE%E8%AE%B0%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F/" title="树莓派折腾记——安装系统">树莓派折腾记——安装系统</a><time datetime="2020-12-21T01:06:46.000Z" title="发表于 2020-12-21 09:06:46">2020-12-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2017 - 2022 By wizardev</div><div class="footer_custom_text"><a target="_blank" rel="noopener" href="http://beian.miit.gov.cn/"><img class="icp-icon" src="/img/icp.png"><span>备案号：浙ICP备19049794</span></a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function addGitalkSource () {
+  const ele = document.createElement('link')
+  ele.rel = 'stylesheet'
+  ele.href= 'https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css'
+  document.getElementsByTagName('head')[0].appendChild(ele)
+}
+
+function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '154d349ea0b53e3b5a16',
+      clientSecret: '30feac3af8329db37bdf1b7d141c1401a18c9f9b',
+      repo: 'https://github.com/funaihui/blogTalk',
+      owner: 'funaihui',
+      admin: ['funaihui'],
+      id: '6e9a847058ba5055c43d9bffe61122f8',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    addGitalkSource()
+    getScript('https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !true) {
+  if (true) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
